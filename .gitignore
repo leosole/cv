@@ -12,6 +12,20 @@ dist
 dist-ssr
 *.local
 
+# Vite
+.vite
+.vite-temp
+
+# Tailwind CSS
+.tailwind*
+
+# shadcn/ui
+src/lib/utils.ts
+components.json
+
+# GitHub Pages
+gh-pages
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
