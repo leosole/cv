@@ -1,0 +1,154 @@
+{
+    "info": {
+        "name": "Leonardo Solé Rodrigues",
+        "location": "Rio de Janeiro, Brazil",
+        "nationality": "Brazilian",
+        "email": "leosole@gmail.com",
+        "phone": "+55 21 995786916",
+        "birthdate": "23/08/1989"
+    },
+    "links": {
+        "linkedin": "https://linkedin.com/in/leosole",
+        "github": "https://github.com/leosole"
+    },
+    "summary": "Full Stack Engineer with 4+ years of experience in designing, developing, and maintaining scalable web and mobile applications. Skilled in modern technologies such as TypeScript, React, Python, Kotlin, and microfrontend architecture. Proven track record of collaborating within agile teams to deliver high-quality software solutions, enhancing user experience and operational efficiency. Adept at integrating automated testing and cloud functions to optimize system performance and ensure reliability.",
+    "professional_experience": [
+        {
+            "company": "Tribunal de Contas da União (TCU)",
+            "type": "Software Development",
+            "positions": [
+                {
+                    "role": "Frontend Engineer",
+                    "start_date": "2024-11",
+                    "end_date": "present",
+                    "tasks": [
+                        "Development and maintenance of modern interfaces using TypeScript, React, Next.js, Vite, and Tailwind CSS.",
+                        "Implementation of headless CMS (strapi) and integration with WordPress and PHP-based solutions.",
+                        "Automation of development workflows and CI/CD pipelines using GitHub Actions.",
+                        "Collaboration in project automation and delivery of responsive, accessible web applications.",
+                        "Plan and execute automated tests to ensure software quality."
+                    ]
+                }
+            ]
+        }, {
+            "company": "Trimble",
+            "type": "Software Development",
+            "positions": [
+                {
+                    "start_date": "2023-05",
+                    "end_date": "2024-11",
+                    "role": "Full Stack Engineer (mid-level)",
+                    "tasks": [
+                        "Mobile application development in Kotlin and Jetpack compose.",
+                        "Create applications from scratch with cloud functions and front-end using Kotlin, TypeScript, and React.",
+                        "Develop web components using Stencil.",
+                        "Implement and maintain microfrontends to modularize and scale web applications.",
+                        "Participate in Scrum teams following agile methodologies for continuous incremental delivery.",
+                        "Plan and execute automated tests to ensure software quality."
+                    ]
+                },
+                {
+                    "start_date": "2022-07",
+                    "end_date": "2023-05",
+                    "role": "Full Stack Engineer (junior)",
+                    "tasks": [
+                        "Develop legacy systems (back-end, front-end, and mobile) using C# and JavaScript.",
+                        "Mobile application development in Kotlin and Jetpack compose.",
+                        "Create applications from scratch with cloud functions and front-end using Kotlin, TypeScript, and React.",
+                        "Implement and maintain microfrontends to modularize and scale web applications.",
+                        "Participate in Scrum teams following agile methodologies for continuous incremental delivery.",
+                        "Plan and execute automated tests to ensure software quality."
+                    ]
+                },
+                {
+                    "start_date": "2021-07",
+                    "end_date": "2022-07",
+                    "role": "Full Stack Engineer (intern)",
+                    "tasks": [
+                        "Assisted in development tasks and learned Agile/Scrum processes."
+                    ]
+                }
+            ]
+        }, {
+            "company": "GTA (UFRJ)",
+            "type": "Research",
+            "positions": [
+                {
+                    "role": "Undergraduate Research Program",
+                    "start_date": "2020-01",
+                    "end_date": "2022-11",
+                    "tasks": [
+                        "Proposed federated learning architecture for distributed environments ensuring data privacy.",
+                        "Designed navigation system with alternative routes considering multiple criteria."
+                    ]
+                }
+            ]
+        }, {
+            "company": "Advertising agencies",
+            "type": "Art Direction",
+            "positions": [
+                {
+                    "role": "Art Director",
+                    "start_date": "2010-11",
+                    "end_date": "2015-10",
+                    "tasks": [
+                        "Worked with art direction in agencies Giovanni+Draftfcb, FLAGCX, Casa da Criação Propaganda, CasaDigital, and Loja Comunicação.",
+                        "Offline and online art direction, communication materials, and campaigns."
+                    ]
+                }
+            ]
+        }
+    ],
+    "education": [
+        {
+            "institution": "Federal University of Rio de Janeiro (UFRJ)",
+            "type": "Bachelor",
+            "degree": "Bachelor’s Degree in Electronic and Computer Engineering",
+            "start_year": "2017",
+            "end_year": "2022"
+        }, {
+            "institution": "Escola Superior de Propaganda e Marketing (ESPM)",
+            "type": "Bachelor",
+            "degree": "Bachelor’s Degree in Social Communication",
+            "start_date": "2008",
+            "end_date": "2011"
+        }, {
+            "institution": "Centro Educacional de Niterói (CEN)",
+            "type": "High School",
+            "degree": "High School Diploma",
+            "start_date": "1996",
+            "end_date": "2007"
+        }
+    ],
+    "technical_skills": [
+        "TypeScript", "JavaScript", "Python", "Kotlin", "C#", "React", "Stencil", "Next.js", "Node.js", "Tailwind CSS", "GitHub Actions", "Microfrontends", "Jetpack Compose", "RESTful APIs"
+    ],
+    "languages": [
+        {
+            "language": "Portuguese",
+            "proficiency": "Native"
+        },
+        {
+            "language": "English",
+            "proficiency": "Fluent"
+        },
+        {
+            "language": "Spanish",
+            "proficiency": "Beginner"
+        },
+        {
+            "language": "German",
+            "proficiency": "Beginner"
+        }
+    ],
+    "publications": [
+        {
+            "title": "Towards drivers’ safety with multi-criteria car navigation systems (2022)",
+            "link": "https://www.sciencedirect.com/science/article/abs/pii/S0167739X22001480"
+        }, 
+        {
+            "title": "Federated learning with heterogeneous data (2022)",
+            "link": "https://www.gta.ufrj.br/ftp/gta/TechReports/Sole22/Sole22.pdf"
+        }
+    ]
+}
