@@ -8,7 +8,7 @@ const cv: CV = cv_json
 function App() {
 	return (
 		<>
-			<Header name={cv.info.name} />
+			<Header info={cv.info} />
 		</>
 	)
 }
