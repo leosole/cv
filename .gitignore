@@ -20,7 +20,6 @@ dist-ssr
 .tailwind*
 
 # shadcn/ui
-src/lib/utils.ts
 components.json
 
 # GitHub Pages
