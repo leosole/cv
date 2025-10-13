@@ -4,6 +4,7 @@ import cv_json from "@/static/cv.json"
 import type { CV } from "./types/cv"
 import Calendar from "./components/calendar/calendar"
 import { useEffect, useRef, useState } from "react"
+import Summary from "./components/summary"
 
 const cv: CV = cv_json
 
@@ -21,8 +22,11 @@ function App() {
       };
     }, []);
 	return (
-		<div className="px-4">
-			<Header info={cv.info} ref={headerRef} />
+		<div className="px-4 pb-8">
+			<div ref={headerRef}>
+				<Header info={cv.info} />
+				<Summary links={cv.links} summary={cv.summary}/>
+			</div>
 			<Calendar events={[...cv.professional_experience, ...cv.education]} headerHeight={headerHeight}/>
 		</div>
 	)

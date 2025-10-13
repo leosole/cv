@@ -16,29 +16,33 @@ import { cn } from "@/lib/utils"
 interface EventCardProps {
 	type: EventType
 	info: ProcessedEvent
-	ref?: React.Ref<HTMLDivElement>
 	className?: string
+	hover?: boolean
 	onMouseEnter: () => void
 	onMouseLeave: () => void
-	onToggle?: (open: boolean) => void
+	open?: boolean
+	setOpen: (open: boolean) => void
 }
 
 export default function EventCard({
 	type,
 	info,
-	ref,
 	className,
+	hover,
 	onMouseEnter,
 	onMouseLeave,
-	onToggle
+	open,
+	setOpen,
 }: EventCardProps) {
 	return (
 		<CollapsibleCard
-			ref={ref}
-			className={cn("hover:bg-muted transition-colors duration-200", className)}
+			open={open}
+			onOpenChange={() => {
+				setOpen(!open)
+			}}
+			className={cn("hover:bg-muted transition-colors duration-200", hover && "bg-muted", className)}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
-			onOpenChange={(e) => onToggle?.(e)}
 		>
 			{type === "work" ? (
 				<WorkCard info={info} />

@@ -20,6 +20,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	const [hoveredCard, setHoveredCard] = useState<number>()
 	const [mouseYear, setMouseYear] = useState<string>()
 	const [mousePosition, setMousePosition] = useState<number>()
+	const [openedCards, setOpenedCards] = useState<number[]>([])
 
 	const processedEvents: ProcessedEvent[] = events
 		.map((event) => {
@@ -162,22 +163,31 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				const barMarginLeftRem = eventColumnIndex * 0.5 + 0.5
 
 				return (
-					<div
+					<button
 						key={`${getEventId(event)}`}
-						className="absolute left-10"
+						className="absolute left-10 group cursor-pointer z-20"
 						style={{
 							top: `${topPositionPercent}%`,
 							height: `${heightPercent}%`,
 							marginLeft: `${barMarginLeftRem}rem`
 						}}
+						onClick={() => {
+							setOpenedCards( prev => {
+								if (prev.includes(index)) return prev.filter(p => p!== index)
+								else return [...prev, index]
+							})
+						}}
+						onMouseEnter={() => setHoveredCard(index)}
+						onMouseLeave={() => setHoveredCard(undefined)}
 					>
 						<EventBar
 							className={cn(
 								event.eventType === "work" ? "bg-blue-500" : "bg-green-500",
-								hoveredCard === index && "outline outline-foreground"
+								hoveredCard === index && "outline outline-foreground",
+								"group-hover:outline group-hover:outline-foreground"
 							)}
 						/>
-					</div>
+					</button>
 				)
 			})}
 
@@ -190,6 +200,12 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 							key={`${getEventId(event)}`}
 							type={event.eventType}
 							info={event}
+							hover={hoveredCard === index}
+							open={openedCards.includes(index)}
+							setOpen={e => setOpenedCards( prev => {
+								if (e) return [...prev, index]
+								else return prev.filter(p => p!== index)
+							})}
 						/>
 					)
 				})}

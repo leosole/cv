@@ -8,6 +8,7 @@ import {
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
 	onOpenChange?(open: boolean): void
+	open?: boolean
 }
 
 export const CollapsibleCard = React.forwardRef<HTMLDivElement, Props>(
