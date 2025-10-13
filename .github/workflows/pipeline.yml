@@ -27,7 +27,15 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install
-          yarn add -D vite-tsconfig-paths
+
+      - name: TypeScript Check
+        run: |
+          echo "TypeScript version:"
+          npx tsc --version
+          echo "Checking TypeScript paths..."
+          npx tsc --project tsconfig.json --showConfig
+          echo "Running TypeScript compilation..."
+          npx tsc --noEmit
 
       - name: Build
         run: |
