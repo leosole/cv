@@ -28,9 +28,9 @@ jobs:
         run: |
           yarn install
 
-      - name: Ensure TypeScript paths are resolved
+      - name: Verify TypeScript configuration
         run: |
-          npx vite-tsconfig-paths
+          npx tsc --noEmit
 
       - name: Build site with Vite
         run: |
