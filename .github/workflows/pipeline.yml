@@ -28,6 +28,14 @@ jobs:
         run: |
           yarn install
 
+      - name: Debug paths
+        run: |
+          pwd
+          echo "Current directory structure:"
+          tree ./src
+          echo "Current directory absolute path:"
+          realpath .
+
       - name: Build
         run: |
           yarn build
