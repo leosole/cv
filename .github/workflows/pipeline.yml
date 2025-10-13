@@ -28,6 +28,10 @@ jobs:
         run: |
           yarn install
 
+      - name: Ensure TypeScript paths are resolved
+        run: |
+          npx vite-tsconfig-paths
+
       - name: Build site with Vite
         run: |
           yarn build
