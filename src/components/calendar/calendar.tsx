@@ -40,7 +40,7 @@ export default function Calendar({ events }: CalendarProps) {
 				startDate,
 				endDate,
 				durationInMonths: differenceInMonths(endDate, startDate) || 1,
-				type: (isWork ? "work" : "education") as "work" | "education"
+				eventType: (isWork ? "work" : "education") as "work" | "education"
 			}
 		})
 		.sort((a, b) => b.startDate.getTime() - a.startDate.getTime())
@@ -172,7 +172,7 @@ export default function Calendar({ events }: CalendarProps) {
 					>
 						<EventBar
 							className={cn(
-								event.type === "work" ? "bg-blue-500" : "bg-green-500",
+								event.eventType === "work" ? "bg-blue-500" : "bg-green-500",
 								hoveredCard === index && "outline outline-foreground"
 							)}
 						/>
@@ -187,7 +187,7 @@ export default function Calendar({ events }: CalendarProps) {
 							onMouseEnter={() => setHoveredCard(index)}
 							onMouseLeave={() => setHoveredCard(undefined)}
 							key={`${getEventId(event)}`}
-							type={event.type}
+							type={event.eventType}
 							info={event}
 						/>
 					)

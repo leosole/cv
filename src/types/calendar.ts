@@ -6,5 +6,5 @@ export type ProcessedEvent = (ProfessionalExperience | Education) & {
 	startDate: Date
 	endDate: Date
 	durationInMonths: number
-	type: EventType
+	eventType: EventType
 }

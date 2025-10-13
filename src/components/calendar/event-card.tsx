@@ -10,6 +10,7 @@ import { format, parseISO } from "date-fns"
 import { FaGraduationCap } from "react-icons/fa";
 import { RiTerminalBoxFill } from "react-icons/ri";
 import { IoMdBriefcase } from "react-icons/io";
+import { RiSurveyFill } from "react-icons/ri";
 import { cn } from "@/lib/utils"
 
 interface EventCardProps {
@@ -54,13 +55,17 @@ interface WorkCardProps {
 
 export function WorkCard({ info }: WorkCardProps) {
 	const work = info as ProfessionalExperience
+	const icon = () => {
+		switch(work.type) {
+			case "Research": return <RiSurveyFill/>
+			case "Software Development": return <RiTerminalBoxFill/>
+			default: return <IoMdBriefcase/>
+		}
+	}
 	return (
 		<>
 			<CollapsibleCardHeader>
-				{work.company === "Advertising agencies" ? 
-					<IoMdBriefcase/> : 
-					<RiTerminalBoxFill/>
-				}
+				{icon()}
 				{work.company}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
