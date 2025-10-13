@@ -32,6 +32,10 @@ jobs:
         run: |
           npx tsc --noEmit
 
+      - name: Debug TypeScript paths
+        run: |
+          npx tsc --traceResolution --noEmit
+
       - name: Build site with Vite
         run: |
           yarn build
