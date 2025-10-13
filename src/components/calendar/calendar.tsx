@@ -112,7 +112,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	return (
 		<div
 			ref={containerRef}
-			className="relative container mx-auto pl-4 md:pl-8 mt-4"
+			className="relative container mx-auto pl-4 md:pl-8"
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>
 			<div 
@@ -191,7 +191,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				)
 			})}
 
-			<div className="relative flex flex-col gap-4 mt-8 ml-14 lg:ml-12">
+			<div className="relative flex flex-col gap-4 ml-14 lg:ml-12">
 				{processedEvents.map((event, index) => {
 					return (
 						<EventCard

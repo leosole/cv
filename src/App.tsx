@@ -5,6 +5,7 @@ import type { CV } from "./types/cv"
 import Calendar from "./components/calendar/calendar"
 import { useEffect, useRef, useState } from "react"
 import Summary from "./components/summary"
+import Publications from "./components/publications"
 
 const cv: CV = cv_json
 
@@ -27,7 +28,12 @@ function App() {
 				<Header info={cv.info} />
 				<Summary links={cv.links} summary={cv.summary}/>
 			</div>
-			<Calendar events={[...cv.professional_experience, ...cv.education]} headerHeight={headerHeight}/>
+			<div className="flex-col sm:flex-row flex container mx-auto gap-2">
+				<Calendar events={[...cv.professional_experience, ...cv.education]} headerHeight={headerHeight}/>
+				<div className="w-[50%]">
+					<Publications publications={cv.publications} />
+				</div>
+			</div>
 		</div>
 	)
 }
