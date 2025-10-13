@@ -52,4 +52,5 @@ export interface Language {
 export interface Publication {
 	title: string
 	link: string
+	year: number
 }

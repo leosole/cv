@@ -12,7 +12,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 export const CollapsibleCard = React.forwardRef<HTMLDivElement, Props>(
 	({ className, ...props }, ref) => (
-		<Card>
+		<Card className={className}>
 			<Collapsible ref={ref} {...props} />
 		</Card>
 	)
@@ -24,7 +24,7 @@ export const CollapsibleCardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<CollapsibleTrigger asChild>
 		<CardHeader ref={ref} className="data-[state=open]:border-b cursor-pointer">
-			<CardTitle {...props} />
+			<CardTitle {...props} className="flex gap-2"/>
 		</CardHeader>
 	</CollapsibleTrigger>
 ))

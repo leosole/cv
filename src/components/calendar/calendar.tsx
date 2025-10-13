@@ -1,9 +1,9 @@
 import type { Education, ProfessionalExperience } from "@/types/cv"
-import { parseISO, differenceInMonths } from "date-fns"
+import { parseISO, differenceInMonths, add, format } from "date-fns"
 import EventCard from "./event-card"
 import EventBar from "./event-bar"
 import type { ProcessedEvent } from "@/types/calendar"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { getEventId } from "@/lib/strings"
 import { cn } from "@/lib/utils"
 
@@ -15,8 +15,10 @@ const COLLAPSED_CARD_HEIGHT_REM = 4
 const CARD_MARGIN_REM = 1
 
 export default function Calendar({ events }: CalendarProps) {
-	const [openedCards, setOpenedCards] = useState<number[]>([])
+	const containerRef = useRef<HTMLDivElement>(null)
 	const [hoveredCard, setHoveredCard] = useState<number>()
+	const [mouseYear, setMouseYear] = useState<string>()
+	const [mousePosition, setMousePosition] = useState<number>()
 
 	const processedEvents: ProcessedEvent[] = events
 		.map((event) => {
@@ -57,8 +59,7 @@ export default function Calendar({ events }: CalendarProps) {
 	const years = Array.from(
 		new Set(
 			processedEvents
-				.map((e) => e.startDate.getFullYear())
-				.concat(timelineStart.getFullYear())
+				.map((e) => e.endDate.getFullYear())
 		)
 	).sort((a, b) => b - a)
 
@@ -94,12 +95,38 @@ export default function Calendar({ events }: CalendarProps) {
 	const totalMinHeightRem =
 		processedEvents.length * (COLLAPSED_CARD_HEIGHT_REM + CARD_MARGIN_REM)
 
+	const getYearFromOffset = () => {
+		const totalHeight = containerRef.current?.getBoundingClientRect().height
+		if (totalHeight && mousePosition) {
+			const months = Math.floor((totalTimelineMonths * (totalHeight - mousePosition - 12))/totalHeight)
+			setMouseYear(format(add(timelineEnd, { months }), "yyyy"))
+		}
+	}
+
+	const onMouseMove = (e: React.MouseEvent) => {
+		setMousePosition(e.pageY-90)
+		getYearFromOffset()
+	}
 	return (
 		<div
-			className="relative container mx-auto px-4 md:px-8 mt-4"
+			ref={containerRef}
+			className="relative container mx-auto pl-4 md:pl-8 mt-4"
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>
-			<div className="absolute left-10 lg:left-0 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700" />
+			<div 
+				className="absolute left-10 lg:left-0 top-0 bottom-0 w-20 z-10" 
+				onMouseEnter={onMouseMove} 
+				onMouseMove={onMouseMove} 
+				onMouseLeave={() => setMousePosition(undefined)}
+			>
+				<span 
+					className="absolute rounded bg-pink-500 px-1 text-xs pointer-events-none"
+					style={{left: mousePosition ? 12 : -1000, top: mousePosition ? mousePosition : -1000}}
+				>
+					{mouseYear}
+				</span>
+			</div>
+			<div className="absolute left-10 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700"/>
 
 			{years.map((year) => {
 				const yearDate = new Date(year, 11, 31)
@@ -110,10 +137,10 @@ export default function Calendar({ events }: CalendarProps) {
 				return (
 					<div
 						key={year}
-						className="absolute left-10 lg:left-0 w-full"
+						className="absolute left-0 w-full"
 						style={{ top: `${topPosition}%` }}
 					>
-						<div className="absolute left-3 lg:left-0 -translate-x-12 -translate-y-2.5">
+						<div className="absolute left-0 ">
 							<span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
 								{year}
 							</span>
@@ -136,7 +163,7 @@ export default function Calendar({ events }: CalendarProps) {
 				return (
 					<div
 						key={`${getEventId(event)}`}
-						className="absolute left-10 lg:left-0"
+						className="absolute left-10"
 						style={{
 							top: `${topPositionPercent}%`,
 							height: `${heightPercent}%`,
@@ -145,27 +172,20 @@ export default function Calendar({ events }: CalendarProps) {
 					>
 						<EventBar
 							className={cn(
-								openedCards.some((c) => c === index) && "bg-purple-700",
-								hoveredCard === index && "outline outline-amber-100"
+								event.type === "work" ? "bg-blue-500" : "bg-green-500",
+								hoveredCard === index && "outline outline-foreground"
 							)}
 						/>
 					</div>
 				)
 			})}
 
-			<div className="relative flex flex-col gap-4 mt-8 ml-12 lg:ml-8">
+			<div className="relative flex flex-col gap-4 mt-8 ml-14 lg:ml-12">
 				{processedEvents.map((event, index) => {
 					return (
 						<EventCard
 							onMouseEnter={() => setHoveredCard(index)}
 							onMouseLeave={() => setHoveredCard(undefined)}
-							onToggle={(e) =>
-								setOpenedCards(
-									e
-										? [...openedCards, index]
-										: openedCards.filter((i) => i !== index)
-								)
-							}
 							key={`${getEventId(event)}`}
 							type={event.type}
 							info={event}

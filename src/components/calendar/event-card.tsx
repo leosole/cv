@@ -7,6 +7,10 @@ import {
 	CollapsibleCardContent
 } from "@/components/ui/collapsible-card"
 import { format, parseISO } from "date-fns"
+import { FaGraduationCap } from "react-icons/fa";
+import { RiTerminalBoxFill } from "react-icons/ri";
+import { IoMdBriefcase } from "react-icons/io";
+import { cn } from "@/lib/utils"
 
 interface EventCardProps {
 	type: EventType
@@ -15,7 +19,7 @@ interface EventCardProps {
 	className?: string
 	onMouseEnter: () => void
 	onMouseLeave: () => void
-	onToggle: (open: boolean) => void
+	onToggle?: (open: boolean) => void
 }
 
 export default function EventCard({
@@ -30,10 +34,10 @@ export default function EventCard({
 	return (
 		<CollapsibleCard
 			ref={ref}
-			className={className}
+			className={cn("hover:bg-muted transition-colors duration-200", className)}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
-			onOpenChange={(e) => onToggle(e)}
+			onOpenChange={(e) => onToggle?.(e)}
 		>
 			{type === "work" ? (
 				<WorkCard info={info} />
@@ -52,7 +56,13 @@ export function WorkCard({ info }: WorkCardProps) {
 	const work = info as ProfessionalExperience
 	return (
 		<>
-			<CollapsibleCardHeader>{work.company}</CollapsibleCardHeader>
+			<CollapsibleCardHeader>
+				{work.company === "Advertising agencies" ? 
+					<IoMdBriefcase/> : 
+					<RiTerminalBoxFill/>
+				}
+				{work.company}
+			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
 				{work.positions.map((position) => {
 					const startDate = format(parseISO(position.start_date), "MMM, yyyy")
@@ -88,7 +98,7 @@ export function EducationCard({ info }: EducationCardProps) {
 	const education = info as Education
 	return (
 		<>
-			<CollapsibleCardHeader>{education.institution}</CollapsibleCardHeader>
+			<CollapsibleCardHeader><FaGraduationCap/>{education.institution}</CollapsibleCardHeader>
 			<CollapsibleCardContent>
 				<CardDescription>{education.degree}</CardDescription>
 				<DateRange start={format(info.startDate, "MMM, yyyy")} end={format(info.endDate, "MMM, yyyy")} />
