@@ -9,12 +9,13 @@ import { cn } from "@/lib/utils"
 
 interface CalendarProps {
 	events: (ProfessionalExperience | Education)[]
+	headerHeight?: number
 }
 
 const COLLAPSED_CARD_HEIGHT_REM = 4
 const CARD_MARGIN_REM = 1
 
-export default function Calendar({ events }: CalendarProps) {
+export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const [hoveredCard, setHoveredCard] = useState<number>()
 	const [mouseYear, setMouseYear] = useState<string>()
@@ -98,13 +99,13 @@ export default function Calendar({ events }: CalendarProps) {
 	const getYearFromOffset = () => {
 		const totalHeight = containerRef.current?.getBoundingClientRect().height
 		if (totalHeight && mousePosition) {
-			const months = Math.floor((totalTimelineMonths * (totalHeight - mousePosition - 12))/totalHeight)
+			const months = Math.floor((totalTimelineMonths * (totalHeight - mousePosition))/totalHeight)
 			setMouseYear(format(add(timelineEnd, { months }), "yyyy"))
 		}
 	}
 
 	const onMouseMove = (e: React.MouseEvent) => {
-		setMousePosition(e.pageY-90)
+		setMousePosition(e.pageY-headerHeight-32)
 		getYearFromOffset()
 	}
 	return (
@@ -114,7 +115,7 @@ export default function Calendar({ events }: CalendarProps) {
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>
 			<div 
-				className="absolute left-10 lg:left-0 top-0 bottom-0 w-20 z-10" 
+				className="absolute left-0 top-0 bottom-0 w-20 z-10" 
 				onMouseEnter={onMouseMove} 
 				onMouseMove={onMouseMove} 
 				onMouseLeave={() => setMousePosition(undefined)}

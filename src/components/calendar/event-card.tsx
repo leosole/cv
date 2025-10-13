@@ -65,7 +65,7 @@ export function WorkCard({ info }: WorkCardProps) {
 	return (
 		<>
 			<CollapsibleCardHeader>
-				{icon()}
+				<span>{icon()}</span>
 				{work.company}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
@@ -103,7 +103,10 @@ export function EducationCard({ info }: EducationCardProps) {
 	const education = info as Education
 	return (
 		<>
-			<CollapsibleCardHeader><FaGraduationCap/>{education.institution}</CollapsibleCardHeader>
+			<CollapsibleCardHeader>
+				<span><FaGraduationCap/></span>
+				{education.institution}
+			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
 				<CardDescription>{education.degree}</CardDescription>
 				<DateRange start={format(info.startDate, "MMM, yyyy")} end={format(info.endDate, "MMM, yyyy")} />
