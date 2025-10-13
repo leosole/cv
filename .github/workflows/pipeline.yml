@@ -28,13 +28,9 @@ jobs:
         run: |
           yarn install
 
-      - name: Verify TypeScript configuration
+      - name: Explicitly set TypeScript config
         run: |
-          npx tsc --noEmit
-
-      - name: Debug TypeScript paths
-        run: |
-          npx tsc --traceResolution --noEmit
+          npx tsc --project tsconfig.json --noEmit
 
       - name: Build site with Vite
         run: |
