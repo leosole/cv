@@ -27,10 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install
-
-      - name: Verify tsconfig paths
-        run: |
-          npx vite-tsconfig-paths --debug
+          yarn add -D vite-tsconfig-paths
 
       - name: Build
         run: |
