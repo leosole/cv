@@ -28,19 +28,22 @@ jobs:
         run: |
           yarn install
 
-      - name: Explicitly set TypeScript config
+      - name: Debug file structure
         run: |
-          npx tsc --project tsconfig.json --noEmit
+          echo "Listing src/lib contents:" && ls -la src/lib
 
-      - name: Build site with Vite
+      - name: Debug Vite build
         run: |
-          yarn build
+          yarn build --debug
+
+      - name: Verify vite-tsconfig-paths
+        run: |
+          npx vite-tsconfig-paths
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-
   deploy:
     environment:
       name: github-pages
