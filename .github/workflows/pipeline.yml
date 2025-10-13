@@ -28,17 +28,13 @@ jobs:
         run: |
           yarn install
 
-      - name: Debug file structure
+      - name: Verify tsconfig paths
         run: |
-          echo "Listing src/lib contents:" && ls -la src/lib
+          npx vite-tsconfig-paths --debug
 
-      - name: Debug Vite build
+      - name: Build
         run: |
-          yarn build --debug
-
-      - name: Verify vite-tsconfig-paths
-        run: |
-          npx vite-tsconfig-paths
+          yarn build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
