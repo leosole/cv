@@ -3,7 +3,7 @@ import { parseISO, differenceInMonths } from "date-fns"
 import EventCard from "./event-card"
 import EventBar from "./event-bar"
 import type { ProcessedEvent } from "@/types/calendar"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { getEventId } from "@/lib/strings"
 import { cn } from "@/lib/utils"
 
@@ -15,13 +15,11 @@ const COLLAPSED_CARD_HEIGHT_REM = 4
 const CARD_MARGIN_REM = 1
 
 export default function Calendar({ events }: CalendarProps) {
-	const containerRef = useRef<HTMLDivElement>(null)
-
 	const [openedCards, setOpenedCards] = useState<number[]>([])
 	const [hoveredCard, setHoveredCard] = useState<number>()
 
 	const processedEvents: ProcessedEvent[] = events
-		.map((event, index) => {
+		.map((event) => {
 			const isWork = "company" in event
 			const startDate = parseISO(
 				isWork
@@ -98,7 +96,6 @@ export default function Calendar({ events }: CalendarProps) {
 
 	return (
 		<div
-			ref={containerRef}
 			className="relative container mx-auto px-4 md:px-8 mt-4"
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>

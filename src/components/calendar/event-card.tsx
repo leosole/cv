@@ -6,7 +6,7 @@ import {
 	CollapsibleCardHeader,
 	CollapsibleCardContent
 } from "@/components/ui/collapsible-card"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 
 interface EventCardProps {
 	type: EventType
@@ -54,22 +54,27 @@ export function WorkCard({ info }: WorkCardProps) {
 		<>
 			<CollapsibleCardHeader>{work.company}</CollapsibleCardHeader>
 			<CollapsibleCardContent>
-				{work.positions.map((position) => (
-					<div key={position.role} className="mb-2">
-						<CardDescription>{position.role}</CardDescription>
-						<p className="text-sm text-muted-foreground">
-							{format(info.startDate, "MMM, yyyy")} -{" "}
-							{format(info.endDate, "MMM, yyyy")}
-						</p>
-						<ul className="list-disc list-inside mt-2">
-							{position.tasks.map((task) => (
-								<li key={task} className="text-sm">
-									{task}
-								</li>
-							))}
-						</ul>
-					</div>
-				))}
+				{work.positions.map((position) => {
+					const startDate = format(parseISO(position.start_date), "MMM, yyyy")
+					const endDateString = position.end_date
+					const endDate =
+						endDateString.toLowerCase() === "present"
+							? "present"
+							: format(parseISO(endDateString), "MMM, yyyy")
+					return(
+						<div key={position.role} className="mb-2">
+							<CardDescription>{position.role}</CardDescription>
+							<DateRange start={startDate} end={endDate} />
+							<ul className="list-disc list-inside mt-2">
+								{position.tasks.map((task) => (
+									<li key={task} className="text-sm">
+										{task}
+									</li>
+								))}
+							</ul>
+						</div>
+					)
+				})}
 			</CollapsibleCardContent>
 		</>
 	)
@@ -86,11 +91,16 @@ export function EducationCard({ info }: EducationCardProps) {
 			<CollapsibleCardHeader>{education.institution}</CollapsibleCardHeader>
 			<CollapsibleCardContent>
 				<CardDescription>{education.degree}</CardDescription>
-				<p className="text-sm text-muted-foreground">
-					{format(info.startDate, "MMM, yyyy")} -{" "}
-					{format(info.endDate, "MMM, yyyy")}
-				</p>
+				<DateRange start={format(info.startDate, "MMM, yyyy")} end={format(info.endDate, "MMM, yyyy")} />
 			</CollapsibleCardContent>
 		</>
+	)
+}
+
+function DateRange({ start, end }: { start: string; end: string }) {
+	return (
+		<span className="text-sm text-muted-foreground">
+			{start} - {end}
+		</span>
 	)
 }
