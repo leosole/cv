@@ -6,7 +6,6 @@ export interface CV {
 	education: Education[]
 	technical_skills: string[]
 	languages: Language[]
-	publications: Publication[]
 }
 
 export interface Info {
@@ -34,6 +33,7 @@ export interface Position {
 	start_date: string
 	end_date: string
 	tasks: string[]
+	publications?: Publication[]
 }
 
 export interface Education {

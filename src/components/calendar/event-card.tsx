@@ -12,6 +12,8 @@ import { RiTerminalBoxFill } from "react-icons/ri";
 import { IoMdBriefcase } from "react-icons/io";
 import { RiSurveyFill } from "react-icons/ri";
 import { cn } from "@/lib/utils"
+import { TbExternalLink } from "react-icons/tb";
+import { FaRegFilePdf } from "react-icons/fa6";
 
 interface EventCardProps {
 	type: EventType
@@ -85,9 +87,16 @@ export function WorkCard({ info }: WorkCardProps) {
 							<CardDescription>{position.role}</CardDescription>
 							<DateRange start={startDate} end={endDate} />
 							<ul className="list-disc list-inside mt-2">
-								{position.tasks.map((task) => (
+								{position.tasks.map((task, index) => (
 									<li key={task} className="text-sm">
 										{task}
+										{position.publications && position.publications.length > 0 && (
+											<a key={position.publications[index].title} className="mb-2 inline" href={position.publications[index].link}>
+												<span className="font-bold"> {position.publications[index].title}</span>
+												<span className="italic"> {position.publications[index].year}</span>
+												{position.publications[index].link.endsWith(".pdf") ? <FaRegFilePdf className="inline mb-1 ml-1"/> : <TbExternalLink className="inline mb-1 ml-1"/>}
+											</a>
+										)}
 									</li>
 								))}
 							</ul>

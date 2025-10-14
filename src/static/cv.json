@@ -82,6 +82,18 @@
 					"tasks": [
 						"Proposed federated learning architecture for distributed environments ensuring data privacy.",
 						"Designed navigation system with alternative routes considering multiple criteria."
+					],
+					"publications": [
+						{
+							"title": "Towards drivers’ safety with multi-criteria car navigation systems",
+							"link": "https://www.sciencedirect.com/science/article/abs/pii/S0167739X22001480",
+							"year": 2022
+						},
+						{
+							"title": "Federated learning with heterogeneous data",
+							"link": "https://www.gta.ufrj.br/ftp/gta/TechReports/Sole22/Sole22.pdf",
+							"year": 2022
+						}
 					]
 				}
 			]
@@ -157,18 +169,6 @@
 		{
 			"language": "German",
 			"proficiency": "Beginner"
-		}
-	],
-	"publications": [
-		{
-			"title": "Towards drivers’ safety with multi-criteria car navigation systems",
-			"link": "https://www.sciencedirect.com/science/article/abs/pii/S0167739X22001480",
-			"year": 2022
-		},
-		{
-			"title": "Federated learning with heterogeneous data",
-			"link": "https://www.gta.ufrj.br/ftp/gta/TechReports/Sole22/Sole22.pdf",
-			"year": 2022
 		}
 	]
 }
