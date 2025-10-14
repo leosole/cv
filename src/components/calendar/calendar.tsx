@@ -20,7 +20,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	const [hoveredCard, setHoveredCard] = useState<number>()
 	const [mouseYear, setMouseYear] = useState<string>()
 	const [mousePosition, setMousePosition] = useState<number>()
-	const [openedCards, setOpenedCards] = useState<number[]>([])
+	const [openedCards, setOpenedCards] = useState<number[]>(events.map((_, i) => i))
 
 	const processedEvents: ProcessedEvent[] = events
 		.map((event) => {
@@ -112,7 +112,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	return (
 		<div
 			ref={containerRef}
-			className="relative container mx-auto pl-4 md:pl-8"
+			className="relative container mx-auto pl-8"
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>
 			<div 
@@ -184,7 +184,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 							className={cn(
 								event.eventType === "work" ? "bg-blue-500" : "bg-green-500",
 								hoveredCard === index && "outline outline-foreground",
-								"group-hover:outline group-hover:outline-foreground"
+								"group-hover:outline group-hover:outline-foreground transition-[outline] duration-300"
 							)}
 						/>
 					</button>

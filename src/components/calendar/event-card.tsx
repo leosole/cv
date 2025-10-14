@@ -14,6 +14,7 @@ import { RiSurveyFill } from "react-icons/ri";
 import { cn } from "@/lib/utils"
 import { TbExternalLink } from "react-icons/tb";
 import { FaRegFilePdf } from "react-icons/fa6";
+import { useEffect, useState } from "react"
 
 interface EventCardProps {
 	type: EventType
@@ -36,6 +37,12 @@ export default function EventCard({
 	open,
 	setOpen,
 }: EventCardProps) {
+	const [animate, setAnimate] = useState(false)
+	useEffect(() => {
+		setAnimate(true)
+		const timeout = setTimeout(() => setAnimate(false), 800)
+		return () => clearTimeout(timeout)
+	}, [open])
 	return (
 		<CollapsibleCard
 			open={open}
@@ -47,9 +54,9 @@ export default function EventCard({
 			onMouseLeave={onMouseLeave}
 		>
 			{type === "work" ? (
-				<WorkCard info={info} />
+				<WorkCard info={info} animate={animate} />
 			) : (
-				<EducationCard info={info} />
+				<EducationCard info={info} animate={animate} />
 			)}
 		</CollapsibleCard>
 	)
@@ -57,9 +64,10 @@ export default function EventCard({
 
 interface WorkCardProps {
 	info: ProcessedEvent
+	animate?: boolean
 }
 
-export function WorkCard({ info }: WorkCardProps) {
+export function WorkCard({ info, animate }: WorkCardProps) {
 	const work = info as ProfessionalExperience
 	const icon = () => {
 		switch(work.type) {
@@ -71,7 +79,7 @@ export function WorkCard({ info }: WorkCardProps) {
 	return (
 		<>
 			<CollapsibleCardHeader>
-				<span>{icon()}</span>
+				<span className={cn({"animate-wiggle": animate})}>{icon()}</span>
 				{work.company}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
@@ -112,14 +120,15 @@ export function WorkCard({ info }: WorkCardProps) {
 
 interface EducationCardProps {
 	info: ProcessedEvent
+	animate?: boolean
 }
 
-export function EducationCard({ info }: EducationCardProps) {
+export function EducationCard({ info, animate }: EducationCardProps) {
 	const education = info as Education
 	return (
 		<>
 			<CollapsibleCardHeader>
-				<span><FaGraduationCap/></span>
+				<span className={cn({"animate-wiggle": animate})}><FaGraduationCap/></span>
 				{education.institution}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>

@@ -77,6 +77,7 @@
 	--color-link: var(--link);
 	--animate-slide-down: slideDown 500ms ease-in-out;
 	--animate-slide-up: slideUp 500ms ease-in-out;
+	--animate-wiggle: wiggle 1s ease-in-out infinite;
 }
 
 .dark {
@@ -118,9 +119,11 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
 	}
+
 	a {
 		@apply text-link hover:underline;
 	}
@@ -129,6 +132,7 @@
 		from {
 			height: 0;
 		}
+
 		to {
 			height: var(--radix-collapsible-content-height);
 		}
@@ -138,8 +142,19 @@
 		from {
 			height: var(--radix-collapsible-content-height);
 		}
+
 		to {
 			height: 0;
+		}
+	}
+
+	@keyframes wiggle {
+		0%,
+		100% {
+			transform: rotate(-6deg);
+		}
+		50% {
+			transform: rotate(6deg);
 		}
 	}
 }
