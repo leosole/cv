@@ -161,19 +161,27 @@
 	"languages": [
 		{
 			"language": "Portuguese",
-			"proficiency": "Native"
+			"proficiency": "Native",
+			"percent": 100,
+			"country": "BR"
 		},
 		{
 			"language": "English",
-			"proficiency": "Fluent"
+			"proficiency": "Fluent",
+			"percent": 100,
+			"country": "GB"
 		},
 		{
 			"language": "Spanish",
-			"proficiency": "Beginner"
+			"proficiency": "Beginner",
+			"percent": 20,
+			"country": "ES"
 		},
 		{
 			"language": "German",
-			"proficiency": "Beginner"
+			"proficiency": "Beginner",
+			"percent": 15,
+			"country": "DE"
 		}
 	]
 }

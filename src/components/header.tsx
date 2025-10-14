@@ -1,14 +1,16 @@
-import type { Info } from "@/types/cv"
+import type { Info, Links } from "@/types/cv"
 import { Button } from "./ui/button"
 import { MdLightMode, MdDarkMode } from "react-icons/md"
 import { useTheme } from "@/hooks/use-theme"
 import { IoToday, IoMail, IoLocationSharp  } from "react-icons/io5";
 import { PiPhoneFill } from "react-icons/pi";
+import { IoLogoGithub, IoLogoLinkedin  } from "react-icons/io";
 
 interface HeaderProps {
 	info: Info
+    links: Links,
 }
-export function Header({ info }: HeaderProps) {
+export function Header({ info, links }: HeaderProps) {
 	const { name, location, email, phone, birthdate } = info
 	const { isDark, toggleTheme } = useTheme()
 	return (
@@ -21,9 +23,21 @@ export function Header({ info }: HeaderProps) {
 					<span className="flex items-center gap-2"><IoMail/><h3><a href={`mailto:${email}`} className="text-md">{email}</a></h3></span>
 					<span className="flex items-center gap-2"><PiPhoneFill/><h3><a href={`https://wa.me/${phone.replace(/[\s\+]/g, "")}`} className="text-md">{phone}</a></h3></span>
 				</div>
-				<Button size="icon" variant="ghost" onClick={toggleTheme}>
-					{isDark ? <MdLightMode /> : <MdDarkMode color="black" />}
-				</Button>
+				<div className="flex gap-2">
+					<Button asChild variant="ghost" size="icon" title="GitHub">
+						<a href={links.github} aria-label="GitHub">
+							<IoLogoGithub />
+						</a>
+					</Button>
+					<Button asChild variant="ghost" size="icon" title="LinkedIn">
+						<a href={links.linkedin} aria-label="LinkedIn">
+							<IoLogoLinkedin />
+						</a>
+					</Button>
+					<Button size="icon" variant="ghost" onClick={toggleTheme}>
+						{isDark ? <MdLightMode /> : <MdDarkMode color="black" />}
+					</Button>
+				</div>
 			</div>
 		</header>
 	)

@@ -24,8 +24,8 @@ function App() {
 	return (
 		<div className="px-4 pb-8">
 			<div ref={headerRef}>
-				<Header info={cv.info} />
-				<Summary links={cv.links} summary={cv.summary} skills={cv.technical_skills}/>
+				<Header info={cv.info} links={cv.links} />
+				<Summary summary={cv.summary} skills={cv.technical_skills} languages={cv.languages}/>
 			</div>
 			<div className="flex-col sm:flex-row flex container sm:w-[80%] sm:min-w-160 max-w-240 mx-auto gap-2 mt-8 pr-8 sm:pr-20">
 				<Calendar events={[...cv.professional_experience, ...cv.education]} headerHeight={headerHeight}/>

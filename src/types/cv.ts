@@ -1,3 +1,5 @@
+import type { FlagComponent } from "country-flag-icons/react/3x2"
+
 export interface CV {
 	info: Info
 	links: Links
@@ -51,6 +53,8 @@ export interface Education {
 export interface Language {
 	language: string
 	proficiency: string
+	percent: number
+	country: string
 }
 
 export interface Publication {
