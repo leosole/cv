@@ -87,18 +87,20 @@ export function WorkCard({ info }: WorkCardProps) {
 							<CardDescription>{position.role}</CardDescription>
 							<DateRange start={startDate} end={endDate} />
 							<ul className="list-disc list-inside mt-2">
-								{position.tasks.map((task, index) => (
-									<li key={task} className="text-sm">
-										{task}
-										{position.publications && position.publications.length > 0 && (
-											<a key={position.publications[index].title} className="mb-2 inline" href={position.publications[index].link}>
-												<span className="font-bold"> {position.publications[index].title}</span>
-												<span className="italic"> {position.publications[index].year}</span>
-												{position.publications[index].link.endsWith(".pdf") ? <FaRegFilePdf className="inline mb-1 ml-1"/> : <TbExternalLink className="inline mb-1 ml-1"/>}
+								{position.tasks.map((task) => {
+									const name = typeof task === "string" ? task : task.item
+									return (
+									<li key={name} className="text-sm">
+										{name}
+										{typeof task !== "string" && (
+											<a key={task.publication.title} className="mb-2 inline" href={task.publication.link}>
+												<span className="font-bold"> {task.publication.title}</span>
+												<span className="italic"> {task.publication.year}</span>
+												{task.publication.link.endsWith(".pdf") ? <FaRegFilePdf className="inline mb-1 ml-1"/> : <TbExternalLink className="inline mb-1 ml-1"/>}
 											</a>
 										)}
 									</li>
-								))}
+								)})}
 							</ul>
 						</div>
 					)

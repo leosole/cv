@@ -32,8 +32,12 @@ export interface Position {
 	role: string
 	start_date: string
 	end_date: string
-	tasks: string[]
-	publications?: Publication[]
+	tasks: Task[]
+}
+
+export type Task = string | {
+	item: string
+	publication: Publication
 }
 
 export interface Education {
