@@ -5,6 +5,9 @@ import { useTheme } from "@/hooks/use-theme"
 import { IoToday, IoMail, IoLocationSharp  } from "react-icons/io5";
 import { PiPhoneFill } from "react-icons/pi";
 import { IoLogoGithub, IoLogoLinkedin  } from "react-icons/io";
+import { FaDownload } from "react-icons/fa6";
+
+import generateDocxFromJson from "@/lib/docx";
 
 interface HeaderProps {
 	info: Info
@@ -34,7 +37,10 @@ export function Header({ info, links }: HeaderProps) {
 							<IoLogoLinkedin />
 						</a>
 					</Button>
-					<Button size="icon" variant="ghost" onClick={toggleTheme}>
+					<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV">
+						<FaDownload />
+					</Button>
+					<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme">
 						{isDark ? <MdLightMode /> : <MdDarkMode color="black" />}
 					</Button>
 				</div>
