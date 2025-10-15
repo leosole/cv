@@ -180,6 +180,15 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
+const ArrowWithBorder = () => {
+  return (
+    <svg className="-translate-y-[16%]" width="20" height="10" viewBox="0 0 30 12" preserveAspectRatio="none">
+      <polygon points="0,2 30,2 15,12" className="fill-border"/>
+      <polygon points="0,0 30,0 15,10" className="fill-popover"/>
+    </svg>
+  )
+}
+
 export {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -196,4 +205,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  ArrowWithBorder
 }
