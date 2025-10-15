@@ -1,6 +1,6 @@
 # CV
 
-This is a React project that renders my curriculum vitae in a web format. You can view it here: [https://leosole.github.io/cv/](https://leosole.github.io/cv/)
+This is a React project that renders my curriculum vitae. You can view it here: [https://leosole.github.io/cv/](https://leosole.github.io/cv/)
 
 ## Technologies Used
 
