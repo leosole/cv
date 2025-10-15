@@ -128,7 +128,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 					{mouseYear}
 				</span>
 			</div>
-			<div className="absolute left-10 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700"/>
+			<div className="absolute left-0 sm:left-10 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700"/>
 
 			{years.map((year) => {
 				const yearDate = new Date(year, 11, 31)
@@ -139,7 +139,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				return (
 					<div
 						key={year}
-						className="absolute left-0 w-full"
+						className="absolute left-0 w-full hidden sm:block"
 						style={{ top: `${topPosition}%` }}
 					>
 						<div className="absolute left-0 ">
@@ -165,7 +165,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				return (
 					<button
 						key={`${getEventId(event)}`}
-						className="absolute left-10 group cursor-pointer z-20"
+						className="absolute left-0 sm:left-10 group cursor-pointer z-20"
 						style={{
 							top: `${topPositionPercent}%`,
 							height: `${heightPercent}%`,
@@ -191,7 +191,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				)
 			})}
 
-			<div className="relative flex flex-col gap-4 ml-14 lg:ml-12">
+			<div className="relative flex flex-col gap-4 ml-2 sm:ml-14">
 				{processedEvents.map((event, index) => {
 					return (
 						<EventCard

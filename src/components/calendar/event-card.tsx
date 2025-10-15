@@ -79,7 +79,7 @@ export function WorkCard({ info, animate }: WorkCardProps) {
 	return (
 		<>
 			<CollapsibleCardHeader>
-				<span className={cn({"animate-wiggle": animate})}>{icon()}</span>
+				<span className={cn(`${animate ? "animate-wiggle" : ""} h-fit`)}>{icon()}</span>
 				{work.company}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
@@ -128,7 +128,7 @@ export function EducationCard({ info, animate }: EducationCardProps) {
 	return (
 		<>
 			<CollapsibleCardHeader>
-				<span className={cn({"animate-wiggle": animate})}><FaGraduationCap/></span>
+				<span className={cn(`${animate ? "animate-wiggle" : ""} h-fit`)}><FaGraduationCap/></span>
 				{education.institution}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
