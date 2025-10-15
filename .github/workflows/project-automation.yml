@@ -28,7 +28,7 @@ jobs:
       event_name: ${{ github.event_name }}
       event_action: ${{ github.event.action }}
       event_data: ${{ toJSON(github.event) }}
-      project_id: "PVT_kwHOAIk3Bc4BEREc"
+      project_id: "PVT_kwHOAIk3Bc4BFnSk"
       # domain: "your-domain"
       # Optional: Override workflow configuration
       # issue_branch_regex: "^(\d+)[-_]"        # Custom branch pattern
