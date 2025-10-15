@@ -1,4 +1,4 @@
-import type { Language, Links } from "@/types/cv";
+import type { Language } from "@/types/cv";
 import { Badge } from "./ui/badge";
 import Flag from "./flags";
 
@@ -13,7 +13,7 @@ export default function Summary({ summary, skills, languages }: SummaryProps) {
         <div className="container mx-auto my-4 flex flex-col gap-2">
                 <div className="flex gap-2">
                     {languages.map(lang =>
-                        <Flag country={lang.country} percent={lang.percent} title={`${lang.language}: ${lang.proficiency}`}/>
+                        <Flag country={lang.country} key={lang.country} percent={lang.percent} title={`${lang.language}: ${lang.proficiency}`}/>
                     )}
                 </div>
             <div className="flex flex-col gap-2">

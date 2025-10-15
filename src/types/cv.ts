@@ -22,6 +22,7 @@ export interface Info {
 export interface Links {
 	linkedin: string
 	github: string
+	site: string
 }
 
 export interface ProfessionalExperience {
