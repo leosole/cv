@@ -36,6 +36,7 @@
 	--sidebar-border: oklch(0.92 0.004 286.32);
 	--sidebar-ring: oklch(0.705 0.015 286.067);
 	--link: oklch(38.767% 0.09685 244.641);
+	--tooltip: oklch(1 0 0);
 }
 
 @theme inline {
@@ -75,6 +76,7 @@
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-link: var(--link);
+	--color-tooltip: var(--tooltip);
   	--transform-origin-radix-dropdown: var(--radix-dropdown-menu-content-transform-origin);
 	--animate-slide-down: slideDown 500ms ease-in-out;
 	--animate-slide-up: slideUp 500ms ease-in-out;
@@ -116,6 +118,7 @@
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.552 0.016 285.938);
 	--link: oklch(61.823% 0.1394 243.012);
+	--tooltip: oklch(0.274 0.006 286.033);
 }
 
 
