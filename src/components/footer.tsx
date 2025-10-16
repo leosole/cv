@@ -20,10 +20,10 @@ export default function Footer({links}: FooterProps) {
             <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="secondary" size="icon" className="data-[state=open]:bg-muted drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
-                        <MenuIcon state={menuState} className="w-7! h-7!"/>
+                        <MenuIcon state={menuState}/>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="border">
+                <DropdownMenuContent align="center" side="top" className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden">
                     <DropdownMenuArrow className="fill-popover" width={20} height={10} asChild>
                         <ArrowWithBorder />
                     </DropdownMenuArrow>	

@@ -75,9 +75,12 @@
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-link: var(--link);
+  	--transform-origin-radix-dropdown: var(--radix-dropdown-menu-content-transform-origin);
 	--animate-slide-down: slideDown 500ms ease-in-out;
 	--animate-slide-up: slideUp 500ms ease-in-out;
 	--animate-wiggle: wiggle 1s ease-in-out infinite;
+	--animate-menu-up: menuUp 300ms ease-out;
+	--animate-menu-down: menuDown 300ms ease-out;
 }
 
 .dark {
@@ -115,6 +118,7 @@
 	--link: oklch(61.823% 0.1394 243.012);
 }
 
+
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
@@ -145,6 +149,28 @@
 
 		to {
 			height: 0;
+		}
+	}
+	
+	@keyframes menuUp {
+		from {
+			opacity: 0;
+			transform: translateY(100px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes menuDown {
+		from {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		to {
+			opacity: 0;
+			transform: translateY(100px);
 		}
 	}
 
