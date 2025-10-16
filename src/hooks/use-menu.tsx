@@ -11,19 +11,19 @@ export default function useMenu(links: Links) {
 	const menuButtons = [
 		<Button asChild variant="ghost" size="icon" title="GitHub">
 			<a href={links.github} aria-label="GitHub">
-				<IoLogoGithub />
+				<IoLogoGithub className="h-5 w-5 sm:h-4 sm:w-4" />
 			</a>
 		</Button>,
 		<Button asChild variant="ghost" size="icon" title="LinkedIn">
 			<a href={links.linkedin} aria-label="LinkedIn">
-				<IoLogoLinkedin />
+				<IoLogoLinkedin className="h-5 w-5 sm:h-4 sm:w-4" />
 			</a>
 		</Button>,
 		<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV">
-			<FaDownload />
+			<FaDownload className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
 		<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme">
-			{isDark ? <MdLightMode /> : <MdDarkMode color="black" />}
+			{isDark ? <MdLightMode className="h-5 w-5 sm:h-4 sm:w-4" /> : <MdDarkMode color="black" className="h-5 w-5 sm:h-4 sm:w-4" />}
 		</Button>
 	]
     return menuButtons
