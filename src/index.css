@@ -78,7 +78,7 @@
   	--transform-origin-radix-dropdown: var(--radix-dropdown-menu-content-transform-origin);
 	--animate-slide-down: slideDown 500ms ease-in-out;
 	--animate-slide-up: slideUp 500ms ease-in-out;
-	--animate-wiggle: wiggle 1s ease-in-out infinite;
+	--animate-wiggle: wiggle 500ms ease-in-out;
 	--animate-menu-up: menuUp 300ms ease-out;
 	--animate-menu-down: menuDown 300ms ease-out;
 }
@@ -176,10 +176,10 @@
 
 	@keyframes wiggle {
 		0%,
-		100% {
+		75% {
 			transform: rotate(-6deg);
 		}
-		50% {
+		25% {
 			transform: rotate(6deg);
 		}
 	}

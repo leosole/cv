@@ -116,7 +116,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>
 			<div 
-				className="absolute left-0 top-0 bottom-0 w-20 z-10" 
+				className="hidden sm:block absolute left-0 top-0 bottom-0 w-20 z-50" 
 				onMouseEnter={onMouseMove} 
 				onMouseMove={onMouseMove} 
 				onMouseLeave={() => setMousePosition(undefined)}
