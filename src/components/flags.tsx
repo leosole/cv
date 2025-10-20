@@ -21,7 +21,7 @@ export default function Flag({percent, country, title}: {percent: number, countr
     return (
         <Tooltip onOpenChange={() => setOpen(p => !p)} open={open}>
             <TooltipTrigger onClick={() => setOpen(p => !p)}>
-                <span className='relative'>
+                <span className='w-6 relative'>
                     <span className='absolute bg-white mix-blend-hue h-4 z-1 right-0' style={{width: (100 - percent)*24/100}}/>
                     <Component className='w-6 relative'/>
                 </span>
