@@ -6,6 +6,7 @@ import Calendar from "./components/calendar/calendar"
 import { useEffect, useRef, useState } from "react"
 import Summary from "./components/summary"
 import Footer from "./components/footer"
+import Chat from "./components/chat/chat"
 
 const cv: CV = cv_json
 

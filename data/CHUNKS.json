@@ -1,0 +1,386 @@
+{
+  "chunks": [
+    {
+      "id": "contact-info",
+      "type": "contact",
+      "text": "Leonardo Solé Rodrigues | Full Stack Engineer | Rio de Janeiro, Brazil | +55 21 99578-6916 | leosole@gmail.com | LinkedIn: linkedin.com/in/leosole | GitHub: github.com/leosole",
+      "metadata": {
+        "category": "contact",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "professional-summary",
+      "type": "summary",
+      "text": "Full Stack Engineer with over 4 years of experience in production web and mobile applications. Specialized in TypeScript, React, and Next.js. Previous 5-year career as an Art Director provides a unique bridge between engineering and design, ensuring high-fidelity UI implementation and effective cross-functional collaboration.",
+      "metadata": {
+        "category": "summary",
+        "priority": "high",
+        "experience_years_tech": 4,
+        "experience_years_art": 5
+      }
+    },
+    {
+      "id": "tcu-role",
+      "type": "employment",
+      "text": "Tribunal de Contas da União (TCU) | Frontend Engineer | Nov 2024 – Present\n\nCurrent role focused on modernization and infrastructure improvements for the Brazilian Federal Audit Court. Responsible for design system development, portal migration, and CI/CD pipeline standardization.",
+      "metadata": {
+        "company": "Tribunal de Contas da União (TCU)",
+        "position": "Frontend Engineer",
+        "start_date": "2024-11",
+        "end_date": null,
+        "current": true,
+        "skills": ["React", "TypeScript", "Next.js", "Strapi", "GitHub Actions"]
+      }
+    },
+    {
+      "id": "tcu-achievement-unio",
+      "type": "achievement",
+      "text": "Unio Design System: Built the internal React/TypeScript design system from the ground up. Developed a library of polymorphic components to allow flexible root element swaps without API changes. Established Storybook as the central documentation hub, which reduced developer onboarding time.",
+      "metadata": {
+        "company": "Tribunal de Contas da União (TCU)",
+        "achievement_type": "infrastructure",
+        "skills": ["React", "TypeScript", "Design Systems", "Storybook"],
+        "impact": "reduced_onboarding_time"
+      }
+    },
+    {
+      "id": "tcu-achievement-portal",
+      "type": "achievement",
+      "text": "Portal Modernization: Led the migration of the public portal from legacy Lumis CMS to Next.js and Strapi. Decoupled content management from the frontend to enable independent publishing by non-technical teams. Improved Core Web Vitals (LCP and TTFB) through server-side rendering and static generation.",
+      "metadata": {
+        "company": "Tribunal de Contas da União (TCU)",
+        "achievement_type": "migration",
+        "skills": ["Next.js", "Strapi", "Headless CMS", "Performance Optimization"],
+        "impact": "improved_core_web_vitals"
+      }
+    },
+    {
+      "id": "tcu-achievement-cicd",
+      "type": "achievement",
+      "text": "CI/CD Infrastructure: Migrated 20+ pipelines from Jenkins to GitHub Actions. Standardized reusable workflows and environment-scoped secrets across all repositories. Reduced CI execution times by an estimated 20-30%.",
+      "metadata": {
+        "company": "Tribunal de Contas da União (TCU)",
+        "achievement_type": "devops",
+        "skills": ["GitHub Actions", "Jenkins", "CI/CD", "DevOps"],
+        "scale": "20+ pipelines",
+        "impact": "20-30% performance_improvement"
+      }
+    },
+    {
+      "id": "tcu-achievement-automation",
+      "type": "achievement",
+      "text": "Workflow Automation: Replaced external project management tools with a custom GitHub Projects workflow. Automated board transitions based on pull request states and added environment tags for live deployment visibility.",
+      "metadata": {
+        "company": "Tribunal de Contas da União (TCU)",
+        "achievement_type": "workflow",
+        "skills": ["GitHub Actions", "Automation", "Project Management"]
+      }
+    },
+    {
+      "id": "trimble-role-full-stack",
+      "type": "employment",
+      "text": "Trimble Inc. | Full Stack Engineer | May 2023 – Nov 2024\n\nFull Stack role focused on microfrontend architecture design, mobile application development, and quality engineering. Led technical initiatives and mentored junior developers.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "position": "Full Stack Engineer",
+        "start_date": "2023-05",
+        "end_date": "2024-11",
+        "skills": ["Kotlin", "Jetpack Compose", "React", "TypeScript", "Node.js"]
+      }
+    },
+    {
+      "id": "trimble-achievement-microfrontend",
+      "type": "achievement",
+      "text": "Microfrontend Architecture: Proposed and designed the microfrontend architecture for the Inspections portal within the Trimble Fleet Manager (TFM) platform. This enabled autonomous CI/CD pipelines and independent PR workflows for the team. The pattern became the internal standard for new product onboarding.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "achievement_type": "architecture",
+        "skills": ["Microfrontends", "System Design", "React", "CI/CD"],
+        "impact": "became_internal_standard"
+      }
+    },
+    {
+      "id": "trimble-achievement-inspections",
+      "type": "achievement",
+      "text": "Trimble Inspections: Developed the mobile application using Kotlin and Jetpack Compose as part of the Trimble Instinct flagship platform. Managed the full product lifecycle from initial development to production launch for major North American commercial fleets. Contributed to cloud functions using Node.js.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "achievement_type": "product",
+        "skills": ["Kotlin", "Jetpack Compose", "Mobile Development", "Node.js", "GCP"],
+        "product": "Trimble Inspections",
+        "region": "North America"
+      }
+    },
+    {
+      "id": "trimble-achievement-leadership",
+      "type": "achievement",
+      "text": "Technical Leadership: Delivered two internal Tech Talks on microfrontend architecture to the global engineering organization. Mentored interns, guiding them through project development and best practices.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "achievement_type": "leadership",
+        "skills": ["Technical Leadership", "Mentorship", "Communication"],
+        "activities": ["tech_talks", "mentoring"]
+      }
+    },
+    {
+      "id": "trimble-achievement-quality",
+      "type": "achievement",
+      "text": "Quality Engineering: Implemented automated test suites using Vitest and Playwright across unit, integration, and E2E layers. Integrated Datadog and Sentry for proactive production monitoring.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "achievement_type": "testing",
+        "skills": ["Vitest", "Playwright", "Testing", "Datadog", "Sentry"],
+        "test_coverage": ["unit", "integration", "e2e"]
+      }
+    },
+    {
+      "id": "trimble-role-junior",
+      "type": "employment",
+      "text": "Trimble Inc. | Junior/Intern Roles | Jul 2021 – May 2023\n\nEarned progression from intern to junior engineer through platform modernization and cross-platform support work. Built foundation in full-stack development across frontend, backend, and native applications.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "position": "Junior/Intern Roles",
+        "start_date": "2021-07",
+        "end_date": "2023-05"
+      }
+    },
+    {
+      "id": "trimble-achievement-modernization",
+      "type": "achievement",
+      "text": "Platform Modernization: Migrated C# and JavaScript modules to React and TypeScript for a legacy Electronic Logging Device (ELD) platform.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "achievement_type": "migration",
+        "skills": ["React", "TypeScript", "C#", "JavaScript"],
+        "legacy_system": "ELD platform"
+      }
+    },
+    {
+      "id": "trimble-achievement-cross-platform",
+      "type": "achievement",
+      "text": "Cross-Platform Support: Maintained and improved frontend, backend, and native app layers for regulated telematics solutions.",
+      "metadata": {
+        "company": "Trimble Inc.",
+        "achievement_type": "maintenance",
+        "skills": ["Frontend", "Backend", "Native Apps", "Telematics"],
+        "industry": "regulated_systems"
+      }
+    },
+    {
+      "id": "ufrj-research-role",
+      "type": "education",
+      "text": "Federal University of Rio de Janeiro (UFRJ) | Undergraduate Researcher | Jan 2020 – Nov 2022\n\nConducted machine learning research focused on federated learning and a multi-criteria navigation systems research that was published in Future Generation Computer Systems.",
+      "metadata": {
+        "institution": "Federal University of Rio de Janeiro (UFRJ)",
+        "role": "Undergraduate Researcher",
+        "start_date": "2020-01",
+        "end_date": "2022-11",
+        "publications": 1
+      }
+    },
+    {
+      "id": "ufrj-research-federated",
+      "type": "research",
+      "text": "Federated Learning (Partial Model Sharing): Developed a method for cross-silo training where institutions hold datasets with partially overlapping variables. Implemented the solution in Python and TensorFlow using the Flower framework. The approach outperformed local models in heterogeneous data environments.",
+      "metadata": {
+        "institution": "UFRJ",
+        "project": "Federated Learning",
+        "skills": ["Python", "TensorFlow", "Flower Framework", "Machine Learning"],
+        "research_area": "distributed_machine_learning"
+      }
+    },
+    {
+      "id": "ufrj-research-navigation",
+      "type": "research",
+      "text": "Multi-Criteria Navigation (Safety-First Routing): Designed two route planning algorithms (HVT and R2V) that factor in crime rates and road conditions alongside travel time.",
+      "metadata": {
+        "institution": "UFRJ",
+        "project": "Multi-Criteria Navigation",
+        "skills": ["Algorithm Design", "Route Planning", "Data Analysis"],
+        "research_area": "navigation_optimization"
+      }
+    },
+    {
+      "id": "ufrj-publication",
+      "type": "research",
+      "text": "Publication: Solé Rodrigues, L., et al. \"Towards drivers' safety with multi-criteria car navigation systems.\" Future Generation Computer Systems, Vol. 135, 2022. Released a dataset of 3,170 paths across London.",
+      "metadata": {
+        "publication_type": "journal",
+        "title": "Towards drivers' safety with multi-criteria car navigation systems",
+        "journal": "Future Generation Computer Systems",
+        "volume": 135,
+        "year": 2022,
+        "dataset_size": 3170,
+        "dataset_location": "London"
+      }
+    },
+    {
+      "id": "education-bachelor-eng",
+      "type": "education",
+      "text": "Bachelor of Electronic and Computer Engineering | Federal University of Rio de Janeiro (UFRJ) | 2017 – 2022",
+      "metadata": {
+        "degree": "Bachelor",
+        "field": "Electronic and Computer Engineering",
+        "institution": "UFRJ",
+        "start_year": 2017,
+        "end_year": 2022
+      }
+    },
+    {
+      "id": "education-bachelor-advertising",
+      "type": "education",
+      "text": "Bachelor of Social Communication (Advertising & Art Direction) | ESPM | 2008 – 2011",
+      "metadata": {
+        "degree": "Bachelor",
+        "field": "Social Communication (Advertising & Art Direction)",
+        "institution": "ESPM",
+        "start_year": 2008,
+        "end_year": 2011
+      }
+    },
+    {
+      "id": "art-direction-background",
+      "type": "background",
+      "text": "Previous Career: Art Direction (2010 – 2015): Spent 5 years as an Art Director at agencies including Giovanni+DraftFCB and FLAGCX, focused on brand identity, digital campaigns, and print. This background informs a practical working relationship with designers and a focus on accessibility (WCAG) and pixel-perfect UI implementation.",
+      "metadata": {
+        "career_phase": "art_direction",
+        "years": 5,
+        "start_year": 2010,
+        "end_year": 2015,
+        "agencies": ["Giovanni+DraftFCB", "FLAGCX"],
+        "specialties": ["brand_identity", "digital_campaigns", "print"],
+        "technical_influence": ["WCAG", "accessibility", "UI_design"]
+      }
+    },
+    {
+      "id": "skills-languages",
+      "type": "skills",
+      "text": "Programming Languages: TypeScript, JavaScript (ES6+), Node.js, Kotlin, C#, Python, PHP, SQL (MySQL). Core development for web, mobile, and research.",
+      "metadata": {
+        "skill_category": "languages",
+        "primary_contexts": ["web", "mobile", "research"]
+      }
+    },
+    {
+      "id": "skills-frontend",
+      "type": "skills",
+      "text": "Frontend Frameworks & Libraries: React, Next.js, Vite, Stencil (Web Components). Used for UI development, microfrontends, and design systems.",
+      "metadata": {
+        "skill_category": "frontend",
+        "applications": ["UI_development", "microfrontends", "design_systems"]
+      }
+    },
+    {
+      "id": "skills-styling",
+      "type": "skills",
+      "text": "Styling & UI: Tailwind CSS, CSS3, Responsive Design, Design Systems, Accessibility (WCAG / a11y), Emotion, Storybook. Expertise in design-to-code bridge, component documentation, and advanced styling.",
+      "metadata": {
+        "skill_category": "styling",
+        "specializations": ["responsive_design", "design_systems", "accessibility", "component_documentation"]
+      }
+    },
+    {
+      "id": "skills-mobile",
+      "type": "skills",
+      "text": "Mobile Development: Kotlin, Jetpack Compose. Used for mobile app development in production environments",
+      "metadata": {
+        "skill_category": "mobile",
+        "platforms": ["android"]
+      }
+    },
+    {
+      "id": "skills-architecture",
+      "type": "skills",
+      "text": "Software Architecture: Microfrontends, Headless CMS, RESTful APIs, GraphQL, Cloud Functions, Monorepo (NX). Experience in system design for large-scale applications and content decoupling.",
+      "metadata": {
+        "skill_category": "architecture",
+        "domains": ["system_design", "large_scale_apps"]
+      }
+    },
+    {
+      "id": "skills-cloud",
+      "type": "skills",
+      "text": "Cloud & Messaging: GCP (Firebase, Firestore, Pub/Sub), Docker. Expertise in backend services, real-time data, messaging, and containerization.",
+      "metadata": {
+        "skill_category": "cloud",
+        "providers": ["GCP"],
+        "services": ["Firebase", "Firestore", "Pub/Sub", "Docker"]
+      }
+    },
+    {
+      "id": "skills-cms",
+      "type": "skills",
+      "text": "CMS & Backends: Strapi, WordPress, PHP. Experience with headless CMS integration and legacy system support.",
+      "metadata": {
+        "skill_category": "cms",
+        "specializations": ["headless_cms", "legacy_systems"]
+      }
+    },
+    {
+      "id": "skills-testing",
+      "type": "skills",
+      "text": "Testing & Quality: Jest, React Testing Library, Vitest, Playwright (E2E), TanStack Query, Redux. Expertise in automated testing across all layers, state management, and data fetching.",
+      "metadata": {
+        "skill_category": "testing",
+        "test_types": ["unit", "integration", "e2e"],
+        "specializations": ["state_management", "data_fetching"]
+      }
+    },
+    {
+      "id": "skills-devops",
+      "type": "skills",
+      "text": "CI/CD & DevOps: GitHub Actions, Jenkins, Rancher, SonarQube. Experience in pipeline migration, automation, and code quality.",
+      "metadata": {
+        "skill_category": "devops",
+        "specializations": ["pipeline_migration", "automation", "code_quality"]
+      }
+    },
+    {
+      "id": "skills-observability",
+      "type": "skills",
+      "text": "Observability & Monitoring: Datadog, Sentry. Production monitoring and error tracking.",
+      "metadata": {
+        "skill_category": "observability",
+        "tools": ["Datadog", "Sentry"]
+      }
+    },
+    {
+      "id": "skills-design",
+      "type": "skills",
+      "text": "Design Tools & Collaboration: Figma, UI/UX Principles, Wireframe-to-Code. Liaison between design and engineering teams, with UI implementation expertise.",
+      "metadata": {
+        "skill_category": "design",
+        "tools": ["Figma"],
+        "specializations": ["UI/UX", "wireframing", "design_collaboration"]
+      }
+    },
+    {
+      "id": "skills-workflow",
+      "type": "skills",
+      "text": "Workflow & Collaboration: Agile/Scrum, Remote-first teams, Code Review. Experience in team collaboration and software delivery.",
+      "metadata": {
+        "skill_category": "workflow",
+        "methodologies": ["Agile", "Scrum"]
+      }
+    },
+    {
+      "id": "skills-academic",
+      "type": "skills",
+      "text": "Academic & Research: Federated Learning, TensorFlow, Flower, Python. Machine learning research and algorithm design expertise.",
+      "metadata": {
+        "skill_category": "academic",
+        "domains": ["machine_learning", "distributed_learning"]
+      }
+    },
+    {
+      "id": "skills-soft",
+      "type": "skills",
+      "text": "Soft Skills: Cross-functional collaboration, technical leadership, mentorship, communication, problem-solving. Experience liaising between design and engineering, delivering tech talks, and team development.",
+      "metadata": {
+        "skill_category": "soft_skills",
+        "specializations": ["leadership", "mentorship", "communication"]
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import useMenu from "@/hooks/use-menu";
 import MenuIcon from "@/svgs/menu-icon";
 import { useState } from "react";
+import Chat from "./chat/chat";
 
 interface FooterProps {
     links: Links,
@@ -16,20 +17,23 @@ export default function Footer({links}: FooterProps) {
         setMenuState(!menuState)
     }
     return (
-        <div className="flex justify-end sm:hidden fixed right-0 bottom-0 z-100 w-full p-6">
-            <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="data-[state=open]:bg-muted drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
-                        <MenuIcon state={menuState}/>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" side="top" className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden">
-                    <DropdownMenuArrow className="fill-popover" width={20} height={10} asChild>
-                        <ArrowWithBorder />
-                    </DropdownMenuArrow>	
-                    {menuButtons.map(button => <DropdownMenuItem onSelect={e => e.preventDefault()}>{button}</DropdownMenuItem>)} 
-                </DropdownMenuContent>
-            </DropdownMenu>
+        <div className="flex justify-end fixed right-0 bottom-0 z-100 w-full p-6 flex-col gap-4 items-end">
+            <div className="sm:hidden z-60">
+                <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="secondary" size="icon" className="data-[state=open]:bg-muted drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
+                            <MenuIcon state={menuState}/>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center" side="top" className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden">
+                        <DropdownMenuArrow className="fill-popover" width={20} height={10} asChild>
+                            <ArrowWithBorder />
+                        </DropdownMenuArrow>	
+                        {menuButtons.map(button => <DropdownMenuItem onSelect={e => e.preventDefault()}>{button}</DropdownMenuItem>)} 
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+			<Chat />
         </div>
     )
 }

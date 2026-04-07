@@ -15,7 +15,7 @@ export function Header({ info, links }: HeaderProps) {
 			<div className="flex justify-between items-start mt-4">
 				<h1 className="text-3xl font-bold">{name}</h1>
 				<div className="hidden sm:flex gap-2">
-					{menuButtons.map(button => button)} 
+					{menuButtons} 
 				</div>
 			</div>
 			<span className="flex items-center gap-2"><IoLocationSharp /><h2 className="text-lg">{location}</h2></span>
