@@ -1,6 +1,6 @@
 # CV
 
-This is a React project that renders my curriculum vitae. You can view it here: [https://leosole.github.io/cv/](https://leosole.github.io/cv/)
+This is a React project that renders my curriculum vitae. You can view it here: [https://leosole-cv.netlify.app/](https://leosole-cv.netlify.app/)
 
 ## Technologies Used
 
@@ -25,7 +25,7 @@ yarn install
 
 3. Start the development server:
 ```bash
-yarn dev
+npx netlify dev
 ```
 
 ## Build and Deploy
