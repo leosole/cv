@@ -6,6 +6,7 @@ import type { ProcessedEvent } from "@/types/calendar"
 import { useRef, useState } from "react"
 import { getEventId } from "@/lib/strings"
 import { cn } from "@/lib/utils"
+import { useCardState } from "@/hooks/use-card-state"
 
 interface CalendarProps {
 	events: (ProfessionalExperience | Education)[]
@@ -17,10 +18,10 @@ const CARD_MARGIN_REM = 1
 
 export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	const containerRef = useRef<HTMLDivElement>(null)
-	const [hoveredCard, setHoveredCard] = useState<number>()
 	const [mouseYear, setMouseYear] = useState<string>()
 	const [mousePosition, setMousePosition] = useState<number>()
-	const [openedCards, setOpenedCards] = useState<number[]>(events.map((_, i) => i))
+	const [hoveredCard, setHoveredCard] = useState<number | undefined>()
+	const { openedCards, setOpenedCards } = useCardState()
 
 	const processedEvents: ProcessedEvent[] = events
 		.map((event) => {

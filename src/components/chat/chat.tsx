@@ -5,6 +5,9 @@ import { Button } from '../ui/button';
 import { Card, CardHeader } from '../ui/card';
 import { IoSend, IoChatboxEllipses } from "react-icons/io5";
 import { LoadingChat } from '@/svgs/loading-chat';
+import cv_json from '@/static/cv.json';
+import { useCardState } from '@/hooks/use-card-state';
+import { convertActionToCardIndices } from '@/lib/card-index';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 
@@ -13,17 +16,18 @@ interface Message {
   text: string;
 }
 
-const firstMessage: Message = {
+const initialMessage: Message = {
   role: 'bot',
-  text: 'Hello! I am an AI assistant to help you with questions about Leo. You can ask me anything about his experience, skills, projects, or anything else you want to know. You can even paste a job description, and I can tell you if Leo is a good fit for the role. Just type your question below and I will do my best to provide a helpful answer.',
-}
+  text: "Hello! I am an AI assistant to help you with questions about Leo. You can ask me anything about his experience, skills, projects, or anything else you want to know. You can even paste a job description, and I can tell you if Leo is a good fit for the role. Just type your question below and I will do my best to provide a helpful answer."
+} 
 
 const Chat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [messages, setMessages] = useState<Message[]>([firstMessage]);
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { setOpenedCards } = useCardState();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,9 +48,17 @@ const Chat: React.FC = () => {
     setLoading(true);
     const previous = messages.map(m => `${m.role}: ${m.text}`).join('\n');
     try {
-      const response = await sendMessageToBot(input, previous);
-      const botMessage: Message = { role: 'bot', text: response };
+      const response = await sendMessageToBot(input, previous, cv_json);
+      const botMessage: Message = { role: 'bot', text: response.message };
       setMessages([...newMessages, botMessage]);
+      console.log("Chat response:", response);
+      // Handle the action field if present - convert from IDs to card indices
+      if (response.action) {
+        const cardIndices = convertActionToCardIndices(cv_json, response.action);
+        if (cardIndices.length > 0) {
+          setOpenedCards(cardIndices);
+        }
+      }
     } catch (error) {
       const errorMessage: Message = { role: 'bot', text: 'Sorry, something went wrong. Please try again.' };
       setMessages([...newMessages, errorMessage]);

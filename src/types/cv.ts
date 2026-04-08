@@ -26,6 +26,7 @@ export interface Links {
 }
 
 export interface ProfessionalExperience {
+	id: string
 	company: string
 	type: string
 	positions: Position[]
@@ -44,6 +45,7 @@ export type Task = string | {
 }
 
 export interface Education {
+	id: string
 	institution: string
 	type: string
 	degree: string
