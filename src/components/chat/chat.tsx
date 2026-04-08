@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { sendMessageToBot } from './service/chat-service';
 import { Button } from '../ui/button';
@@ -9,9 +9,10 @@ import cv_json from '@/static/cv.json';
 import { useCardState } from '@/hooks/use-card-state';
 import { convertActionToCardIndices } from '@/lib/card-index';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { MessageBubble } from './message-bubble';
 
 
-interface Message {
+export interface Message {
   role: 'user' | 'bot';
   text: string;
 }
@@ -21,7 +22,7 @@ const initialMessage: Message = {
   text: "Hello! I am an AI assistant to help you with questions about Leo. You can ask me anything about his experience, skills, projects, or anything else you want to know. You can even paste a job description, and I can tell you if Leo is a good fit for the role. Just type your question below and I will do my best to provide a helpful answer."
 } 
 
-const Chat: React.FC = () => {
+const Chat = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
@@ -52,7 +53,7 @@ const Chat: React.FC = () => {
       const botMessage: Message = { role: 'bot', text: response.message };
       setMessages([...newMessages, botMessage]);
       console.log("Chat response:", response);
-      // Handle the action field if present - convert from IDs to card indices
+
       if (response.action) {
         const cardIndices = convertActionToCardIndices(cv_json, response.action);
         if (cardIndices.length > 0) {
@@ -93,32 +94,8 @@ const Chat: React.FC = () => {
             </Button>
           </CardHeader>
           <div className="flex-1 overflow-y-auto p-2 space-y-2">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`inline-block p-2 rounded-lg max-w-xs break-words ${
-                    msg.role === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
-                  }`}
-                >
-                  <ReactMarkdown
-                    components={{
-                      p: ({ children }) => <p className="m-0">{children}</p>,
-                      code: ({ className, children, ...props }) => (
-                        <code
-                          className={`rounded bg-slate-100 px-1 py-0.5 text-sm ${className ?? ''}`}
-                          {...props}
-                        >
-                          {children}
-                        </code>
-                      ),
-                    }}
-                  >
-                    {msg.text}
-                  </ReactMarkdown>
-                </div>
-              </div>
+            {messages.map((msg) => (
+              <MessageBubble key={msg.text} message={msg} />
             ))}
             {loading && (
               <div className="flex justify-start">

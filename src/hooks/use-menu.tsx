@@ -9,20 +9,20 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
 export default function useMenu(links: Links) {
 	const { isDark, toggleTheme } = useTheme()
 	const menuButtons = [
-		<Button asChild variant="ghost" size="icon" title="GitHub">
+		<Button asChild variant="ghost" size="icon" title="GitHub" key="github">
 			<a href={links.github} aria-label="GitHub">
 				<IoLogoGithub className="h-5 w-5 sm:h-4 sm:w-4" />
 			</a>
 		</Button>,
-		<Button asChild variant="ghost" size="icon" title="LinkedIn">
+		<Button asChild variant="ghost" size="icon" title="LinkedIn" key="linkedin">
 			<a href={links.linkedin} aria-label="LinkedIn">
 				<IoLogoLinkedin className="h-5 w-5 sm:h-4 sm:w-4" />
 			</a>
 		</Button>,
-		<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV">
+		<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV" key="download">
 			<FaDownload className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
-		<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme">
+		<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme" key="theme">
 			{isDark ? <MdLightMode className="h-5 w-5 sm:h-4 sm:w-4" /> : <MdDarkMode color="black" className="h-5 w-5 sm:h-4 sm:w-4" />}
 		</Button>
 	]
