@@ -1,6 +1,6 @@
 # Leonardo Solé Rodrigues | Master Experience Database
 
-This document serves as the single source of truth for all professional experience, academic research, and technical achievements. Content is pre-optimized to follow the **Humanizer** guidelines: no -ing participials, no promotional inflation, and no vague filler.
+This document serves as the single source of truth for all professional experience, academic research, and technical achievements.
 
 ## Contact Information
 - **Name**: Leonardo Solé Rodrigues
