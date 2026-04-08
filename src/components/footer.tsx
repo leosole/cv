@@ -17,7 +17,7 @@ export default function Footer({links}: FooterProps) {
         setMenuState(!menuState)
     }
     return (
-        <div className="flex justify-end fixed right-0 bottom-0 z-100 w-full p-6 flex-col gap-4 items-end">
+        <div className="flex justify-end fixed right-0 bottom-0 z-100 p-6 flex-col gap-4 items-end">
             <div className="sm:hidden z-60">
                 <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
                     <DropdownMenuTrigger asChild>
