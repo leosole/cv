@@ -10,7 +10,7 @@
 	"links": {
 		"linkedin": "https://linkedin.com/in/leosole",
 		"github": "https://github.com/leosole",
-		"site": "https://leosole.github.io/cv"
+		"site": "https://leosole-cv.netlify.app/"
 	},
 	"summary": "Full Stack Engineer with 4+ years of experience in designing, developing, and maintaining scalable web and mobile applications. Skilled in modern technologies such as TypeScript, React, Python, Kotlin, and microfrontend architecture. Proven track record of collaborating within agile teams to deliver high-quality software solutions, enhancing user experience and operational efficiency. Adept at integrating automated testing and cloud functions to optimize system performance and ensure reliability.",
 	"professional_experience": [
