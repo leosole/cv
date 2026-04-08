@@ -11,8 +11,8 @@ export const MessageBubble = ({ message }: MessageBubbleProps) => {
       <div className="flex flex-col">
         <div
           className={`inline-block p-2 rounded-lg max-w-xs break-words text-gray-900 dark:text-gray-100 ${message.role === 'user'
-              ? 'bg-secondary'
-              : 'bg-gray-200 dark:bg-gray-700'
+              ? 'bg-bubble-user'
+              : 'bg-bubble-bot'
             }`}
         >
           <ReactMarkdown
@@ -33,8 +33,8 @@ export const MessageBubble = ({ message }: MessageBubbleProps) => {
         </div>
         <div
           className={`mx-4 border-x-10 border-y-4 border-transparent ${message.role === 'user'
-              ? 'border-t-secondary self-end border-r-secondary'
-              : 'border-t-gray-200 dark:border-t-gray-700 border-l-gray-200 dark:border-l-gray-700 self-start'
+              ? 'border-t-bubble-user self-end border-r-bubble-user'
+              : 'border-t-bubble-bot border-l-bubble-bot self-start'
             }`}
         ></div>
       </div>

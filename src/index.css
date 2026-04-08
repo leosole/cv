@@ -37,6 +37,8 @@
 	--sidebar-ring: oklch(0.705 0.015 286.067);
 	--link: oklch(38.767% 0.09685 244.641);
 	--tooltip: oklch(1 0 0);
+	--bubble-user: oklch(64.627% 0.04649 322.323);
+	--bubble-bot: oklch(87.61% 0.0001 271.152);
 }
 
 @theme inline {
@@ -77,6 +79,8 @@
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-link: var(--link);
 	--color-tooltip: var(--tooltip);
+	--color-bubble-user: var(--bubble-user);
+	--color-bubble-bot: var(--bubble-bot);
   	--transform-origin-radix-dropdown: var(--radix-dropdown-menu-content-transform-origin);
 	--animate-slide-down: slideDown 500ms ease-in-out;
 	--animate-slide-up: slideUp 500ms ease-in-out;
@@ -119,6 +123,8 @@
 	--sidebar-ring: oklch(0.552 0.016 285.938);
 	--link: oklch(61.823% 0.1394 243.012);
 	--tooltip: oklch(0.274 0.006 286.033);
+	--bubble-user: oklch(32.949% 0.10365 320.667);
+	--bubble-bot: oklch(42.024% 0.00005 271.152);
   
 	color-scheme: dark;
 }

@@ -38,9 +38,8 @@ export const handler: Handler = async (event) => {
     const contextText = contextParts.join("\n\n---\n\n");
 
     const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp: any) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu: any) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, use the "action" field with the unique ID of the relevant entry.` : '';
-
-    const chatModel = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
-    const prompt = `You are an AI assistant for Leonardo Solé Rodrigues, a full stack frontend focused engineer. Answer questions about his professional experience, skills, education, and background based on the provided context.
+    
+    const systemInstruction = `You are an AI assistant for Leonardo Solé Rodrigues, a full stack frontend focused engineer. Answer questions about his professional experience, skills, education, and background based on the provided context.
 
 Be concise, accurate, and professional. If you don't know the answer based on the provided context, clearly state that you don't have that information.
 
@@ -73,7 +72,10 @@ Example 3 (no action needed):
 }
 
 RETRIEVED CONTEXT:
-${contextText}
+${contextText}`
+
+    const chatModel = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview", systemInstruction });
+    const prompt = `
 
 PREVIOUS CONVERSATION (if any):
 ${previous || "No previous conversation"}
