@@ -7,12 +7,12 @@ export function LoadingChat() {
 				<motion.div
 					key={index}
 					className="w-1 h-1 rounded-full bg-current"
-					animate={{ y: [0, -6, 0] }}
+					animate={{ y: [0, -4, 2, 0] }}
 					transition={{
-						delay: index * 0.3,
-						duration: 0.6,
+						delay: index * 0.2,
+						duration: 0.8,
 						repeat: Infinity,
-						repeatDelay: 0.6,
+						repeatDelay: 0.1,
 					}}
 				/>
 			))}
