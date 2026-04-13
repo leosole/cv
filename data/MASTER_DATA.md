@@ -20,7 +20,7 @@ Full Stack Engineer with over 4 years of experience in production web and mobile
 ### Tribunal de Contas da União (TCU) | Frontend Engineer
 *Nov 2024 – Present*
 
-**Key Achievements:**
+#### Key Achievements:
 
 **Unio Design System**: Built the internal React/TypeScript design system from the ground up. Developed a library of polymorphic components to allow flexible root element swaps without API changes. Established Storybook as the central documentation hub, which reduced developer onboarding time.
 
@@ -30,10 +30,15 @@ Full Stack Engineer with over 4 years of experience in production web and mobile
 
 **Workflow Automation**: Replaced external project management tools with a custom GitHub Projects workflow. Automated board transitions based on pull request states and added environment tags for live deployment visibility.
 
+#### Skills:
+
+React, TypeScript, JavaScript, Next.js, Tailwind CSS, GitHub Actions, Design System
+
+
 ### Trimble Inc. | Full Stack Engineer
 *Jul 2021 – Nov 2024*
 
-**Key Achievements (Full Stack Role, May 2023 – Nov 2024):**
+#### Key Achievements (Full Stack Role, May 2023 – Nov 2024):
 
 **Microfrontend Architecture**: Proposed and designed the microfrontend architecture for the Inspections portal within the Trimble Fleet Manager (TFM) platform. This enabled autonomous CI/CD pipelines and independent PR workflows for the team. The pattern became the internal standard for new product onboarding.
 
@@ -43,11 +48,16 @@ Full Stack Engineer with over 4 years of experience in production web and mobile
 
 **Quality Engineering**: Implemented automated test suites using Vitest and Playwright across unit, integration, and E2E layers. Integrated Datadog and Sentry for proactive production monitoring.
 
-**Key Achievements (Junior/Intern Roles, Jul 2021 – May 2023):**
+#### Key Achievements (Junior/Intern Roles, Jul 2021 – May 2023):**
 
 **Platform Modernization**: Migrated C# and JavaScript modules to React and TypeScript for a legacy Electronic Logging Device (ELD) platform.
 
 **Cross-Platform Support**: Maintained and improved frontend, backend, and native app layers for regulated telematics solutions.
+
+#### Skills:
+
+React, TypeScript, JavaScript, GitHub Actions, Design System, Microfrontends, Kotlin, Jetpack Compose, Android, Mobile, C#
+
 
 ---
 
@@ -62,11 +72,21 @@ Full Stack Engineer with over 4 years of experience in production web and mobile
 
 **Publication**: Solé Rodrigues, L., et al. "Towards drivers' safety with multi-criteria car navigation systems." *Future Generation Computer Systems*, Vol. 135, 2022. Released a dataset of 3,170 paths across London.
 
+#### Skills:
+
+React, JavaScript, Python, Machine Learning, Federated Learning, Tensorflow, Flower
+
 ---
 
 ## Education
 - **Bachelor of Electronic and Computer Engineering** | UFRJ (2017 – 2022)
 - **Bachelor of Social Communication (Advertising & Art Direction)** | ESPM (2008 – 2011)
+
+### Languages
+- Portuguese: Native
+- English: Fluent (C2)
+- Spanish: Beginner
+- German: Beginner
 
 ---
 

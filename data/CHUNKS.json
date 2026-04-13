@@ -30,7 +30,15 @@
         "start_date": "2024-11",
         "end_date": null,
         "current": true,
-        "skills": ["React", "TypeScript", "Next.js", "Strapi", "GitHub Actions"]
+        "skills": [
+          "React",
+          "TypeScript",
+          "JavaScript",
+          "Next.js",
+          "Tailwind CSS",
+          "GitHub Actions",
+          "Design System"
+        ]
       }
     },
     {
@@ -40,7 +48,12 @@
       "metadata": {
         "company": "Tribunal de Contas da União (TCU)",
         "achievement_type": "infrastructure",
-        "skills": ["React", "TypeScript", "Design Systems", "Storybook"],
+        "skills": [
+          "React",
+          "TypeScript",
+          "Design Systems",
+          "Storybook"
+        ],
         "impact": "reduced_onboarding_time"
       }
     },
@@ -51,7 +64,12 @@
       "metadata": {
         "company": "Tribunal de Contas da União (TCU)",
         "achievement_type": "migration",
-        "skills": ["Next.js", "Strapi", "Headless CMS", "Performance Optimization"],
+        "skills": [
+          "Next.js",
+          "Strapi",
+          "Headless CMS",
+          "Performance Optimization"
+        ],
         "impact": "improved_core_web_vitals"
       }
     },
@@ -62,7 +80,12 @@
       "metadata": {
         "company": "Tribunal de Contas da União (TCU)",
         "achievement_type": "devops",
-        "skills": ["GitHub Actions", "Jenkins", "CI/CD", "DevOps"],
+        "skills": [
+          "GitHub Actions",
+          "Jenkins",
+          "CI/CD",
+          "DevOps"
+        ],
         "scale": "20+ pipelines",
         "impact": "20-30% performance_improvement"
       }
@@ -74,7 +97,31 @@
       "metadata": {
         "company": "Tribunal de Contas da União (TCU)",
         "achievement_type": "workflow",
-        "skills": ["GitHub Actions", "Automation", "Project Management"]
+        "skills": [
+          "GitHub Actions",
+          "Automation",
+          "Project Management"
+        ]
+      }
+    },
+    {
+      "id": "tcu-experience-skills",
+      "type": "skills",
+      "text": "TCU experience skills: React, TypeScript, JavaScript, Next.js, Tailwind CSS, GitHub Actions, Design System.",
+      "metadata": {
+        "skill_category": "experience_skills",
+        "company": "Tribunal de Contas da União (TCU)",
+        "skills": [
+          "React",
+          "TypeScript",
+          "JavaScript",
+          "Next.js",
+          "Tailwind CSS",
+          "GitHub Actions",
+          "Design System"
+        ],
+        "start_date": "2024-11",
+        "current": true
       }
     },
     {
@@ -86,7 +133,19 @@
         "position": "Full Stack Engineer",
         "start_date": "2023-05",
         "end_date": "2024-11",
-        "skills": ["Kotlin", "Jetpack Compose", "React", "TypeScript", "Node.js"]
+        "skills": [
+          "React",
+          "TypeScript",
+          "JavaScript",
+          "GitHub Actions",
+          "Design System",
+          "Microfrontends",
+          "Kotlin",
+          "Jetpack Compose",
+          "Android",
+          "Mobile",
+          "C#"
+        ]
       }
     },
     {
@@ -96,7 +155,12 @@
       "metadata": {
         "company": "Trimble Inc.",
         "achievement_type": "architecture",
-        "skills": ["Microfrontends", "System Design", "React", "CI/CD"],
+        "skills": [
+          "Microfrontends",
+          "System Design",
+          "React",
+          "CI/CD"
+        ],
         "impact": "became_internal_standard"
       }
     },
@@ -107,7 +171,13 @@
       "metadata": {
         "company": "Trimble Inc.",
         "achievement_type": "product",
-        "skills": ["Kotlin", "Jetpack Compose", "Mobile Development", "Node.js", "GCP"],
+        "skills": [
+          "Kotlin",
+          "Jetpack Compose",
+          "Mobile Development",
+          "Node.js",
+          "Cloud Functions"
+        ],
         "product": "Trimble Inspections",
         "region": "North America"
       }
@@ -119,19 +189,15 @@
       "metadata": {
         "company": "Trimble Inc.",
         "achievement_type": "leadership",
-        "skills": ["Technical Leadership", "Mentorship", "Communication"],
-        "activities": ["tech_talks", "mentoring"]
-      }
-    },
-    {
-      "id": "trimble-achievement-quality",
-      "type": "achievement",
-      "text": "Quality Engineering: Implemented automated test suites using Vitest and Playwright across unit, integration, and E2E layers. Integrated Datadog and Sentry for proactive production monitoring.",
-      "metadata": {
-        "company": "Trimble Inc.",
-        "achievement_type": "testing",
-        "skills": ["Vitest", "Playwright", "Testing", "Datadog", "Sentry"],
-        "test_coverage": ["unit", "integration", "e2e"]
+        "skills": [
+          "Technical Leadership",
+          "Mentorship",
+          "Communication"
+        ],
+        "activities": [
+          "tech_talks",
+          "mentoring"
+        ]
       }
     },
     {
@@ -152,7 +218,12 @@
       "metadata": {
         "company": "Trimble Inc.",
         "achievement_type": "migration",
-        "skills": ["React", "TypeScript", "C#", "JavaScript"],
+        "skills": [
+          "React",
+          "TypeScript",
+          "C#",
+          "JavaScript"
+        ],
         "legacy_system": "ELD platform"
       }
     },
@@ -163,8 +234,37 @@
       "metadata": {
         "company": "Trimble Inc.",
         "achievement_type": "maintenance",
-        "skills": ["Frontend", "Backend", "Native Apps", "Telematics"],
+        "skills": [
+          "Frontend",
+          "Backend",
+          "Native Apps",
+          "Telematics"
+        ],
         "industry": "regulated_systems"
+      }
+    },
+    {
+      "id": "trimble-experience-skills",
+      "type": "skills",
+      "text": "Trimble full stack experience skills: React, TypeScript, JavaScript, GitHub Actions, Design System, Microfrontends, Kotlin, Jetpack Compose, Android, Mobile, C#.",
+      "metadata": {
+        "skill_category": "experience_skills",
+        "company": "Trimble Inc.",
+        "skills": [
+          "React",
+          "TypeScript",
+          "JavaScript",
+          "GitHub Actions",
+          "Design System",
+          "Microfrontends",
+          "Kotlin",
+          "Jetpack Compose",
+          "Android",
+          "Mobile",
+          "C#"
+        ],
+        "start_date": "2021-07",
+        "end_date": "2024-11"
       }
     },
     {
@@ -176,7 +276,16 @@
         "role": "Undergraduate Researcher",
         "start_date": "2020-01",
         "end_date": "2022-11",
-        "publications": 1
+        "publications": 1,
+        "skills": [
+          "React",
+          "JavaScript",
+          "Python",
+          "Machine Learning",
+          "Federated Learning",
+          "TensorFlow",
+          "Flower"
+        ]
       }
     },
     {
@@ -186,7 +295,12 @@
       "metadata": {
         "institution": "UFRJ",
         "project": "Federated Learning",
-        "skills": ["Python", "TensorFlow", "Flower Framework", "Machine Learning"],
+        "skills": [
+          "Python",
+          "TensorFlow",
+          "Flower",
+          "Machine Learning"
+        ],
         "research_area": "distributed_machine_learning"
       }
     },
@@ -197,7 +311,11 @@
       "metadata": {
         "institution": "UFRJ",
         "project": "Multi-Criteria Navigation",
-        "skills": ["Algorithm Design", "Route Planning", "Data Analysis"],
+        "skills": [
+          "Algorithm Design",
+          "Route Planning",
+          "Data Analysis"
+        ],
         "research_area": "navigation_optimization"
       }
     },
@@ -213,6 +331,26 @@
         "year": 2022,
         "dataset_size": 3170,
         "dataset_location": "London"
+      }
+    },
+    {
+      "id": "ufrj-experience-skills",
+      "type": "skills",
+      "text": "UFRJ research experience skills: React, JavaScript, Python, Machine Learning, Federated Learning, TensorFlow, Flower.",
+      "metadata": {
+        "skill_category": "experience_skills",
+        "institution": "Federal University of Rio de Janeiro (UFRJ)",
+        "skills": [
+          "React",
+          "JavaScript",
+          "Python",
+          "Machine Learning",
+          "Federated Learning",
+          "TensorFlow",
+          "Flower"
+        ],
+        "start_date": "2020-01",
+        "end_date": "2022-11"
       }
     },
     {
@@ -248,18 +386,46 @@
         "years": 5,
         "start_year": 2010,
         "end_year": 2015,
-        "agencies": ["Giovanni+DraftFCB", "FLAGCX"],
-        "specialties": ["brand_identity", "digital_campaigns", "print"],
-        "technical_influence": ["WCAG", "accessibility", "UI_design"]
+        "agencies": [
+          "Giovanni+DraftFCB",
+          "FLAGCX"
+        ],
+        "specialties": [
+          "brand_identity",
+          "digital_campaigns",
+          "print"
+        ],
+        "technical_influence": [
+          "WCAG",
+          "accessibility",
+          "UI_design"
+        ]
       }
     },
     {
-      "id": "skills-languages",
+      "id": "skills-programming-languages",
       "type": "skills",
       "text": "Programming Languages: TypeScript, JavaScript (ES6+), Node.js, Kotlin, C#, Python, PHP, SQL (MySQL). Core development for web, mobile, and research.",
       "metadata": {
-        "skill_category": "languages",
-        "primary_contexts": ["web", "mobile", "research"]
+        "skill_category": "programming_languages",
+        "primary_contexts": [
+          "web",
+          "mobile",
+          "research"
+        ]
+      }
+    },
+    {
+      "id": "skills-spoken-languages",
+      "type": "skills",
+      "text": "Spoken Languages: Portuguese (native), English (fluent, C2), Spanish (beginner), German (beginner).",
+      "metadata": {
+        "skill_category": "spoken_languages",
+        "proficiency_levels": [
+          "native",
+          "fluent",
+          "beginner"
+        ]
       }
     },
     {
@@ -268,7 +434,11 @@
       "text": "Frontend Frameworks & Libraries: React, Next.js, Vite, Stencil (Web Components). Used for UI development, microfrontends, and design systems.",
       "metadata": {
         "skill_category": "frontend",
-        "applications": ["UI_development", "microfrontends", "design_systems"]
+        "applications": [
+          "UI_development",
+          "microfrontends",
+          "design_systems"
+        ]
       }
     },
     {
@@ -277,16 +447,23 @@
       "text": "Styling & UI: Tailwind CSS, CSS3, Responsive Design, Design Systems, Accessibility (WCAG / a11y), Emotion, Storybook. Expertise in design-to-code bridge, component documentation, and advanced styling.",
       "metadata": {
         "skill_category": "styling",
-        "specializations": ["responsive_design", "design_systems", "accessibility", "component_documentation"]
+        "specializations": [
+          "responsive_design",
+          "design_systems",
+          "accessibility",
+          "component_documentation"
+        ]
       }
     },
     {
       "id": "skills-mobile",
       "type": "skills",
-      "text": "Mobile Development: Kotlin, Jetpack Compose. Used for mobile app development in production environments",
+      "text": "Mobile Development: Kotlin, Jetpack Compose. Used for mobile app development in production environments.",
       "metadata": {
         "skill_category": "mobile",
-        "platforms": ["android"]
+        "platforms": [
+          "android"
+        ]
       }
     },
     {
@@ -295,7 +472,10 @@
       "text": "Software Architecture: Microfrontends, Headless CMS, RESTful APIs, GraphQL, Cloud Functions, Monorepo (NX). Experience in system design for large-scale applications and content decoupling.",
       "metadata": {
         "skill_category": "architecture",
-        "domains": ["system_design", "large_scale_apps"]
+        "domains": [
+          "system_design",
+          "large_scale_apps"
+        ]
       }
     },
     {
@@ -304,8 +484,15 @@
       "text": "Cloud & Messaging: GCP (Firebase, Firestore, Pub/Sub), Docker. Expertise in backend services, real-time data, messaging, and containerization.",
       "metadata": {
         "skill_category": "cloud",
-        "providers": ["GCP"],
-        "services": ["Firebase", "Firestore", "Pub/Sub", "Docker"]
+        "providers": [
+          "GCP"
+        ],
+        "services": [
+          "Firebase",
+          "Firestore",
+          "Pub/Sub",
+          "Docker"
+        ]
       }
     },
     {
@@ -314,7 +501,10 @@
       "text": "CMS & Backends: Strapi, WordPress, PHP. Experience with headless CMS integration and legacy system support.",
       "metadata": {
         "skill_category": "cms",
-        "specializations": ["headless_cms", "legacy_systems"]
+        "specializations": [
+          "headless_cms",
+          "legacy_systems"
+        ]
       }
     },
     {
@@ -323,8 +513,15 @@
       "text": "Testing & Quality: Jest, React Testing Library, Vitest, Playwright (E2E), TanStack Query, Redux. Expertise in automated testing across all layers, state management, and data fetching.",
       "metadata": {
         "skill_category": "testing",
-        "test_types": ["unit", "integration", "e2e"],
-        "specializations": ["state_management", "data_fetching"]
+        "test_types": [
+          "unit",
+          "integration",
+          "e2e"
+        ],
+        "specializations": [
+          "state_management",
+          "data_fetching"
+        ]
       }
     },
     {
@@ -333,7 +530,11 @@
       "text": "CI/CD & DevOps: GitHub Actions, Jenkins, Rancher, SonarQube. Experience in pipeline migration, automation, and code quality.",
       "metadata": {
         "skill_category": "devops",
-        "specializations": ["pipeline_migration", "automation", "code_quality"]
+        "specializations": [
+          "pipeline_migration",
+          "automation",
+          "code_quality"
+        ]
       }
     },
     {
@@ -342,7 +543,10 @@
       "text": "Observability & Monitoring: Datadog, Sentry. Production monitoring and error tracking.",
       "metadata": {
         "skill_category": "observability",
-        "tools": ["Datadog", "Sentry"]
+        "tools": [
+          "Datadog",
+          "Sentry"
+        ]
       }
     },
     {
@@ -351,8 +555,14 @@
       "text": "Design Tools & Collaboration: Figma, UI/UX Principles, Wireframe-to-Code. Liaison between design and engineering teams, with UI implementation expertise.",
       "metadata": {
         "skill_category": "design",
-        "tools": ["Figma"],
-        "specializations": ["UI/UX", "wireframing", "design_collaboration"]
+        "tools": [
+          "Figma"
+        ],
+        "specializations": [
+          "UI/UX",
+          "wireframing",
+          "design_collaboration"
+        ]
       }
     },
     {
@@ -361,7 +571,10 @@
       "text": "Workflow & Collaboration: Agile/Scrum, Remote-first teams, Code Review. Experience in team collaboration and software delivery.",
       "metadata": {
         "skill_category": "workflow",
-        "methodologies": ["Agile", "Scrum"]
+        "methodologies": [
+          "Agile",
+          "Scrum"
+        ]
       }
     },
     {
@@ -370,7 +583,10 @@
       "text": "Academic & Research: Federated Learning, TensorFlow, Flower, Python. Machine learning research and algorithm design expertise.",
       "metadata": {
         "skill_category": "academic",
-        "domains": ["machine_learning", "distributed_learning"]
+        "domains": [
+          "machine_learning",
+          "distributed_learning"
+        ]
       }
     },
     {
@@ -379,7 +595,11 @@
       "text": "Soft Skills: Cross-functional collaboration, technical leadership, mentorship, communication, problem-solving. Experience liaising between design and engineering, delivering tech talks, and team development.",
       "metadata": {
         "skill_category": "soft_skills",
-        "specializations": ["leadership", "mentorship", "communication"]
+        "specializations": [
+          "leadership",
+          "mentorship",
+          "communication"
+        ]
       }
     }
   ]

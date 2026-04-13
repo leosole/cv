@@ -52,7 +52,6 @@ const Chat = () => {
       const response = await sendMessageToBot(input, previous, cv_json);
       const botMessage: Message = { role: 'bot', text: response.message };
       setMessages([...newMessages, botMessage]);
-      console.log("Chat response:", response);
 
       if (response.action) {
         const cardIndices = convertActionToCardIndices(cv_json, response.action);

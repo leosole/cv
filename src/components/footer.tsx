@@ -18,7 +18,7 @@ export default function Footer({links}: FooterProps) {
     }
     return (
         <div className="flex justify-end fixed right-0 bottom-0 z-100 p-6 flex-col gap-4 items-end">
-            <div className="sm:hidden z-60">
+            <div className="sm:hidden z-120">
                 <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary" size="icon" className="data-[state=open]:bg-muted drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">

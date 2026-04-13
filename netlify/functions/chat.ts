@@ -6,7 +6,7 @@ if (isLocalDev) dotenv.config({ override: true });
 import { Handler } from "@netlify/functions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Pinecone } from "@pinecone-database/pinecone";
-console.log("key:", process.env.GEMINI_API_KEY);
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 
