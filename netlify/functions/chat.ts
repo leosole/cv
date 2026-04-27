@@ -95,7 +95,7 @@ Provide a helpful, accurate response based on the context above. Always return v
     try {
       const parsedResponse = JSON.parse(responseText);
       console.log("response:", parsedResponse.message || responseText)
-      console.log("action":, parsedResponse.action)
+      console.log("action:", parsedResponse.action)
       return {
         statusCode: 200,
         body: JSON.stringify({ 
