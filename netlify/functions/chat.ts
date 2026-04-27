@@ -15,6 +15,7 @@ export const handler: Handler = async (event) => {
 
   try {
     const { message, previous, cv } = JSON.parse(event.body || "{}");
+    console.log("user message:", message)
     const index = pc.index({name: "cv-docs"});
 
     const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2-preview" });
@@ -93,6 +94,8 @@ Provide a helpful, accurate response based on the context above. Always return v
     // Parse the JSON response
     try {
       const parsedResponse = JSON.parse(responseText);
+      console.log("response:", parsedResponse.message || responseText)
+      console.log("action":, parsedResponse.action)
       return {
         statusCode: 200,
         body: JSON.stringify({ 
