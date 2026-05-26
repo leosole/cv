@@ -75,7 +75,7 @@ Example 3 (no action needed):
 RETRIEVED CONTEXT:
 ${contextText}`
 
-    const chatModel = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview", systemInstruction });
+    const chatModel = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite", systemInstruction });
     const prompt = `
 
 PREVIOUS CONVERSATION (if any):
