@@ -7,14 +7,14 @@ import {
 	CollapsibleCardContent
 } from "@/components/ui/collapsible-card"
 import { format, parseISO } from "date-fns"
-import { FaGraduationCap } from "react-icons/fa";
-import { RiTerminalBoxFill } from "react-icons/ri";
 import { IoMdBriefcase } from "react-icons/io";
-import { RiSurveyFill } from "react-icons/ri";
 import { cn } from "@/lib/utils"
 import { TbExternalLink } from "react-icons/tb";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { useEffect, useState } from "react"
+import DevIcon from "@/svgs/dev-icon"
+import ResearchIcon from "@/svgs/research-icon"
+import EducationIcon from "@/svgs/education-icon"
 
 interface EventCardProps {
 	type: EventType
@@ -71,15 +71,15 @@ export function WorkCard({ info, animate }: WorkCardProps) {
 	const work = info as ProfessionalExperience
 	const icon = () => {
 		switch(work.type) {
-			case "Research": return <RiSurveyFill/>
-			case "Software Development": return <RiTerminalBoxFill/>
+			case "Research": return <ResearchIcon animate={animate} />
+			case "Software Development": return <DevIcon animate={animate} />
 			default: return <IoMdBriefcase/>
 		}
 	}
 	return (
 		<>
 			<CollapsibleCardHeader>
-				<span className={cn(`${animate ? "animate-wiggle" : ""} h-fit`)}>{icon()}</span>
+				<span className={cn(`h-fit`)}>{icon()}</span>
 				{work.company}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>
@@ -128,7 +128,7 @@ export function EducationCard({ info, animate }: EducationCardProps) {
 	return (
 		<>
 			<CollapsibleCardHeader>
-				<span className={cn(`${animate ? "animate-wiggle" : ""} h-fit`)}><FaGraduationCap/></span>
+				<span className={cn(`h-fit`)}><EducationIcon animate={animate} /></span>
 				{education.institution}
 			</CollapsibleCardHeader>
 			<CollapsibleCardContent>

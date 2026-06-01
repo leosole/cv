@@ -54,12 +54,6 @@
 						"useYield": "error"
 					},
 					"suspicious": {
-						"noConsole": {
-							"options": {
-								"allow": ["error"]
-							},
-							"level": "error"
-						},
 						"noUnassignedVariables": "error",
 						"noAsyncPromiseExecutor": "error",
 						"noCatchAssign": "error",
