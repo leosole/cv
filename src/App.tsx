@@ -6,6 +6,7 @@ import Calendar from "./components/calendar/calendar"
 import { useEffect, useRef, useState } from "react"
 import Summary from "./components/summary"
 import Footer from "./components/footer"
+import { AnimatedBackground } from "./components/animated-background"
 
 const cv: CV = cv_json
 
@@ -23,6 +24,8 @@ function App() {
       };
     }, []);
 	return (
+	<>
+		<AnimatedBackground />
 		<div className="px-4 pb-8">
 			<div ref={headerRef}>
 				<Header info={cv.info} links={cv.links} />
@@ -33,7 +36,8 @@ function App() {
 			</div>
 			<Footer links={cv.links} />
 		</div>
-	)
+	</>
+    )
 }
 
 export default App

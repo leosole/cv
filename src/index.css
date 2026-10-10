@@ -2,6 +2,37 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.header-glass::after {
+	position: absolute;
+	z-index: 20;
+	inset: 0;
+	border: 1px solid color-mix(in srgb, var(--border) 80%, var(--foreground) 20%);
+	border-top: 0;
+	border-radius: 0 0 var(--radius) var(--radius);
+	content: "";
+	pointer-events: none;
+}
+
+.header-glass__backdrop {
+	position: absolute;
+	z-index: 0;
+	inset: 0;
+	height: 100%;
+	pointer-events: none;
+	background-color: color-mix(in srgb, var(--background) 40%, transparent);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+	will-change: transform, backdrop-filter;
+}
+
+@supports (mask-image: none) or (-webkit-mask-image: none) {
+	.header-glass__backdrop {
+		height: 200%;
+		-webkit-mask-image: linear-gradient(to bottom, #000 0 50%, transparent 50% 100%);
+		mask-image: linear-gradient(to bottom, #000 0 50%, transparent 50% 100%);
+	}
+}
+
 :root {
 	--radius: 0.625rem;
 	--background: oklch(98.212% 0.00011 271.152);

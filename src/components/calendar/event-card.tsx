@@ -49,7 +49,11 @@ export default function EventCard({
 			onOpenChange={() => {
 				setOpen(!open)
 			}}
-			className={cn("hover:bg-muted transition-colors duration-200", hover && "bg-muted", className)}
+			className={cn(
+				"bg-background/40 backdrop-blur-md border-white/30 dark:border-white/10 hover:bg-muted/40 transition-colors duration-200",
+				hover && "bg-muted/40",
+				className
+			)}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
 		>

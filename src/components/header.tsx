@@ -12,15 +12,15 @@ export function Header({ info, links }: HeaderProps) {
 	const menuButtons = useMenu(links)
 	return (
 		<>
-			<div className="hidden bg-background sm:flex top-0 fixed w-full z-200 -ml-4">
-				<div className="gap-2 pt-4 justify-end flex container m-auto">
-				{menuButtons} 
+			<div className="header-glass hidden sm:flex fixed top-0 w-full z-200 -ml-4 rounded-b-xl shadow-lg">
+				<div aria-hidden="true" className="header-glass__backdrop" />
+				<div className="relative z-10 gap-2 py-2 px-3 justify-end flex container m-auto">
+					{menuButtons}
 				</div>
 			</div>
-			<header className="container mx-auto flex flex-col">
-				<div className="flex justify-between items-start mt-4">
+			<header className="container mx-auto flex flex-col mt-4 sm:mt-14">
+				<div className="flex justify-between items-start">
 					<h1 className="text-[80px] sm:text-[100px] md:text-[140px] lg:text-[200px] font-black leading-none">{name}</h1>
-					
 				</div>
 				<span className="flex items-center gap-2"><IoLocationSharp /><h2 className="text-lg">{location}</h2></span>
 				<span className="flex items-center gap-2"><IoToday /><h2 className="text-lg">{birthdate}</h2></span>
