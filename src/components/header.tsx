@@ -13,7 +13,7 @@ export function Header({ info, links }: HeaderProps) {
 	return (
 		<header className="container mx-auto flex flex-col">
 			<div className="flex justify-between items-start mt-4">
-				<h1 className="text-3xl font-bold">{name}</h1>
+				<h1 className="text-[80px] sm:text-[100px] md:text-[140px] lg:text-[200px] font-black leading-none">{name}</h1>
 				<div className="hidden sm:flex gap-2">
 					{menuButtons} 
 				</div>

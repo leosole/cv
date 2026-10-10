@@ -38,3 +38,5 @@ gh-pages
 .env
 # Local Netlify folder
 .netlify
+
+.free-buff

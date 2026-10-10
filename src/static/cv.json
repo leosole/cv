@@ -1,6 +1,6 @@
 {
 	"info": {
-		"name": "Leonardo Solé Rodrigues",
+		"name": "Leonardo Solé",
 		"location": "Rio de Janeiro, Brazil",
 		"nationality": "Brazilian",
 		"email": "leosole@gmail.com",
@@ -12,7 +12,7 @@
 		"github": "https://github.com/leosole",
 		"site": "https://leosole-cv.netlify.app/"
 	},
-	"summary": "Full Stack Engineer with 4+ years of experience in designing, developing, and maintaining scalable web and mobile applications. Skilled in modern technologies such as TypeScript, React, Python, Kotlin, and microfrontend architecture. Proven track record of collaborating within agile teams to deliver high-quality software solutions, enhancing user experience and operational efficiency. Adept at integrating automated testing and cloud functions to optimize system performance and ensure reliability.",
+	"summary": "Full Stack Engineer with 5+ years of experience in designing, developing, and maintaining scalable web and mobile applications. Skilled in modern technologies such as TypeScript, React, Python, Kotlin, and microfrontend architecture. Proven track record of collaborating within agile teams to deliver high-quality software solutions, enhancing user experience and operational efficiency. Adept at integrating automated testing and cloud functions to optimize system performance and ensure reliability.",
 	"professional_experience": [
 		{
 			"id": "tcu-frontend-engineer",
