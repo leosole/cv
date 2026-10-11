@@ -17,14 +17,14 @@ export interface ChatResponse {
 	action?: ChatAction | null
 }
 
-export async function sendMessageToBot(userInput: string, previous: string, cv?: CV): Promise<ChatResponse> {
+export async function sendMessageToBot(userInput: string, previous: string, cv?: CV, sessionId?: string): Promise<ChatResponse> {
 	try {
 		const response = await fetch("/.netlify/functions/chat", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ message: userInput, previous, cv }),
+			body: JSON.stringify({ message: userInput, previous, cv, sessionId }),
 		});
 
 		if (!response.ok) {
