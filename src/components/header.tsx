@@ -12,7 +12,7 @@ export function Header({ info, links }: HeaderProps) {
 	const menuButtons = useMenu(links)
 	return (
 		<>
-			<div className="header-glass hidden sm:flex fixed top-0 w-full z-200 -ml-4 rounded-b-xl shadow-lg">
+			<div className="header-glass glass-gradient-border glass-gradient-border--no-top hidden sm:flex top-0 w-full z-200 -ml-4 rounded-b-xl shadow-lg">
 				<div aria-hidden="true" className="header-glass__backdrop" />
 				<div className="relative z-10 gap-2 py-2 px-3 justify-end flex container m-auto">
 					{menuButtons}

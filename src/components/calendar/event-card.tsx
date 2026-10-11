@@ -50,7 +50,7 @@ export default function EventCard({
 				setOpen(!open)
 			}}
 			className={cn(
-				"bg-background/40 backdrop-blur-md border-white/30 dark:border-white/10 hover:bg-muted/40 transition-colors duration-200",
+				"hover:bg-muted/40 transition-colors duration-200",
 				hover && "bg-muted/40",
 				className
 			)}

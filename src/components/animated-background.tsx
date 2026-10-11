@@ -183,7 +183,7 @@ export function AnimatedBackground() {
 	}, [motionValues])
 
 	return (
-		<div className="animated-background" aria-hidden="true">
+		<div className="animated-background mix-blend-multiply dark:mix-blend-lighten" aria-hidden="true">
 			{BLOB_DEFINITIONS.map((blob, index) => {
 				const values = motionValues[index]
 				if (!values) return null

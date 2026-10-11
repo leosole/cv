@@ -1,5 +1,6 @@
 import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "./card"
+import { cn } from "@/lib/utils"
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -13,7 +14,11 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 export const CollapsibleCard = React.forwardRef<HTMLDivElement, Props>(
 	({ className, ...props }, ref) => (
-		<Card className={className}>
+		<Card className={cn("glass-gradient-border glass-surface border-transparent bg-transparent", className)}>
+			<div
+				aria-hidden="true"
+				className="header-glass__backdrop header-glass__backdrop--surface"
+			/>
 			<Collapsible ref={ref} {...props} />
 		</Card>
 	)

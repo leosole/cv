@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { sendMessageToBot } from './service/chat-service';
 import { Button } from '../ui/button';
 import { Card, CardHeader } from '../ui/card';
@@ -80,7 +79,11 @@ const Chat = () => {
           </TooltipTrigger>
         </Tooltip>
       ) : (
-        <Card className="shadow-lg w-full max-h-[80dvh] sm:w-100 sm:h-200 h-full flex flex-col">
+        <Card className="glass-gradient-border glass-surface border-transparent bg-transparent shadow-lg w-full max-h-[80dvh] sm:w-100 sm:h-200 h-full flex flex-col">
+          <div
+            aria-hidden="true"
+            className="header-glass__backdrop header-glass__backdrop--surface"
+          />
           <CardHeader className="flex flex-row justify-between items-center p-2 pl-4 border-b border-gray-300 dark:border-gray-600">
             <h3 className="text-lg font-semibold m-0">Chat</h3>
             <Button
