@@ -3,8 +3,9 @@ import ReactMarkdown from "react-markdown"
 import type { Message } from "./chat"
 
 interface MessageBubbleProps {
-	message: Message
-	allowedLinks: ReadonlySet<string>
+	message?: Message
+	allowedLinks?: ReadonlySet<string>
+	children?: React.ReactNode
 }
 
 interface BubbleSize {
@@ -55,10 +56,10 @@ const getBubblePath = (width: number, height: number, isUser: boolean) => {
 	].join(" ")
 }
 
-export const MessageBubble = ({ message, allowedLinks }: MessageBubbleProps) => {
+export const MessageBubble = ({ message, allowedLinks, children }: MessageBubbleProps) => {
 	const bubbleRef = useRef<HTMLDivElement>(null)
 	const [size, setSize] = useState<BubbleSize>({ width: 0, height: 0 })
-	const isUser = message.role === "user"
+	const isUser = message?.role === "user"
 
 	useLayoutEffect(() => {
 		const bubble = bubbleRef.current
@@ -109,7 +110,7 @@ export const MessageBubble = ({ message, allowedLinks }: MessageBubbleProps) => 
 					<ReactMarkdown
 						components={{
 							p: ({ children }) => <p className="m-0">{children}</p>,
-							a: ({ href, children }) => allowedLinks.has(href ?? "")
+							a: ({ href, children }) => allowedLinks?.has(href ?? "")
 								? <a href={href} target={href?.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="underline underline-offset-2">{children}</a>
 								: <span>{children}</span>,
 							code: ({ className, children, ...props }) => (
@@ -122,8 +123,9 @@ export const MessageBubble = ({ message, allowedLinks }: MessageBubbleProps) => 
 							)
 						}}
 					>
-						{message.text}
+						{message?.text}
 					</ReactMarkdown>
+					{children}
 				</div>
 			</div>
 		</div>

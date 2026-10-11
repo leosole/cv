@@ -259,9 +259,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
           <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y p-2 space-y-2">
             {initialHistoryLoading ? (
               <div className="flex justify-start">
-                <span className="animate-pulse p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 h-10 flex items-center">
-                  <LoadingChat />
-                </span>
+                <LoadingChat />
               </div>
             ) : (
               <>
@@ -270,9 +268,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
                 ))}
                 {loading && (
                   <div className="flex justify-start">
-                    <span className="animate-pulse p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 h-10 flex items-center">
                       <LoadingChat />
-                    </span>
                   </div>
                 )}
               </>
