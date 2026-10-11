@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ThemeContext } from "@/hooks/use-theme"
+import { ThemeContext, type Theme } from "@/hooks/use-theme"
 
 export default function ThemeProvider({
 	children
@@ -7,18 +7,38 @@ export default function ThemeProvider({
 	children: React.ReactNode
 }) {
 	const [isDark, setIsDark] = useState(localStorage.getItem("theme") === "dark")
+	const [animatedBackgroundEnabled, setAnimatedBackgroundEnabledState] = useState(
+		localStorage.getItem("animated-background") === "true"
+	)
 	useEffect(() => {
 		if (isDark) document.body.classList.add("dark")
 		else document.body.classList.remove("dark")
 	}, [isDark])
 
+	function setTheme(theme: Theme) {
+		localStorage.setItem("theme", theme)
+		setIsDark(theme === "dark")
+	}
+
 	function toggleTheme() {
-		localStorage.setItem("theme", isDark ? "light" : "dark")
-		setIsDark(!isDark)
+		setTheme(isDark ? "light" : "dark")
+	}
+
+	function setAnimatedBackgroundEnabled(enabled: boolean) {
+		localStorage.setItem("animated-background", String(enabled))
+		setAnimatedBackgroundEnabledState(enabled)
 	}
 
 	return (
-		<ThemeContext.Provider value={{ isDark, toggleTheme }}>
+		<ThemeContext.Provider
+			value={{
+				isDark,
+				setTheme,
+				toggleTheme,
+				animatedBackgroundEnabled,
+				setAnimatedBackgroundEnabled
+			}}
+		>
 			{children}
 		</ThemeContext.Provider>
 	)

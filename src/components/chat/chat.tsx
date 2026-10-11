@@ -9,6 +9,7 @@ import { useCardState } from '@/hooks/use-card-state';
 import { convertActionToCardIndices } from '@/lib/card-index';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { MessageBubble } from './message-bubble';
+import { useTheme } from '@/hooks/use-theme';
 
 
 export interface Message {
@@ -18,16 +19,21 @@ export interface Message {
 
 const initialMessage: Message = {
   role: 'bot',
-  text: "Hello! I am an AI assistant to help you with questions about Leo. You can ask me anything about his experience, skills, projects, or anything else you want to know. You can even paste a job description, and I can tell you if Leo is a good fit for the role. Just type your question below and I will do my best to provide a helpful answer."
+  text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also ask me to customize the page, like animating the background or changing the theme. What would you like to know or change?"
 } 
 
-const Chat = () => {
+interface ChatProps {
+  onSkillsHighlighted: (skills: string[]) => void;
+}
+
+const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { setOpenedCards } = useCardState();
+  const { setTheme, setAnimatedBackgroundEnabled } = useTheme();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -52,15 +58,33 @@ const Chat = () => {
       const botMessage: Message = { role: 'bot', text: response.message };
       setMessages([...newMessages, botMessage]);
 
-      if (response.action) {
-        const cardIndices = convertActionToCardIndices(cv_json, response.action);
+      const action = response.action;
+      if (action?.timeline) {
+        const cardIndices = convertActionToCardIndices(cv_json, action.timeline);
         if (cardIndices.length > 0) {
           setOpenedCards(cardIndices);
         }
       }
+
+      if (action?.theme === 'light' || action?.theme === 'dark') {
+        setTheme(action.theme);
+      }
+      if (typeof action?.animatedBackground === 'boolean') {
+        setAnimatedBackgroundEnabled(action.animatedBackground);
+      }
+
+      const skillsByName = new Map(
+        cv_json.technical_skills.map(skill => [skill.trim().toLowerCase(), skill])
+      );
+      const highlightedSkills = (action?.skills ?? [])
+        .filter((skill): skill is string => typeof skill === 'string')
+        .map(skill => skillsByName.get(skill.trim().toLowerCase()))
+        .filter((skill): skill is string => skill !== undefined);
+      onSkillsHighlighted([...new Set(highlightedSkills)]);
     } catch (error) {
       const errorMessage: Message = { role: 'bot', text: 'Sorry, something went wrong. Please try again.' };
       setMessages([...newMessages, errorMessage]);
+      onSkillsHighlighted([]);
     }
     setLoading(false);
   };

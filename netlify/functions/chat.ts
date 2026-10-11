@@ -16,6 +16,9 @@ export const handler: Handler = async (event) => {
   try {
     const { message, previous, cv } = JSON.parse(event.body || "{}");
     console.log("user message:", message)
+    const cvSkills = Array.isArray(cv?.technical_skills)
+      ? cv.technical_skills.filter((skill: unknown): skill is string => typeof skill === "string")
+      : [];
     const index = pc.index({name: "cv-docs"});
 
     const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2-preview" });
@@ -38,39 +41,52 @@ export const handler: Handler = async (event) => {
 
     const contextText = contextParts.join("\n\n---\n\n");
 
-    const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp: any) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu: any) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, use the "action" field with the unique ID of the relevant entry.` : '';
+    const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp: any) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu: any) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, put their unique IDs in the "timeline" field inside "action".` : '';
     
     const systemInstruction = `You are an AI assistant for Leonardo Solé Rodrigues, a full stack frontend focused engineer. Answer questions about his professional experience, skills, education, and background based on the provided context.
 
 Be concise, accurate, and professional. If you don't know the answer based on the provided context, clearly state that you don't have that information.
 
-IMPORTANT: Format your response as a JSON object with two fields:
+IMPORTANT: Format your response as a JSON object with these fields:
 - "message": Your answer to the user's question (as a string)
-- "action": Reference(s) to relevant timeline entries (optional, can be omitted or null)
-  For each relevant entry, use the unique ID from the CV data:
-  { "id": "tcu-frontend-engineer" }
-  You can provide a single action object or an array of action objects if multiple entries are relevant
+- "action": An optional object containing only the page actions relevant to the answer or explicitly requested by the user. Omit it or use null when no action is needed.
+  - "timeline": One object or an array of objects with the unique ID of relevant CV timeline entries, e.g. { "id": "tcu-frontend-engineer" }
+  - "theme": Set to "light" or "dark" only when the user explicitly asks to change the page theme to that mode.
+  - "animatedBackground": Set to true or false only when the user explicitly asks to turn the animated background on or off.
+  - "skills": An array of exact skill names from the allowed skills list below that are explicitly mentioned in your answer. Include all matching skills from the list and no other values.
 
-Example 1 (single reference):
+Do not change page settings based on suggestions, questions, or inferred preferences. Return only valid JSON, without markdown fences.
+
+Example (multiple action types):
 {
-  "message": "Leonardo is currently working as a Frontend Engineer at TCU.",
-  "action": { "id": "tcu-frontend-engineer" }
+  "message": "Leonardo uses React and TypeScript at TCU. I turned on the animated background.",
+  "action": {
+    "timeline": { "id": "tcu-frontend-engineer" },
+    "animatedBackground": true,
+    "skills": ["React", "TypeScript"]
+  }
 }
 
-Example 2 (multiple references):
+Example (multiple timeline references and a theme change):
 {
-  "message": "Leonardo has experience with React and TypeScript. He worked at Trimble and studied at UFRJ.",
-  "action": [
-    { "id": "trimble-fullstack-engineer" },
-    { "id": "ufrj-engineering" }
-  ]
+  "message": "Leonardo worked at Trimble and studied at UFRJ. I changed the theme to dark.",
+  "action": {
+    "timeline": [
+      { "id": "trimble-fullstack-engineer" },
+      { "id": "ufrj-engineering" }
+    ],
+    "theme": "dark"
+  }
 }
 
-Example 3 (no action needed):
+Example (no action needed):
 {
   "message": "I don't have information about that.",
   "action": null
 }
+
+ALLOWED SKILLS FROM CV JSON (use exact names only):
+${JSON.stringify(cvSkills)}
 
 RETRIEVED CONTEXT:
 ${contextText}`
@@ -86,7 +102,7 @@ ${cvPageMap}
 USER QUESTION:
 ${message}
 
-Provide a helpful, accurate response based on the context above. Always return valid JSON with "message" field and optional "action" field. The "action" field should contain the unique IDs of relevant professional_experience or education entries.`;
+Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, an explicitly requested theme or animated-background setting, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.`;
 
     const result = await chatModel.generateContent(prompt);
     const responseText = result.response.text();

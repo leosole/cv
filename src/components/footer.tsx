@@ -9,8 +9,9 @@ import Chat from "./chat/chat";
 
 interface FooterProps {
     links: Links,
+    onSkillsHighlighted: (skills: string[]) => void,
 }
-export default function Footer({links}: FooterProps) {
+export default function Footer({links, onSkillsHighlighted}: FooterProps) {
     const menuButtons = useMenu(links)
     const [menuState, setMenuState] = useState(false)
     function handleOpenChange() {
@@ -33,7 +34,7 @@ export default function Footer({links}: FooterProps) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-			<Chat />
+            <Chat onSkillsHighlighted={onSkillsHighlighted} />
         </div>
     )
 }

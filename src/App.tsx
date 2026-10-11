@@ -7,10 +7,13 @@ import { useEffect, useRef, useState } from "react"
 import Summary from "./components/summary"
 import Footer from "./components/footer"
 import { AnimatedBackground } from "./components/animated-background"
+import { useTheme } from "@/hooks/use-theme"
 
 const cv: CV = cv_json
 
 function App() {
+	const { animatedBackgroundEnabled } = useTheme()
+	const [highlightedSkills, setHighlightedSkills] = useState<string[]>([])
 	const headerRef = useRef<HTMLDivElement>(null)
 	const [headerHeight, setHeaderHeight] = useState(0);
 	const handleResize = () => {
@@ -25,16 +28,21 @@ function App() {
     }, []);
 	return (
 	<>
-		<AnimatedBackground />
+		{animatedBackgroundEnabled && <AnimatedBackground />}
 		<div className="px-4 pb-8">
 			<div ref={headerRef}>
 				<Header info={cv.info} links={cv.links} />
-				<Summary summary={cv.summary} skills={cv.technical_skills} languages={cv.languages}/>
+				<Summary
+					summary={cv.summary}
+					skills={cv.technical_skills}
+					languages={cv.languages}
+					highlightedSkills={highlightedSkills}
+				/>
 			</div>
 			<div className="flex-col sm:flex-row flex container sm:w-[80%] sm:min-w-160 max-w-240 mx-auto gap-2 mt-8 mb-4 pr-4 sm:pr-20">
 				<Calendar events={[...cv.professional_experience, ...cv.education]} headerHeight={headerHeight}/>
 			</div>
-			<Footer links={cv.links} />
+			<Footer links={cv.links} onSkillsHighlighted={setHighlightedSkills} />
 		</div>
 	</>
     )

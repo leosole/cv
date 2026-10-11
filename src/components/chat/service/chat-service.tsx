@@ -1,12 +1,20 @@
 import type { CV } from "@/types/cv"
+import type { Theme } from "@/hooks/use-theme"
 
 export interface ActionItem {
 	id: string
 }
 
+export interface ChatAction {
+	timeline?: ActionItem | ActionItem[]
+	theme?: Theme
+	animatedBackground?: boolean
+	skills?: string[]
+}
+
 export interface ChatResponse {
 	message: string
-	action?: ActionItem | ActionItem[]
+	action?: ChatAction | null
 }
 
 export async function sendMessageToBot(userInput: string, previous: string, cv?: CV): Promise<ChatResponse> {

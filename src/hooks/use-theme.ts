@@ -1,8 +1,13 @@
 import { createContext, useContext } from "react"
 
+export type Theme = "light" | "dark"
+
 interface ThemeContextType {
 	isDark: boolean
+	setTheme: (theme: Theme) => void
 	toggleTheme: () => void
+	animatedBackgroundEnabled: boolean
+	setAnimatedBackgroundEnabled: (enabled: boolean) => void
 }
 
 export const ThemeContext = createContext<ThemeContextType>(
