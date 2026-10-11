@@ -22,6 +22,21 @@ const initialMessage: Message = {
   text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also ask me to customize the page, like animating the background or changing the theme. What would you like to know or change?"
 } 
 
+// Stable per-visitor id so messages group into one conversation in the DB
+const getSessionId = (): string => {
+  const KEY = 'cv-chat-session-id';
+  try {
+    let id = localStorage.getItem(KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(KEY, id);
+    }
+    return id;
+  } catch {
+    return crypto.randomUUID();
+  }
+};
+
 interface ChatProps {
   onSkillsHighlighted: (skills: string[]) => void;
 }
@@ -54,7 +69,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
     setLoading(true);
     const previous = messages.map(m => `${m.role}: ${m.text}`).join('\n');
     try {
-      const response = await sendMessageToBot(input, previous, cv_json);
+      const response = await sendMessageToBot(input, previous, cv_json, getSessionId());
       const botMessage: Message = { role: 'bot', text: response.message };
       setMessages([...newMessages, botMessage]);
 
