@@ -80,8 +80,8 @@ export const MessageBubble = ({ message }: MessageBubbleProps) => {
 	}, [])
 
 	const shapeClasses = isUser
-		? "fill-bubble-user/70 stroke-bubble-user"
-		: "fill-bubble-bot/70 stroke-bubble-bot"
+		? "fill-bubble-user/40 stroke-bubble-user"
+		: "fill-bubble-bot/40 stroke-bubble-bot"
 
 	return (
 		<div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>

@@ -18,8 +18,15 @@ export function hashIp(ip: string): string {
 export async function ensureIndexes(db: Db): Promise<void> {
   if (globalWithFlags._chatIndexesReady) return;
   const messages = db.collection("messages");
-  // TTL: auto-expire old chats so the collection stays bounded
-  await messages.createIndex({ timestamp: 1 }, { expireAfterSeconds: 30 * 24 * 60 * 60 });
+  const indexes = await messages.listIndexes().toArray();
+  const timestampTtlIndex = indexes.find(
+    (index) => index.key.timestamp === 1 && index.expireAfterSeconds !== undefined,
+  );
+  if (timestampTtlIndex) {
+    await messages.dropIndex(timestampTtlIndex.name);
+  }
+  await messages.createIndex({ timestamp: 1 });
+  await messages.createIndex({ sessionId: 1, conversationIndex: 1, timestamp: 1 });
   await messages.createIndex({ sessionId: 1, role: 1, timestamp: -1 });
   await messages.createIndex({ ipHash: 1, role: 1, timestamp: -1 });
   globalWithFlags._chatIndexesReady = true;
