@@ -1,10 +1,10 @@
 {
 	"info": {
-		"name": "Leonardo Solé",
+		"name": "Leonardo Solé Rodrigues",
 		"location": "Rio de Janeiro, Brazil",
 		"nationality": "Brazilian",
 		"email": "leosole@gmail.com",
-		"phone": "+55 21 995786916",
+		"phone": "+55 21 99578-6916",
 		"birthdate": "23/08/1989"
 	},
 	"links": {
@@ -12,7 +12,7 @@
 		"github": "https://github.com/leosole",
 		"site": "https://leosole-cv.netlify.app/"
 	},
-	"summary": "Full Stack Engineer with 5+ years of experience in designing, developing, and maintaining scalable web and mobile applications. Skilled in modern technologies such as TypeScript, React, Python, Kotlin, and microfrontend architecture. Proven track record of collaborating within agile teams to deliver high-quality software solutions, enhancing user experience and operational efficiency. Adept at integrating automated testing and cloud functions to optimize system performance and ensure reliability.",
+	"summary": "Full Stack Engineer with 5+ years in production web and mobile applications, specialized in TypeScript, React, and Next.js. Before engineering, spent 5 years as an Art Director — which bridges design, marketing, user experience, and code in ways most engineers can't. Published researcher in multi-criteria navigation; undergraduate thesis in cross silo federated learning.",
 	"professional_experience": [
 		{
 			"id": "tcu-frontend-engineer",
@@ -24,87 +24,66 @@
 					"start_date": "2024-11",
 					"end_date": "present",
 					"tasks": [
-						"Development and maintenance of modern interfaces using TypeScript, React, Next.js, Vite, and Tailwind CSS.",
-						"Implementation of headless CMS (strapi) and integration with WordPress and PHP-based solutions.",
-						"Automation of development workflows and CI/CD pipelines using GitHub Actions.",
-						"Collaboration in project automation and delivery of responsive, accessible web applications.",
-						"Plan and execute automated tests to ensure software quality."
+						"Built an internal content management system for authorities' information, calendar management, and news publishing for internal and external audiences using Next.js, React, Tailwind CSS, and the Unio Design System.",
+						"Built Unio Design System in React and TypeScript with polymorphic APIs and Storybook, reducing developer onboarding time through self-service component discovery.",
+						"Migrated the public portal from Lumis CMS to Next.js and Strapi, decoupling content publishing from the frontend and improving LCP and TTFB via SSR and static generation.",
+						"Built a reusable GitHub Projects automation adopted across the team, consolidating four separate per-discipline projects into one shared workflow for company-wide visibility.",
+						"Automated project card transitions based on pull request state and environment labels using GitHub App-authenticated Actions workflows, reducing manual status updates.",
+						"Developed TCU Digital, a Microsoft Teams tab app dashboard that replaced the SharePoint-based dashboard and supports customizable per-user grids without code changes.",
+						"Migrated 20+ CI/CD pipelines from Jenkins to GitHub Actions, standardizing reusable workflows and reducing execution time by 20–30%."
 					]
 				}
 			]
 		},
 		{
 			"id": "trimble-fullstack-engineer",
-			"company": "Trimble",
+			"company": "Trimble Inc.",
 			"type": "Software Development",
 			"positions": [
 				{
-					"start_date": "2023-05",
-					"end_date": "2024-11",
-					"role": "Full Stack Engineer (mid-level)",
-					"tasks": [
-						"Mobile application development in Kotlin and Jetpack compose.",
-						"Create applications from scratch with cloud functions and front-end using Kotlin, TypeScript, and React.",
-						"Develop web components using Stencil.",
-						"Implement and maintain microfrontends to modularize and scale web applications.",
-						"Participate in Scrum teams following agile methodologies for continuous incremental delivery.",
-						"Plan and execute automated tests to ensure software quality."
-					]
-				},
-				{
-					"start_date": "2022-07",
-					"end_date": "2023-05",
-					"role": "Full Stack Engineer (junior)",
-					"tasks": [
-						"Develop legacy systems (back-end, front-end, and mobile) using C# and JavaScript.",
-						"Mobile application development in Kotlin and Jetpack compose.",
-						"Create applications from scratch with cloud functions and front-end using Kotlin, TypeScript, and React.",
-						"Implement and maintain microfrontends to modularize and scale web applications.",
-						"Participate in Scrum teams following agile methodologies for continuous incremental delivery.",
-						"Plan and execute automated tests to ensure software quality."
-					]
-				},
-				{
+					"role": "Full Stack Engineer",
 					"start_date": "2021-07",
-					"end_date": "2022-07",
-					"role": "Full Stack Engineer (intern)",
+					"end_date": "2024-11",
 					"tasks": [
-						"Assisted in development tasks and learned Agile/Scrum processes."
+						"Designed the Module Federation microfrontend architecture for the Inspections portal in Trimble Fleet Manager, enabling autonomous CI/CD and independent PR workflows and becoming the internal standard for new product onboarding.",
+						"Shipped the Trimble Inspections MVP to production, taking features from concept through phased rollout for major North American commercial fleets.",
+						"Contributed to the Trimble Inspections mobile app in Kotlin as part of the Trimble Instinct platform, supporting production launches for major North American fleets.",
+						"Built backend services with Node.js cloud functions and Firebase Firestore for production data storage in the Inspections feature.",
+						"Delivered two internal Tech Talks on microfrontend architecture for the global engineering organization.",
+						"Built automated test suites across unit, integration, and E2E layers with Vitest and Playwright and integrated Datadog and Sentry for production observability.",
+						"Mentored interns and migrated legacy C# ELD modules to React and TypeScript, reducing codebase complexity across frontend and backend."
 					]
 				}
 			]
 		},
 		{
-			"id": "gta-research",
-			"company": "GTA (UFRJ)",
+			"id": "ufrj-research",
+			"company": "UFRJ",
 			"type": "Research",
 			"positions": [
 				{
-					"role": "Undergraduate Research Program",
+					"role": "Undergraduate Researcher",
 					"start_date": "2020-01",
 					"end_date": "2022-11",
 					"tasks": [
 						{
-							"item": "Proposed federated learning architecture for distributed environments ensuring data privacy.",
-							"publication": 
-								{
-									"title": "Federated learning with heterogeneous data",
-									"link": "https://www.gta.ufrj.br/ftp/gta/TechReports/Sole22/Sole22.pdf",
-									"year": 2022
-								}
+							"item": "Developed a federated learning method for cross-silo training where institutions hold datasets with partially overlapping variables in Python, TensorFlow, and Flower.",
+							"publication": {
+								"title": "Federated learning with heterogeneous data",
+								"link": "https://www.gta.ufrj.br/ftp/gta/TechReports/Sole22/Sole22.pdf",
+								"year": 2022
+							}
 						},
 						{
-							"item": "Designed navigation system with alternative routes considering multiple criteria.",
-							"publication":
-								{
-									"title": "Towards drivers’ safety with multi-criteria car navigation systems",
-									"link": "https://www.sciencedirect.com/science/article/abs/pii/S0167739X22001480",
-									"year": 2022
-								}
+							"item": "Designed two route-planning algorithms that factor in crime rates and road conditions alongside travel time for multi-criteria navigation systems.",
+							"publication": {
+								"title": "Towards drivers' safety with multi-criteria car navigation systems",
+								"link": "https://www.sciencedirect.com/science/article/abs/pii/S0167739X22001480",
+								"year": 2022
+							}
 						}
 					]
 				}
-					
 			]
 		},
 		{
@@ -117,8 +96,8 @@
 					"start_date": "2010-11",
 					"end_date": "2015-10",
 					"tasks": [
-						"Worked with art direction in agencies Giovanni+Draftfcb, FLAGCX, Casa da Criação Propaganda, CasaDigital, and Loja Comunicação.",
-						"Offline and online art direction, communication materials, and campaigns."
+						"Worked as an Art Director at agencies including Giovanni+DraftFCB and FLAGCX, focused on brand identity, digital campaigns, and print.",
+						"This background informs close collaboration with design teams and attention to accessibility and pixel-perfect UI implementation."
 					]
 				}
 			]
@@ -129,7 +108,7 @@
 			"id": "ufrj-engineering",
 			"institution": "Federal University of Rio de Janeiro (UFRJ)",
 			"type": "Bachelor",
-			"degree": "Bachelor’s Degree in Electronic and Computer Engineering",
+			"degree": "B.Eng. Electronic and Computer Engineering",
 			"start_date": "2017-01",
 			"end_date": "2022-12"
 		},
@@ -137,34 +116,56 @@
 			"id": "espm-communication",
 			"institution": "Escola Superior de Propaganda e Marketing (ESPM)",
 			"type": "Bachelor",
-			"degree": "Bachelor’s Degree in Social Communication",
+			"degree": "B.A. Social Communication, Advertising & Art Direction",
 			"start_date": "2008-01",
 			"end_date": "2011-12"
-		},
-		{
-			"id": "cen-high-school",
-			"institution": "Centro Educacional de Niterói (CEN)",
-			"type": "High School",
-			"degree": "High School Diploma",
-			"start_date": "1996-01",
-			"end_date": "2007-12"
 		}
 	],
 	"technical_skills": [
 		"TypeScript",
-		"JavaScript",
-		"Python",
+		"JavaScript (ES6+)",
+		"Node.js",
 		"Kotlin",
 		"C#",
+		"Golang",
+		"Python",
+		"PHP",
+		"SQL (MySQL)",
 		"React",
-		"Stencil",
 		"Next.js",
-		"Node.js",
+		"Vite",
+		"Stencil (Web Components)",
+		"MUI",
 		"Tailwind CSS",
-		"GitHub Actions",
-		"Microfrontends",
+		"CSS3",
+		"Responsive Design",
+		"Design Systems",
+		"Accessibility (WCAG)",
+		"Emotion",
+		"Storybook",
 		"Jetpack Compose",
-		"RESTful APIs"
+		"Microfrontends",
+		"Headless CMS",
+		"RESTful APIs",
+		"GraphQL",
+		"Cloud Functions",
+		"Monorepo (NX)",
+		"GCP (Firebase, Firestore, Pub/Sub)",
+		"Azure (Microsoft Teams apps, Entra ID app configuration)",
+		"Docker",
+		"GitHub Actions",
+		"Jenkins",
+		"Rancher",
+		"SonarQube",
+		"Datadog",
+		"Sentry",
+		"Figma",
+		"UI/UX Principles",
+		"Wireframe-to-Code",
+		"GitHub Copilot",
+		"Federated Learning",
+		"TensorFlow",
+		"Flower framework"
 	],
 	"languages": [
 		{
@@ -181,13 +182,13 @@
 		},
 		{
 			"language": "Spanish",
-			"proficiency": "Beginner",
+			"proficiency": "Basic",
 			"percent": 25,
 			"country": "ES"
 		},
 		{
 			"language": "German",
-			"proficiency": "Beginner",
+			"proficiency": "Basic",
 			"percent": 20,
 			"country": "DE"
 		}

@@ -9,9 +9,10 @@ This document serves as the single source of truth for all professional experien
 - **Email**: leosole@gmail.com
 - **LinkedIn**: linkedin.com/in/leosole
 - **GitHub**: github.com/leosole
+- **Website**: leosole-cv.netlify.app
 
 ## Professional Summary
-Full Stack Engineer with over 4 years of experience in production web and mobile applications. Specialized in TypeScript, React, and Next.js. Previous 5-year career as an Art Director provides a unique bridge between engineering and design, ensuring high-fidelity UI implementation and effective cross-functional collaboration.
+Full Stack Engineer with 5+ years in production web and mobile applications, specialized in TypeScript, React, and Next.js. Before engineering, spent 5 years as an Art Director — which bridges design, marketing, user experience, and code in ways most engineers can't. Published researcher in multi-criteria navigation; undergraduate thesis in cross silo federated learning.
 
 ---
 
@@ -22,42 +23,40 @@ Full Stack Engineer with over 4 years of experience in production web and mobile
 
 #### Key Achievements:
 
-**Unio Design System**: Built the internal React/TypeScript design system from the ground up. Developed a library of polymorphic components to allow flexible root element swaps without API changes. Established Storybook as the central documentation hub, which reduced developer onboarding time.
+**Internal Content Platform**: Built an internal content management system for authorities' information, calendar management, and news publishing for internal and external audiences using Next.js, React, Tailwind CSS, and the Unio Design System.
 
-**Portal Modernization**: Led the migration of the public portal from legacy Lumis CMS to Next.js and Strapi. Decoupled content management from the frontend to enable independent publishing by non-technical teams. Improved Core Web Vitals (LCP and TTFB) through server-side rendering and static generation.
+**Unio Design System**: Built the internal React/TypeScript design system from the ground up with polymorphic APIs and Storybook, reducing developer onboarding time through self-service component discovery.
 
-**CI/CD Infrastructure**: Migrated 20+ pipelines from Jenkins to GitHub Actions. Standardized reusable workflows and environment-scoped secrets across all repositories. Reduced CI execution times by an estimated 20-30%.
+**Portal Modernization**: Migrated the public portal from Lumis CMS to Next.js and Strapi, decoupling content management from the frontend to enable independent publishing by non-technical teams and improving LCP and TTFB via SSR and static generation.
 
-**Workflow Automation**: Replaced external project management tools with a custom GitHub Projects workflow. Automated board transitions based on pull request states and added environment tags for live deployment visibility.
+**Workflow Automation**: Built a reusable GitHub Projects automation across the team, consolidated separate discipline projects into one shared workflow, and automated task transitions based on pull request state and deployment labels using GitHub App-authenticated Actions workflows.
+
+**Enterprise Dashboard**: Developed TCU Digital, a Microsoft Teams tab app that replaced the previous SharePoint-based dashboard and surfaces configurable per-user data on a draggable grid without code changes.
+
+**CI/CD Standardization**: Migrated 20+ pipelines from Jenkins to GitHub Actions, standardizing reusable workflows and reducing execution time by an estimated 20–30%.
 
 #### Skills:
 
-React, TypeScript, JavaScript, Next.js, Tailwind CSS, GitHub Actions, Design System
-
+React, TypeScript, JavaScript, Next.js, Tailwind CSS, GitHub Actions, Design Systems, Storybook, Strapi, Microsoft Teams Apps, CI/CD
 
 ### Trimble Inc. | Full Stack Engineer
 *Jul 2021 – Nov 2024*
 
-#### Key Achievements (Full Stack Role, May 2023 – Nov 2024):
+#### Key Achievements:
 
-**Microfrontend Architecture**: Proposed and designed the microfrontend architecture for the Inspections portal within the Trimble Fleet Manager (TFM) platform. This enabled autonomous CI/CD pipelines and independent PR workflows for the team. The pattern became the internal standard for new product onboarding.
+**Microfrontend Architecture**: Designed the Module Federation architecture for the Inspections portal within Trimble Fleet Manager, enabling autonomous CI/CD and independent PR workflows per team. This became the internal standard for new product onboarding.
 
-**Trimble Inspections**: Developed the mobile application using Kotlin and Jetpack Compose as part of the Trimble Instinct flagship platform. Managed the full product lifecycle from initial development to production launch for major North American commercial fleets. Contributed to cloud functions using Node.js.
+**Trimble Inspections**: Shipped the MVP to production, taking features from concept through phased rollout for major North American commercial fleets, and contributed to the Kotlin mobile app on the Trimble Instinct platform.
 
-**Technical Leadership**: Delivered two internal Tech Talks on microfrontend architecture to the global engineering organization. Mentored interns, guiding them through project development and best practices.
+**Backend & Data**: Built Node.js cloud functions and Firebase Firestore services for production data storage in the Inspections feature.
 
-**Quality Engineering**: Implemented automated test suites using Vitest and Playwright across unit, integration, and E2E layers. Integrated Datadog and Sentry for proactive production monitoring.
+**Quality & Observability**: Built automated test suites with Vitest and Playwright across unit, integration, and E2E, and integrated Datadog and Sentry for production monitoring.
 
-#### Key Achievements (Junior/Intern Roles, Jul 2021 – May 2023):**
-
-**Platform Modernization**: Migrated C# and JavaScript modules to React and TypeScript for a legacy Electronic Logging Device (ELD) platform.
-
-**Cross-Platform Support**: Maintained and improved frontend, backend, and native app layers for regulated telematics solutions.
+**Leadership**: Delivered two internal tech talks on microfrontend architecture and mentored interns while migrating legacy C# ELD modules to React and TypeScript.
 
 #### Skills:
 
-React, TypeScript, JavaScript, GitHub Actions, Design System, Microfrontends, Kotlin, Jetpack Compose, Android, Mobile, C#
-
+React, TypeScript, JavaScript, Kotlin, Jetpack Compose, Node.js, Firebase, Microfrontends, Cloud Functions, Vitest, Playwright, Datadog, Sentry, C#
 
 ---
 
@@ -66,31 +65,31 @@ React, TypeScript, JavaScript, GitHub Actions, Design System, Microfrontends, Ko
 ### Federal University of Rio de Janeiro (UFRJ) | Undergraduate Researcher
 *Jan 2020 – Nov 2022*
 
-**Federated Learning (Partial Model Sharing)**: Developed a method for cross-silo training where institutions hold datasets with partially overlapping variables. Implemented the solution in Python and TensorFlow using the Flower framework. The approach outperformed local models in heterogeneous data environments.
+**Federated Learning**: Developed a federated learning method for cross-silo training where institutions hold datasets with partially overlapping variables. Implemented the solution in Python, TensorFlow, and Flower; the approach outperformed local models in heterogeneous data environments.
 
-**Multi-Criteria Navigation (Safety-First Routing)**: Designed two route planning algorithms (HVT and R2V) that factor in crime rates and road conditions alongside travel time.
+**Multi-Criteria Navigation**: Designed two route-planning algorithms (HVT and R2V) that factor in crime rates and road conditions alongside travel time.
 
 **Publication**: Solé Rodrigues, L., et al. "Towards drivers' safety with multi-criteria car navigation systems." *Future Generation Computer Systems*, Vol. 135, 2022. Released a dataset of 3,170 paths across London.
 
 #### Skills:
 
-React, JavaScript, Python, Machine Learning, Federated Learning, Tensorflow, Flower
+Python, TensorFlow, Flower, Federated Learning, Route Optimization, Machine Learning
 
 ---
 
 ## Education
-- **Bachelor of Electronic and Computer Engineering** | UFRJ (2017 – 2022)
-- **Bachelor of Social Communication (Advertising & Art Direction)** | ESPM (2008 – 2011)
+- **B.Eng. Electronic and Computer Engineering** | Federal University of Rio de Janeiro (UFRJ) (2017 – 2022)
+- **B.A. Social Communication, Advertising & Art Direction** | ESPM (2008 – 2011)
 
 ### Languages
 - Portuguese: Native
-- English: Fluent (C2)
-- Spanish: Beginner
-- German: Beginner
+- English: Fluent
+- Spanish: Basic
+- German: Basic
 
 ---
 
 ## Previous Career: Art Direction (2010 – 2015)
 - Spent 5 years as an Art Director at agencies including Giovanni+DraftFCB and FLAGCX.
 - Focused on brand identity, digital campaigns, and print.
-- This background informs a practical working relationship with designers and a focus on accessibility (WCAG) and pixel-perfect UI.
+- This background informs close collaboration with design teams and attention to accessibility (WCAG) and pixel-perfect UI.
