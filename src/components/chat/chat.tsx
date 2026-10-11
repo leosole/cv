@@ -101,7 +101,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
     setHistoryLoading(true);
     getConversationHistory(sessionId, conversationIndex)
       .then((history) => {
-        if (!cancelled) setMessages(history.length > 0 ? history : [initialMessage]);
+        if (!cancelled) setMessages([initialMessage, ...history]);
       })
       .catch((error) => {
         console.error("Failed to retrieve chat history:", error);
