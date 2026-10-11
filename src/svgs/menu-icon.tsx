@@ -5,7 +5,7 @@ interface MenuIconProps {
 }
 export default function MenuIcon({state}: MenuIconProps) {
     return (
-        <motion.svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-7 h-7">
+        <motion.svg stroke="currentColor" fill="none" strokeWidth="0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-7 h-7">
             <motion.path 
                 initial={{rotate: 0, translateY: 0}}
                 animate={state ? {rotate: 45, translateY: 6} : {rotate: 0, translateY: 0}}
