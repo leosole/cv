@@ -19,10 +19,8 @@ export const BLOB_DEFINITIONS = [
 	{ id: "green-2", color: "#34d399", size: 565, speed: 17, blur: 118 }
 ] as const satisfies readonly BlobDefinition[]
 
-const POINTER_RADIUS = 24
+const POINTER_RADIUS = 48
 const MAX_DELTA_SECONDS = 1 / 30
-const MAX_POINTER_SPEED = 1200
-const POINTER_STOP_TIMEOUT_MS = 80
 
 function useBlobMotionValues() {
 	const x = useMotionValue(0)
@@ -69,21 +67,25 @@ export function AnimatedBackground() {
 		() => [rose, sky, violet, mint, amber, coral],
 		[rose, sky, violet, mint, amber, coral]
 	)
+	const backgroundRef = useRef<HTMLDivElement>(null)
 	const bodiesRef = useRef<PhysicsBody[]>([])
-	const viewportRef = useRef({ width: 0, height: 0 })
+	const boundsRef = useRef({ width: 0, height: 0 })
+	const cursorClientPositionRef = useRef({ x: 0, y: 0 })
 	const cursorRef = useRef<CursorObstacle>({
 		x: 0,
 		y: 0,
-		vx: 0,
-		vy: 0,
 		radius: POINTER_RADIUS,
 		active: false
 	})
 
 	useLayoutEffect(() => {
-		const width = window.innerWidth
-		const height = window.innerHeight
-		viewportRef.current = { width, height }
+		const width = Math.max(document.documentElement.scrollWidth, window.innerWidth)
+		const height = Math.max(document.documentElement.scrollHeight, window.innerHeight)
+		boundsRef.current = { width, height }
+		if (backgroundRef.current) {
+			backgroundRef.current.style.width = `${width}px`
+			backgroundRef.current.style.height = `${height}px`
+		}
 		bodiesRef.current = createPhysicsBodies(BLOB_DEFINITIONS, width, height)
 		setMotionValues(bodiesRef.current, motionValues)
 	}, [motionValues])
@@ -95,10 +97,14 @@ export function AnimatedBackground() {
 
 		const updateMotion = () => setMotionValues(bodiesRef.current, motionValues)
 		const handleResize = () => {
-			const { width: oldWidth, height: oldHeight } = viewportRef.current
-			const width = window.innerWidth
-			const height = window.innerHeight
-			viewportRef.current = { width, height }
+			const { width: oldWidth, height: oldHeight } = boundsRef.current
+			const width = Math.max(document.documentElement.scrollWidth, window.innerWidth)
+			const height = Math.max(document.documentElement.scrollHeight, window.innerHeight)
+			boundsRef.current = { width, height }
+			if (backgroundRef.current) {
+				backgroundRef.current.style.width = `${width}px`
+				backgroundRef.current.style.height = `${height}px`
+			}
 			resizePhysicsBodies(
 				bodiesRef.current,
 				BLOB_DEFINITIONS,
@@ -111,28 +117,19 @@ export function AnimatedBackground() {
 		}
 		const handlePointerMove = (event: PointerEvent) => {
 			const cursor = cursorRef.current
-			const elapsedSeconds =
-				cursor.active && cursor.lastMoveTime !== undefined
-					? Math.max((event.timeStamp - cursor.lastMoveTime) / 1000, 1 / 120)
-					: 0
-			if (elapsedSeconds > 0) {
-				const rawVx = (event.clientX - cursor.x) / elapsedSeconds
-				const rawVy = (event.clientY - cursor.y) / elapsedSeconds
-				const rawSpeed = Math.hypot(rawVx, rawVy)
-				const scale = rawSpeed > MAX_POINTER_SPEED ? MAX_POINTER_SPEED / rawSpeed : 1
-				cursor.vx = cursor.vx * 0.2 + rawVx * scale * 0.8
-				cursor.vy = cursor.vy * 0.2 + rawVy * scale * 0.8
-			}
-			cursor.x = event.clientX
-			cursor.y = event.clientY
+			cursorClientPositionRef.current = { x: event.clientX, y: event.clientY }
+			cursor.x = event.pageX
+			cursor.y = event.pageY
 			cursor.active = true
-			cursor.lastMoveTime = event.timeStamp
+		}
+		const handleScroll = () => {
+			const cursor = cursorRef.current
+			if (!cursor.active) return
+			cursor.x = cursorClientPositionRef.current.x + window.scrollX
+			cursor.y = cursorClientPositionRef.current.y + window.scrollY
 		}
 		const handlePointerLeave = () => {
 			cursorRef.current.active = false
-			cursorRef.current.vx = 0
-			cursorRef.current.vy = 0
-			cursorRef.current.lastMoveTime = undefined
 		}
 		const handleMotionPreference = () => {
 			previousTimestamp = 0
@@ -144,15 +141,8 @@ export function AnimatedBackground() {
 					: Math.min((timestamp - previousTimestamp) / 1000, MAX_DELTA_SECONDS)
 			previousTimestamp = timestamp
 
-			const { width, height } = viewportRef.current
+			const { width, height } = boundsRef.current
 			const cursor = cursorRef.current
-			if (
-				cursor.lastMoveTime !== undefined &&
-				timestamp - cursor.lastMoveTime > POINTER_STOP_TIMEOUT_MS
-			) {
-				cursor.vx = 0
-				cursor.vy = 0
-			}
 			const motionScale = reducedMotion.matches ? 0.35 : 1
 			stepPhysics(
 				bodiesRef.current,
@@ -167,23 +157,32 @@ export function AnimatedBackground() {
 		}
 
 		window.addEventListener("resize", handleResize)
+		window.addEventListener("scroll", handleScroll, { passive: true })
 		window.addEventListener("pointermove", handlePointerMove, { passive: true })
 		window.addEventListener("pointerleave", handlePointerLeave)
 		reducedMotion.addEventListener("change", handleMotionPreference)
+		const resizeObserver = new ResizeObserver(handleResize)
+		resizeObserver.observe(document.body)
 
 		animationFrame = window.requestAnimationFrame(animate)
 
 		return () => {
 			window.cancelAnimationFrame(animationFrame)
 			window.removeEventListener("resize", handleResize)
+			window.removeEventListener("scroll", handleScroll)
 			window.removeEventListener("pointermove", handlePointerMove)
 			window.removeEventListener("pointerleave", handlePointerLeave)
 			reducedMotion.removeEventListener("change", handleMotionPreference)
+			resizeObserver.disconnect()
 		}
 	}, [motionValues])
 
 	return (
-		<div className="animated-background mix-blend-multiply dark:mix-blend-lighten" aria-hidden="true">
+		<div
+			ref={backgroundRef}
+			className="animated-background mix-blend-multiply dark:mix-blend-lighten"
+			aria-hidden="true"
+		>
 			{BLOB_DEFINITIONS.map((blob, index) => {
 				const values = motionValues[index]
 				if (!values) return null

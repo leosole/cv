@@ -20,6 +20,7 @@ export interface PhysicsBody {
 	directionX: number
 	directionY: number
 	minSpeed: number
+	maxSpeed: number
 	scaleX: number
 	scaleY: number
 }
@@ -27,19 +28,21 @@ export interface PhysicsBody {
 export interface CursorObstacle {
 	x: number
 	y: number
-	vx: number
-	vy: number
 	radius: number
 	active: boolean
-	lastMoveTime?: number
 }
 
 const MIN_DISTANCE = 0.001
 const COLLISION_RADIUS_SCALE = 0.72
 const RESTITUTION = 0.38
 const WALL_RESTITUTION = 0.42
-const CURSOR_RESTITUTION = 0.3
+const CURSOR_REPULSION_ACCELERATION = 18
+const CURSOR_REPULSION_RANGE = 48
 const SPEED_RECOVERY_RATE = 0.2
+const MAX_SPEED_MULTIPLIER = 1.5
+const MIN_SPEED_MULTIPLIER = 1.2
+const INITIAL_SPEED_MIN_MULTIPLIER = 1.2
+const INITIAL_SPEED_MAX_MULTIPLIER = 1.45
 const SHAPE_RECOVERY_RATE = 7
 
 function randomBetween(min: number, max: number, random: () => number) {
@@ -68,7 +71,11 @@ export function createPhysicsBodies(
 	return definitions.map((definition) => {
 		const { radius, visualRadius } = getRadii(definition, width, height)
 		const angle = randomBetween(0, Math.PI * 2, random)
-		const speed = randomBetween(definition.speed * 0.82, definition.speed * 1.18, random)
+		const speed = randomBetween(
+			definition.speed * INITIAL_SPEED_MIN_MULTIPLIER,
+			definition.speed * INITIAL_SPEED_MAX_MULTIPLIER,
+			random
+		)
 		const position = definition.initialPosition
 		const x = position
 			? clamp(position.x * width, visualRadius, width - visualRadius)
@@ -89,7 +96,8 @@ export function createPhysicsBodies(
 			vy: Math.sin(angle) * speed,
 			directionX: Math.cos(angle),
 			directionY: Math.sin(angle),
-			minSpeed: definition.speed * 0.5,
+			minSpeed: definition.speed * MIN_SPEED_MULTIPLIER,
+			maxSpeed: definition.speed * MAX_SPEED_MULTIPLIER,
 			scaleX: 1,
 			scaleY: 1
 		}
@@ -182,38 +190,22 @@ function resolveBodyCollision(first: PhysicsBody, second: PhysicsBody) {
 	second.vy += impulse * inverseSecondMass * normalY
 }
 
-function resolveCursorCollision(body: PhysicsBody, cursor: CursorObstacle) {
+function resolveCursorCollision(body: PhysicsBody, cursor: CursorObstacle, deltaSeconds: number) {
 	if (!cursor.active) return
 
 	const dx = body.x - cursor.x
 	const dy = body.y - cursor.y
 	const distance = Math.hypot(dx, dy)
 	const minimumDistance = body.collisionRadius + cursor.radius
-	if (distance >= minimumDistance) return
+	const interactionDistance = minimumDistance + CURSOR_REPULSION_RANGE
+	if (distance >= interactionDistance) return
 
-	const normalX = distance > MIN_DISTANCE ? dx / distance : 1
-	const normalY = distance > MIN_DISTANCE ? dy / distance : 0
-	body.x = cursor.x + normalX * minimumDistance
-	body.y = cursor.y + normalY * minimumDistance
-
-	// Treat the cursor as a moving, infinite-mass surface so pushing from behind
-	// transfers the cursor's velocity to the blob instead of repelling it.
-	const velocityTowardCursor =
-		(body.vx - cursor.vx) * normalX + (body.vy - cursor.vy) * normalY
-	if (velocityTowardCursor < 0) {
-		deformOnImpact(body, normalX, normalY, -velocityTowardCursor)
-		const bodyNormalVelocity = body.vx * normalX + body.vy * normalY
-		const cursorNormalVelocity = cursor.vx * normalX + cursor.vy * normalY
-
-		if (cursorNormalVelocity > bodyNormalVelocity && cursorNormalVelocity > 0) {
-			const pushVelocity = cursorNormalVelocity - bodyNormalVelocity
-			body.vx += pushVelocity * normalX
-			body.vy += pushVelocity * normalY
-		} else {
-			body.vx -= (1 + CURSOR_RESTITUTION) * velocityTowardCursor * normalX
-			body.vy -= (1 + CURSOR_RESTITUTION) * velocityTowardCursor * normalY
-		}
-	}
+	const normalX = distance > MIN_DISTANCE ? dx / distance : body.directionX
+	const normalY = distance > MIN_DISTANCE ? dy / distance : body.directionY
+	const proximity = clamp((interactionDistance - distance) / CURSOR_REPULSION_RANGE, 0, 1)
+	const acceleration = CURSOR_REPULSION_ACCELERATION * proximity
+	body.vx += normalX * acceleration * deltaSeconds
+	body.vy += normalY * acceleration * deltaSeconds
 }
 
 export function resizePhysicsBodies(
@@ -269,17 +261,19 @@ export function stepPhysics(
 		}
 
 		for (const body of bodies) {
-			resolveCursorCollision(body, cursor)
 			clampToBounds(body, width, height)
 		}
 	}
 
 	for (const body of bodies) {
+			resolveCursorCollision(body, cursor, physicsDelta)
+			clampToBounds(body, width, height)
+
 		const shapeRecovery = Math.exp(-SHAPE_RECOVERY_RATE * physicsDelta)
 		body.scaleX = 1 - (1 - body.scaleX) * shapeRecovery
 		body.scaleY = 1 - (1 - body.scaleY) * shapeRecovery
 
-		const speed = Math.hypot(body.vx, body.vy)
+		let speed = Math.hypot(body.vx, body.vy)
 		if (speed > body.minSpeed) {
 			const easedSpeed =
 				body.minSpeed + (speed - body.minSpeed) * Math.exp(-SPEED_RECOVERY_RATE * physicsDelta)
@@ -287,10 +281,25 @@ export function stepPhysics(
 			body.vx *= scale
 			body.vy *= scale
 		} else if (speed < body.minSpeed) {
-			const directionX = speed > MIN_DISTANCE ? body.vx / speed : body.directionX
-			const directionY = speed > MIN_DISTANCE ? body.vy / speed : body.directionY
+			let directionX = speed > MIN_DISTANCE ? body.vx / speed : body.directionX
+			let directionY = speed > MIN_DISTANCE ? body.vy / speed : body.directionY
+			const directionMagnitude = Math.hypot(directionX, directionY)
+			if (directionMagnitude <= MIN_DISTANCE) {
+				directionX = 1
+				directionY = 0
+			} else {
+				directionX /= directionMagnitude
+				directionY /= directionMagnitude
+			}
 			body.vx = directionX * body.minSpeed
 			body.vy = directionY * body.minSpeed
+		}
+
+		speed = Math.hypot(body.vx, body.vy)
+		if (speed > body.maxSpeed) {
+			const scale = body.maxSpeed / speed
+			body.vx *= scale
+			body.vy *= scale
 		}
 
 		const finalSpeed = Math.hypot(body.vx, body.vy)
