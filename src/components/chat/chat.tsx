@@ -74,6 +74,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const visitorIdRef = useRef<string | null>(initialConversation.sessionId);
   const [conversationIndex, setConversationIndex] = useState(initialConversation.conversationIndex);
   const [isOpen, setIsOpen] = useState(true);
+  const [isLauncherHovered, setIsLauncherHovered] = useState(false);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -188,11 +189,13 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
         inert={isOpen}
         className="chat-shell__launcher"
       >
-        <Tooltip>
+        <Tooltip open={isLauncherHovered}>
           <TooltipContent className="z-[200]">Open Chat</TooltipContent>
           <TooltipTrigger asChild>
             <Button
               onClick={toggleOpen}
+              onMouseEnter={() => setIsLauncherHovered(true)}
+              onMouseLeave={() => setIsLauncherHovered(false)}
               variant="secondary"
               size="icon"
               ref={launcherButtonRef}
