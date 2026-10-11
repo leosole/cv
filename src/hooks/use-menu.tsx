@@ -4,10 +4,15 @@ import { IoLogoGithub, IoLogoLinkedin } from "react-icons/io";
 import generateDocxFromJson from "@/lib/docx";
 import type { Links } from "@/types/cv";
 import { FaDownload } from "react-icons/fa6";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { MdAnimation, MdDarkMode, MdLightMode } from "react-icons/md";
 
 export default function useMenu(links: Links) {
-	const { isDark, toggleTheme } = useTheme()
+	const {
+		isDark,
+		toggleTheme,
+		animatedBackgroundEnabled,
+		setAnimatedBackgroundEnabled
+	} = useTheme()
 	const menuButtons = [
 		<Button asChild variant="ghost" size="icon" title="GitHub" key="github">
 			<a href={links.github} aria-label="GitHub">
@@ -22,9 +27,20 @@ export default function useMenu(links: Links) {
 		<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV" key="download">
 			<FaDownload className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
+		<Button
+			size="icon"
+			variant="ghost"
+			onClick={() => setAnimatedBackgroundEnabled(!animatedBackgroundEnabled)}
+			title={animatedBackgroundEnabled ? "Turn animated background off" : "Turn animated background on"}
+			aria-label={animatedBackgroundEnabled ? "Turn animated background off" : "Turn animated background on"}
+			aria-pressed={animatedBackgroundEnabled}
+			key="animated-background"
+		>
+			<MdAnimation className="h-5 w-5 sm:h-4 sm:w-4" />
+		</Button>,
 		<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme" key="theme">
 			{isDark ? <MdLightMode className="h-5 w-5 sm:h-4 sm:w-4" /> : <MdDarkMode color="black" className="h-5 w-5 sm:h-4 sm:w-4" />}
-		</Button>
+		</Button>,
 	]
     return menuButtons
 }
