@@ -88,11 +88,14 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const [isLauncherHovered, setIsLauncherHovered] = useState(false);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
+  const [textareaHeight, setTextareaHeight] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(Boolean(initialConversation.sessionId));
   const [initialHistoryLoading, setInitialHistoryLoading] = useState(Boolean(initialConversation.sessionId));
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const launcherButtonRef = useRef<HTMLButtonElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
   const { setTheme, setAnimatedBackgroundEnabled } = useTheme();
 
@@ -275,19 +278,62 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className="p-2 border-t border-gray-300 dark:border-gray-600 flex items-end">
+          <div className="relative p-2 border-t border-gray-300 dark:border-gray-600 flex items-end">
+            <div
+              role="separator"
+              aria-orientation="horizontal"
+              aria-label="Resize message input"
+              tabIndex={0}
+              className="absolute inset-x-0 top-0 z-10 h-2 cursor-ns-resize touch-none focus-visible:outline-1 focus-visible:outline-accent"
+              onPointerDown={(event) => {
+                const textarea = textareaRef.current;
+                if (!textarea) return;
+                event.preventDefault();
+                event.currentTarget.setPointerCapture(event.pointerId);
+                resizeStartRef.current = {
+                  pointerId: event.pointerId,
+                  startY: event.clientY,
+                  startHeight: textarea.getBoundingClientRect().height,
+                };
+                setTextareaHeight(textarea.getBoundingClientRect().height);
+              }}
+              onPointerMove={(event) => {
+                const resizeStart = resizeStartRef.current;
+                if (!resizeStart || resizeStart.pointerId !== event.pointerId) return;
+                setTextareaHeight(Math.max(72, resizeStart.startHeight + resizeStart.startY - event.clientY));
+              }}
+              onPointerUp={(event) => {
+                if (resizeStartRef.current?.pointerId === event.pointerId) resizeStartRef.current = null;
+              }}
+              onPointerCancel={(event) => {
+                if (resizeStartRef.current?.pointerId === event.pointerId) resizeStartRef.current = null;
+              }}
+              onKeyDown={(event) => {
+                if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+                event.preventDefault();
+                const currentHeight = textareaHeight ?? textareaRef.current?.getBoundingClientRect().height ?? 84;
+                setTextareaHeight(Math.max(72, currentHeight + (event.key === 'ArrowUp' ? 16 : -16)));
+              }}
+            />
             <textarea
+              ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-              className="flex-1 p-1.5 text-gray-900 dark:text-gray-100 h-full"
+              onKeyDown={(e) => {
+                if (e.key !== 'Enter' || e.shiftKey || e.nativeEvent.isComposing) return;
+                e.preventDefault();
+                sendMessage();
+              }}
+              className="flex-1 resize-none p-1.5 text-gray-900 dark:text-gray-100 h-full max-h-[calc(80dvh-12rem)] rounded-md focus:outline-accent/50 focus:outline-1"
+              style={textareaHeight === null ? undefined : { height: textareaHeight }}
               placeholder="Ask me something"
               disabled={loading || historyLoading}
+              rows={3}
             />
             <Button
               onClick={sendMessage}
               size="icon"
-              className="ml-2 text-white px-4 py-2 rounded disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 transition-colors"
+              className="ml-2 text-white px-4 py-2 rounded-md disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 transition-colors"
               disabled={loading || historyLoading || !input.trim()}
             >
               <IoSend />
