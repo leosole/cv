@@ -17,14 +17,42 @@ export interface ChatResponse {
 	action?: ChatAction | null
 }
 
-export async function sendMessageToBot(userInput: string, previous: string, cv?: CV, sessionId?: string): Promise<ChatResponse> {
+export interface ChatMessage {
+	role: "user" | "bot"
+	text: string
+}
+
+export async function getConversationHistory(sessionId: string, conversationIndex: number): Promise<ChatMessage[]> {
+	const query = new URLSearchParams({ sessionId, conversationIndex: String(conversationIndex) })
+	const response = await fetch(`/.netlify/functions/chat?${query}`)
+	if (!response.ok) {
+		throw new Error(`Server error: ${response.status}`)
+	}
+
+	const data = await response.json()
+	return Array.isArray(data.messages)
+		? data.messages.filter((message: unknown): message is ChatMessage =>
+			typeof message === "object" && message !== null &&
+			(message as ChatMessage).role !== undefined &&
+			((message as ChatMessage).role === "user" || (message as ChatMessage).role === "bot") &&
+			typeof (message as ChatMessage).text === "string"
+		)
+		: []
+}
+
+export async function sendMessageToBot(
+	userInput: string,
+	cv: CV,
+	sessionId: string,
+	conversationIndex: number,
+): Promise<ChatResponse> {
 	try {
 		const response = await fetch("/.netlify/functions/chat", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ message: userInput, previous, cv, sessionId }),
+			body: JSON.stringify({ message: userInput, cv, sessionId, conversationIndex }),
 		});
 
 		if (!response.ok) {

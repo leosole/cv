@@ -6,6 +6,7 @@ if (isLocalDev) dotenv.config({ override: true });
 import { Handler } from "@netlify/functions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Pinecone } from "@pinecone-database/pinecone";
+import type { Db } from "mongodb";
 import { getDb } from "./_lib/mongodb";
 import { checkRateLimit, ensureIndexes, hashIp } from "./_lib/rate-limit";
 
@@ -18,12 +19,66 @@ const MAX_PREVIOUS_CHARS = 8000;
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_OUTPUT_TOKENS = 1024;
 
+type StoredMessage = {
+  role: "user" | "bot";
+  text: string;
+};
+
+const getSafeSessionId = (value: unknown): string | undefined =>
+  typeof value === "string" && value.length > 0 && value.length <= 128 ? value : undefined;
+
+const getSafeConversationIndex = (value: unknown): number | undefined =>
+  typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : undefined;
+
+const loadConversation = async (
+  db: Db,
+  sessionId: string,
+  conversationIndex: number,
+): Promise<StoredMessage[]> => {
+  const indexFilter = conversationIndex === 0
+    ? { $or: [{ conversationIndex: 0 }, { conversationIndex: { $exists: false } }] }
+    : { conversationIndex };
+  const records = await db.collection("messages")
+    .find({ sessionId, ...indexFilter })
+    .sort({ timestamp: 1, _id: 1 })
+    .project({ role: 1, text: 1 })
+    .toArray();
+
+  return records.flatMap((record): StoredMessage[] =>
+    (record.role === "user" || record.role === "bot") && typeof record.text === "string"
+      ? [{ role: record.role, text: record.text }]
+      : [],
+  );
+};
+
 const jsonResponse = (statusCode: number, message: string) => ({
   statusCode,
   body: JSON.stringify({ message }),
 });
 
 export const handler: Handler = async (event) => {
+  if (event.httpMethod === "GET") {
+    const query = event.queryStringParameters ?? {};
+    const sessionId = getSafeSessionId(query.sessionId);
+    const conversationIndex = query.conversationIndex && /^(0|[1-9]\d*)$/.test(query.conversationIndex)
+      ? Number(query.conversationIndex)
+      : undefined;
+    const safeConversationIndex = getSafeConversationIndex(conversationIndex);
+    if (!sessionId || safeConversationIndex === undefined) {
+      return jsonResponse(400, "A valid sessionId and conversationIndex are required");
+    }
+
+    try {
+      const db = await getDb();
+      if (db) await ensureIndexes(db);
+      const messages = db ? await loadConversation(db, sessionId, safeConversationIndex) : [];
+      return { statusCode: 200, body: JSON.stringify({ messages }) };
+    } catch (dbError) {
+      console.error("Failed to load chat messages:", dbError);
+      return { statusCode: 200, body: JSON.stringify({ messages: [] }) };
+    }
+  }
+
   if (event.httpMethod !== "POST") return { statusCode: 405, body: "Method Not Allowed" };
 
   const contentType = event.headers["content-type"] || event.headers["Content-Type"] || "";
@@ -35,16 +90,18 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { message, previous, cv, sessionId } = JSON.parse(event.body || "{}");
-    const safeSessionId = typeof sessionId === "string" && sessionId.length > 0 && sessionId.length <= 128 ? sessionId : undefined;
+    const { message, cv, sessionId, conversationIndex } = JSON.parse(event.body || "{}");
+    const safeSessionId = getSafeSessionId(sessionId);
+    const safeConversationIndex = getSafeConversationIndex(conversationIndex);
+    if (!safeSessionId || safeConversationIndex === undefined) {
+      return jsonResponse(400, "A valid sessionId and conversationIndex are required");
+    }
     if (typeof message !== "string" || !message.trim()) {
       return jsonResponse(400, "Message is required");
     }
     if (message.length > MAX_MESSAGE_CHARS) {
       return jsonResponse(413, `Message is too long (max ${MAX_MESSAGE_CHARS} characters)`);
     }
-    // Bound conversation history: it is embedded into every Gemini prompt
-    const safePrevious = typeof previous === "string" ? previous.slice(0, MAX_PREVIOUS_CHARS) : "";
     console.log("user message:", message.slice(0, 200))
 
     // Rate limit (fail-open): reject abusive traffic before paying for AI calls
@@ -53,7 +110,7 @@ export const handler: Handler = async (event) => {
       const db = await Promise.resolve(getDb());
       if (db) {
         await ensureIndexes(db);
-        const verdict = await checkRateLimit(db, ipHash, safeSessionId ?? "anonymous");
+        const verdict = await checkRateLimit(db, ipHash, safeSessionId);
         if (!verdict.allowed) {
           return jsonResponse(429, verdict.reason ?? "Too many requests");
         }
@@ -61,6 +118,21 @@ export const handler: Handler = async (event) => {
     } catch (dbError) {
       console.error("Rate limit check failed (failing open):", dbError);
     }
+
+    let safePrevious = "";
+    try {
+      const db = await getDb();
+      if (db) {
+        const previousMessages = await loadConversation(db, safeSessionId, safeConversationIndex);
+        safePrevious = previousMessages
+          .map((previousMessage) => `${previousMessage.role}: ${previousMessage.text}`)
+          .join("\n")
+          .slice(-MAX_PREVIOUS_CHARS);
+      }
+    } catch (dbError) {
+      console.error("Failed to load chat context:", dbError);
+    }
+
     const cvSkills = Array.isArray(cv?.technical_skills)
       ? cv.technical_skills.filter((skill: unknown): skill is string => typeof skill === "string")
       : [];
@@ -169,24 +241,23 @@ Provide a helpful, accurate response based on the context above. Return valid JS
     }
 
     // Persist the exchange to MongoDB (best-effort: never fail the chat)
-    const visitorIp = (event.headers["x-forwarded-for"] || "").split(",")[0]?.trim() || "unknown";
-    const ipHashValue = hashIp(visitorIp);
     try {
-      const db = await Promise.resolve(getDb());
+      const db = await getDb();
       if (db) {
         await db.collection("messages").insertMany([
           {
-            sessionId: safeSessionId ?? "anonymous",
-            ipHash: ipHashValue,
+            sessionId: safeSessionId,
+            conversationIndex: safeConversationIndex,
+            ipHash,
             role: "user",
-            text: String(message ?? "").slice(0, 8000),
+            text: message.slice(0, 8000),
             timestamp: new Date(),
           },
           {
-            sessionId: safeSessionId ?? "anonymous",
+            sessionId: safeSessionId,
+            conversationIndex: safeConversationIndex,
             role: "bot",
             text: String(finalMessage).slice(0, 8000),
-            action: finalAction,
             timestamp: new Date(),
           },
         ]);
