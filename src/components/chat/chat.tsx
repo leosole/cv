@@ -78,6 +78,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(Boolean(initialConversation.sessionId));
+  const [initialHistoryLoading, setInitialHistoryLoading] = useState(Boolean(initialConversation.sessionId));
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const launcherButtonRef = useRef<HTMLButtonElement>(null);
   const { setOpenedCards } = useCardState();
@@ -113,7 +114,10 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
         if (!cancelled) setMessages([initialMessage]);
       })
       .finally(() => {
-        if (!cancelled) setHistoryLoading(false);
+        if (!cancelled) {
+          setHistoryLoading(false);
+          setInitialHistoryLoading(false);
+        }
       });
 
     return () => {
@@ -239,15 +243,25 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
             </div>
           </CardHeader>
           <div className="flex-1 overflow-y-auto overscroll-contain touch-pan-y p-2 space-y-2">
-            {messages.map((msg, messageIndex) => (
-              <MessageBubble key={`${conversationIndex}-${messageIndex}`} message={msg} />
-            ))}
-            {loading && (
+            {initialHistoryLoading ? (
               <div className="flex justify-start">
                 <span className="animate-pulse p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 h-10 flex items-center">
                   <LoadingChat />
                 </span>
               </div>
+            ) : (
+              <>
+                {messages.map((msg, messageIndex) => (
+                  <MessageBubble key={`${conversationIndex}-${messageIndex}`} message={msg} />
+                ))}
+                {loading && (
+                  <div className="flex justify-start">
+                    <span className="animate-pulse p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 h-10 flex items-center">
+                      <LoadingChat />
+                    </span>
+                  </div>
+                )}
+              </>
             )}
             <div ref={messagesEndRef} />
           </div>
