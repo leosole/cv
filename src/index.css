@@ -53,6 +53,91 @@
 	z-index: 1;
 }
 
+.chat-shell {
+	--chat-morph-duration: 500ms;
+	--chat-morph-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+	position: relative;
+	width: 3.5rem;
+	height: 3.5rem;
+	overflow: visible;
+	border-radius: 50%;
+	transition:
+		width var(--chat-morph-duration) var(--chat-morph-ease),
+		height var(--chat-morph-duration) var(--chat-morph-ease),
+		border-radius var(--chat-morph-duration) var(--chat-morph-ease);
+}
+
+.chat-shell--open {
+	width: min(25rem, calc(100vw - 3rem));
+	height: min(50rem, 80dvh);
+	border-radius: 0.75rem;
+}
+
+.chat-shell__launcher {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: end;
+	opacity: 1;
+	transition: opacity var(--chat-morph-duration) var(--chat-morph-ease);
+}
+
+.chat-shell__panel {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: min(25rem, calc(100vw - 3rem));
+	height: min(50rem, 80dvh);
+	opacity: 0;
+	transition: opacity var(--chat-morph-duration) var(--chat-morph-ease);
+}
+
+.chat-shell__content {
+	opacity: 0;
+	clip-path: circle(28px at calc(100% - 28px) calc(100% - 28px));
+	transition:
+		opacity var(--chat-morph-duration) var(--chat-morph-ease),
+		clip-path var(--chat-morph-duration) var(--chat-morph-ease);
+}
+
+.chat-shell__panel::before,
+.chat-shell__panel > .header-glass__backdrop--surface {
+	clip-path: circle(28px at calc(100% - 28px) calc(100% - 28px));
+	transition: clip-path var(--chat-morph-duration) var(--chat-morph-ease);
+}
+
+.chat-shell--open .chat-shell__launcher {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.chat-shell--open .chat-shell__panel {
+	opacity: 1;
+	transition: none;
+}
+
+.chat-shell--open .chat-shell__panel::before,
+.chat-shell--open .chat-shell__panel > .header-glass__backdrop--surface,
+.chat-shell--open .chat-shell__content {
+	clip-path: circle(900px at calc(100% - 28px) calc(100% - 28px));
+}
+
+.chat-shell--open .chat-shell__content {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.chat-shell,
+	.chat-shell__launcher,
+	.chat-shell__panel,
+	.chat-shell__content,
+	.chat-shell__panel::before,
+	.chat-shell__panel > .header-glass__backdrop--surface {
+		transition: none;
+	}
+}
+
 .glass-message--user > .header-glass__backdrop--surface {
 	background-color: color-mix(in srgb, var(--bubble-user) 70%, transparent);
 }
@@ -206,7 +291,7 @@
 	--secondary-foreground: oklch(0.985 0 0);
 	--muted: oklch(0.274 0.006 286.033);
 	--muted-foreground: oklch(0.705 0.015 286.067);
-	--accent: oklch(30.876% 0.12328 338.904);
+	--accent: oklch(35.146% 0.13902 339.083);
 	--accent-foreground: oklch(0.985 0 0);
 	--destructive: oklch(0.704 0.191 22.216);
 	--border: oklch(0.25 0 0);

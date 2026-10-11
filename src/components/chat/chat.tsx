@@ -79,6 +79,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(Boolean(initialConversation.sessionId));
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const launcherButtonRef = useRef<HTMLButtonElement>(null);
   const { setOpenedCards } = useCardState();
   const { setTheme, setAnimatedBackgroundEnabled } = useTheme();
 
@@ -89,6 +90,10 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (!isOpen) launcherButtonRef.current?.focus();
+  }, [isOpen]);
 
   useEffect(() => {
     let cancelled = false;
@@ -174,24 +179,36 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   };
 
   return (
-    <div className="z-40">
-      {!isOpen ? (
+    <div className={`chat-shell z-40 ${isOpen ? "chat-shell--open" : ""}`}>
+      <div
+        inert={isOpen}
+        className="chat-shell__launcher"
+      >
         <Tooltip>
-          <TooltipContent>
-            Open Chat
-          </TooltipContent>
-          <TooltipTrigger>
-            <Button onClick={toggleOpen} variant="secondary" size="icon" className="drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
-                <IoChatboxEllipses className="size-6"/>
+          <TooltipContent className="z-[200]">Open Chat</TooltipContent>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={toggleOpen}
+              variant="secondary"
+              size="icon"
+              ref={launcherButtonRef}
+              aria-label="Open chat"
+              className="drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full"
+            >
+              <IoChatboxEllipses className="size-6" />
             </Button>
           </TooltipTrigger>
         </Tooltip>
-      ) : (
-        <Card className="glass-gradient-border glass-surface border-transparent bg-transparent shadow-lg w-full max-h-[80dvh] sm:w-100 sm:h-200 h-full flex flex-col">
+      </div>
+      <Card
+        inert={!isOpen}
+        className="chat-shell__panel glass-gradient-border glass-surface border-transparent bg-transparent shadow-lg flex flex-col"
+      >
           <div
             aria-hidden="true"
             className="header-glass__backdrop header-glass__backdrop--surface"
           />
+          <div className="chat-shell__content flex min-h-0 flex-1 flex-col">
           <CardHeader className="flex flex-row justify-between items-center p-2 pl-4 border-b border-gray-300 dark:border-gray-600">
             <h3 className="text-lg font-semibold m-0">Chat</h3>
             <div className="flex items-center gap-1">
@@ -252,8 +269,8 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
               <IoSend />
             </Button>
           </div>
-        </Card>
-      )}
+          </div>
+      </Card>
     </div>
   );
 };

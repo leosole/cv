@@ -8,7 +8,7 @@ export default function EventBar({ ref, className }: EventBarProps) {
 	return (
 		<div
 			ref={ref}
-			className={cn(`w-1 h-full bg-blue-500 rounded-full`, className)}
+			className={cn(`w-1 h-full rounded-full`, className)}
 		/>
 	)
 }

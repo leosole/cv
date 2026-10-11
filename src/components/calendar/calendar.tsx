@@ -183,7 +183,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 					>
 						<EventBar
 							className={cn(
-								event.eventType === "work" ? "bg-blue-500" : "bg-green-500",
+								event.eventType === "work" ? "bg-primary" : "bg-accent",
 								hoveredCard === index && "outline outline-foreground",
 								"group-hover:outline group-hover:outline-foreground transition-[outline] duration-300"
 							)}
