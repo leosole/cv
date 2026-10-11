@@ -4,6 +4,7 @@ import type { Message } from "./chat"
 
 interface MessageBubbleProps {
 	message: Message
+	allowedLinks: ReadonlySet<string>
 }
 
 interface BubbleSize {
@@ -54,7 +55,7 @@ const getBubblePath = (width: number, height: number, isUser: boolean) => {
 	].join(" ")
 }
 
-export const MessageBubble = ({ message }: MessageBubbleProps) => {
+export const MessageBubble = ({ message, allowedLinks }: MessageBubbleProps) => {
 	const bubbleRef = useRef<HTMLDivElement>(null)
 	const [size, setSize] = useState<BubbleSize>({ width: 0, height: 0 })
 	const isUser = message.role === "user"
@@ -108,6 +109,9 @@ export const MessageBubble = ({ message }: MessageBubbleProps) => {
 					<ReactMarkdown
 						components={{
 							p: ({ children }) => <p className="m-0">{children}</p>,
+							a: ({ href, children }) => allowedLinks.has(href ?? "")
+								? <a href={href} target={href?.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="underline underline-offset-2">{children}</a>
+								: <span>{children}</span>,
 							code: ({ className, children, ...props }) => (
 								<code
 									className={`rounded bg-slate-100 px-1 py-0.5 text-sm ${className ?? ""}`}

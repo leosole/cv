@@ -7,6 +7,7 @@ import { Handler } from "@netlify/functions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Pinecone } from "@pinecone-database/pinecone";
 import type { Db } from "mongodb";
+import type { CV } from "../../src/types/cv";
 import { getDb } from "./_lib/mongodb";
 import { checkRateLimit, ensureIndexes, hashIp } from "./_lib/rate-limit";
 
@@ -90,7 +91,12 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { message, cv, sessionId, conversationIndex } = JSON.parse(event.body || "{}");
+    const { message, cv, sessionId, conversationIndex } = JSON.parse(event.body || "{}") as {
+      message?: unknown;
+      cv?: CV;
+      sessionId?: unknown;
+      conversationIndex?: unknown;
+    };
     const safeSessionId = getSafeSessionId(sessionId);
     const safeConversationIndex = getSafeConversationIndex(conversationIndex);
     if (!safeSessionId || safeConversationIndex === undefined) {
@@ -136,6 +142,29 @@ export const handler: Handler = async (event) => {
     const cvSkills = Array.isArray(cv?.technical_skills)
       ? cv.technical_skills.filter((skill: unknown): skill is string => typeof skill === "string")
       : [];
+    const availableLinks = [
+      ...(typeof cv?.links?.github === "string" ? [{ label: "GitHub", url: cv.links.github }] : []),
+      ...(typeof cv?.links?.linkedin === "string" ? [{ label: "LinkedIn", url: cv.links.linkedin }] : []),
+      ...(typeof cv?.info?.email === "string" ? [{ label: "Email", url: `mailto:${cv.info.email}` }] : []),
+      ...(typeof cv?.info?.phone === "string"
+        ? [{ label: "WhatsApp", url: `https://wa.me/${cv.info.phone.replace(/\D/g, "")}` }]
+        : []),
+      ...(Array.isArray(cv?.professional_experience)
+        ? cv.professional_experience.flatMap((experience) =>
+          Array.isArray(experience.positions)
+            ? experience.positions.flatMap((position) =>
+              Array.isArray(position.tasks)
+                ? position.tasks.flatMap((task) =>
+                  task && typeof task === "object" && typeof task.publication?.title === "string" && typeof task.publication?.link === "string"
+                    ? [{ label: task.publication.title, url: task.publication.link }]
+                    : [],
+                )
+                : [],
+            )
+            : [],
+        )
+        : []),
+    ];
     const index = pc.index({name: "cv-docs"});
 
     const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2-preview" });
@@ -158,7 +187,7 @@ export const handler: Handler = async (event) => {
 
     const contextText = contextParts.join("\n\n---\n\n");
 
-    const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp: any) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu: any) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, put their unique IDs in the "timeline" field inside "action".` : '';
+    const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, put their unique IDs in the "timeline" field inside "action".` : '';
     
     const systemInstruction = `You are an AI assistant for Leonardo Solé Rodrigues, a full stack frontend focused engineer. Answer questions about his professional experience, skills, education, and background based on the provided context.
 
@@ -173,6 +202,7 @@ IMPORTANT: Format your response as a JSON object with these fields:
   - "skills": An array of exact skill names from the allowed skills list below that are explicitly mentioned in your answer. Include all matching skills from the list and no other values.
 
 Do not change page settings based on suggestions, questions, or inferred preferences. Return only valid JSON, without markdown fences.
+When a link is useful to answer the question or explicitly requested, include it as a Markdown link in "message". Use only the exact URLs in AVAILABLE LINKS, and do not add links when they are not relevant. For research questions, link the relevant publication(s); for contact or profile questions, provide the requested GitHub, LinkedIn, email, or WhatsApp link.
 
 Example (multiple action types):
 {
@@ -205,6 +235,9 @@ Example (no action needed):
 ALLOWED SKILLS FROM CV JSON (use exact names only):
 ${JSON.stringify(cvSkills)}
 
+AVAILABLE LINKS (use only these exact URLs as Markdown link destinations):
+${JSON.stringify(availableLinks)}
+
 RETRIEVED CONTEXT:
 ${contextText}`
 
@@ -236,7 +269,7 @@ Provide a helpful, accurate response based on the context above. Return valid JS
       finalAction = parsedResponse.action || null;
       console.log("response:", finalMessage)
       console.log("action:", finalAction)
-    } catch (parseError) {
+    } catch {
       // If parsing fails, keep the raw text as message
     }
 

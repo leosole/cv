@@ -19,6 +19,17 @@ const initialMessage: Message = {
   text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also ask me to customize the page, like animating the background or changing the theme. What would you like to know or change?"
 } 
 
+const allowedChatLinks = new Set([
+  ...Object.values(cv_json.links),
+  `mailto:${cv_json.info.email}`,
+  `https://wa.me/${cv_json.info.phone.replace(/\D/g, '')}`,
+  ...cv_json.professional_experience.flatMap(experience =>
+    experience.positions.flatMap(position =>
+      position.tasks.flatMap(task => typeof task === 'string' ? [] : [task.publication.link])
+    )
+  ),
+]);
+
 const SESSION_ID_KEY = 'cv-chat-session-id';
 const CONVERSATION_INDEX_KEY = 'cv-chat-conversation-index';
 let fallbackSessionId: string | null = null;
@@ -166,7 +177,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
         .map(skill => skillsByName.get(skill.trim().toLowerCase()))
         .filter((skill): skill is string => skill !== undefined);
       onSkillsHighlighted([...new Set(highlightedSkills)]);
-    } catch (error) {
+    } catch {
       const errorMessage: Message = { role: 'bot', text: 'Sorry, something went wrong. Please try again.' };
       setMessages([...newMessages, errorMessage]);
       onSkillsHighlighted([]);
@@ -255,7 +266,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
             ) : (
               <>
                 {messages.map((msg, messageIndex) => (
-                  <MessageBubble key={`${conversationIndex}-${messageIndex}`} message={msg} />
+                  <MessageBubble key={`${conversationIndex}-${messageIndex}`} message={msg} allowedLinks={allowedChatLinks} />
                 ))}
                 {loading && (
                   <div className="flex justify-start">

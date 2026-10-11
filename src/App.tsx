@@ -17,7 +17,7 @@ function App() {
 	const headerRef = useRef<HTMLDivElement>(null)
 	const [headerHeight, setHeaderHeight] = useState(0);
 	const handleResize = () => {
-		setHeaderHeight(headerRef.current?.offsetHeight || 0);
+		setHeaderHeight((headerRef.current?.offsetHeight || 0) + 52);
 	}
 	useEffect(() => {
       window.addEventListener('resize', handleResize);
