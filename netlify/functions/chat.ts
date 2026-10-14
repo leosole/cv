@@ -4,7 +4,7 @@ const isLocalDev = process.env.NETLIFY_DEV === "true" || process.env.NETLIFY_LOC
 if (isLocalDev) dotenv.config({ override: true });
 
 import { Handler } from "@netlify/functions";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, GoogleGenerativeAIFetchError } from "@google/generative-ai";
 import { Pinecone } from "@pinecone-database/pinecone";
 import type { Db } from "mongodb";
 import type { CV } from "../../src/types/cv";
@@ -57,6 +57,24 @@ const jsonResponse = (statusCode: number, message: string) => ({
   body: JSON.stringify({ message }),
 });
 
+const withGeminiRetry = async <T>(operation: () => Promise<T>): Promise<T> => {
+  let retries = 0;
+  while (true) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (!(error instanceof GoogleGenerativeAIFetchError) || error.status !== 503 || retries >= 2) {
+        throw error;
+      }
+
+      const retryDelayMs = 500 * 2 ** retries;
+      retries++;
+      console.warn("Gemini returned 503; retrying request", { retries, retryDelayMs });
+      await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+    }
+  }
+};
+
 export const handler: Handler = async (event) => {
   if (event.httpMethod === "GET") {
     const query = event.queryStringParameters ?? {};
@@ -90,6 +108,7 @@ export const handler: Handler = async (event) => {
     return jsonResponse(413, "Request body too large");
   }
 
+  let failureStage = "request processing";
   try {
     const { message, cv, sessionId, conversationIndex } = JSON.parse(event.body || "{}") as {
       message?: unknown;
@@ -167,10 +186,12 @@ export const handler: Handler = async (event) => {
     ];
     const index = pc.index({name: "cv-docs"});
 
+    failureStage = "Gemini embedding";
     const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2-preview" });
-    const embeddingResult = await embeddingModel.embedContent(message);
+    const embeddingResult = await withGeminiRetry(() => embeddingModel.embedContent(message));
     const queryVector = embeddingResult.embedding.values;
 
+    failureStage = "Pinecone retrieval";
     const queryResponse = await index.namespace('cv-docs').query({
       vector: queryVector,
       topK: 5,
@@ -254,10 +275,11 @@ ${message}
 
 Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, an explicitly requested theme or animated-background setting, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.`;
 
-    const result = await chatModel.generateContent({
+    failureStage = "Gemini response generation";
+    const result = await withGeminiRetry(() => chatModel.generateContent({
       generationConfig: { maxOutputTokens: MAX_OUTPUT_TOKENS },
       contents: [{ role: "user", parts: [{ text: prompt }] }],
-    });
+    }));
     const responseText = result.response.text();
     
     // Parse the JSON response
@@ -307,7 +329,13 @@ Provide a helpful, accurate response based on the context above. Return valid JS
       }),
     };
   } catch (error) {
-    console.error(error);
-    return { statusCode: 500, body: JSON.stringify({ error: "RAG Error", message: "An error occurred" }) };
+    const errorDetails = error instanceof Error
+      ? { name: error.name, message: error.message, stack: error.stack }
+      : { message: String(error) };
+    console.error("Chat request failed:", { stage: failureStage, ...errorDetails });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "RAG Error", message: "An error occurred", stage: failureStage }),
+    };
   }
 };
