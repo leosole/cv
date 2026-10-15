@@ -16,7 +16,7 @@ export type Message = ChatMessage;
 
 const initialMessage: Message = {
   role: 'bot',
-  text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also ask me to customize the page, like animating the background or changing the theme. What would you like to know or change?"
+  text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also customize the page, like animating the background, changing the theme, or toggling the glass effect. What would you like to know or change?"
 } 
 
 const allowedChatLinks = new Set([
@@ -97,7 +97,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
-  const { setTheme, setAnimatedBackgroundEnabled } = useTheme();
+  const { setTheme, setAnimatedBackgroundEnabled, setGlassEnabled, glassEnabled } = useTheme();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -171,6 +171,9 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
       if (typeof action?.animatedBackground === 'boolean') {
         setAnimatedBackgroundEnabled(action.animatedBackground);
       }
+      if (typeof action?.glass === 'boolean') {
+        setGlassEnabled(action.glass);
+      }
 
       const skillsByName = new Map(
         cv_json.technical_skills.map(skill => [skill.trim().toLowerCase(), skill])
@@ -225,10 +228,12 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
         inert={!isOpen}
         className="chat-shell__panel glass-gradient-border glass-surface border-transparent bg-transparent shadow-lg flex flex-col"
       >
-          <div
-            aria-hidden="true"
-            className="header-glass__backdrop header-glass__backdrop--surface"
-          />
+          {glassEnabled && (
+            <div
+              aria-hidden="true"
+              className="header-glass__backdrop header-glass__backdrop--surface"
+            />
+          )}
           <div className="chat-shell__content flex min-h-0 flex-1 flex-col">
           <CardHeader className="flex flex-row justify-between items-center p-2 pl-4 border-b border-gray-300 dark:border-gray-600">
             <h3 className="text-lg font-semibold m-0">Chat</h3>

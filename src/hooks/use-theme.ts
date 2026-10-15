@@ -8,6 +8,8 @@ interface ThemeContextType {
 	toggleTheme: () => void
 	animatedBackgroundEnabled: boolean
 	setAnimatedBackgroundEnabled: (enabled: boolean) => void
+	glassEnabled: boolean
+	setGlassEnabled: (enabled: boolean) => void
 }
 
 export const ThemeContext = createContext<ThemeContextType>(

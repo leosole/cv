@@ -10,6 +10,9 @@ export default function ThemeProvider({
 	const [animatedBackgroundEnabled, setAnimatedBackgroundEnabledState] = useState(
 		localStorage.getItem("animated-background") === "true"
 	)
+	const [glassEnabled, setGlassEnabledState] = useState(
+		localStorage.getItem("glass-enabled") !== "false"
+	)
 	useEffect(() => {
 		if (isDark) document.body.classList.add("dark")
 		else document.body.classList.remove("dark")
@@ -29,6 +32,11 @@ export default function ThemeProvider({
 		setAnimatedBackgroundEnabledState(enabled)
 	}
 
+	function setGlassEnabled(enabled: boolean) {
+		localStorage.setItem("glass-enabled", String(enabled))
+		setGlassEnabledState(enabled)
+	}
+
 	return (
 		<ThemeContext.Provider
 			value={{
@@ -36,7 +44,9 @@ export default function ThemeProvider({
 				setTheme,
 				toggleTheme,
 				animatedBackgroundEnabled,
-				setAnimatedBackgroundEnabled
+				setAnimatedBackgroundEnabled,
+				glassEnabled,
+				setGlassEnabled
 			}}
 		>
 			{children}

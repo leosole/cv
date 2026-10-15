@@ -9,6 +9,7 @@ export interface ChatAction {
 	timeline?: ActionItem | ActionItem[]
 	theme?: Theme
 	animatedBackground?: boolean
+	glass?: boolean
 	skills?: string[]
 }
 

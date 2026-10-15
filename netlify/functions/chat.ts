@@ -220,6 +220,7 @@ IMPORTANT: Format your response as a JSON object with these fields:
   - "timeline": One object or an array of objects with the unique ID of relevant CV timeline entries, e.g. { "id": "tcu-frontend-engineer" }
   - "theme": Set to "light" or "dark" only when the user explicitly asks to change the page theme to that mode.
   - "animatedBackground": Set to true or false only when the user explicitly asks to turn the animated background on or off.
+  - "glass": Set to true or false only when the user explicitly asks to turn the glass effect on or off.
   - "skills": An array of exact skill names from the allowed skills list below that are explicitly mentioned in your answer. Include all matching skills from the list and no other values.
 
 Do not change page settings based on suggestions, questions, or inferred preferences. Return only valid JSON, without markdown fences.
@@ -231,6 +232,7 @@ Example (multiple action types):
   "action": {
     "timeline": { "id": "tcu-frontend-engineer" },
     "animatedBackground": true,
+    "glass": false,
     "skills": ["React", "TypeScript"]
   }
 }
@@ -273,7 +275,7 @@ ${cvPageMap}
 USER QUESTION:
 ${message}
 
-Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, an explicitly requested theme or animated-background setting, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.`;
+Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, an explicitly requested theme, animated-background or glass-effect setting, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.`;
 
     failureStage = "Gemini response generation";
     const result = await withGeminiRetry(() => chatModel.generateContent({

@@ -4,6 +4,7 @@ import { IoLogoGithub, IoLogoLinkedin } from "react-icons/io";
 import generateDocxFromJson from "@/lib/docx";
 import type { Links } from "@/types/cv";
 import { FaDownload } from "react-icons/fa6";
+import { FaWineGlassAlt } from "react-icons/fa";
 import { MdAnimation, MdDarkMode, MdLightMode } from "react-icons/md";
 
 export default function useMenu(links: Links) {
@@ -11,7 +12,9 @@ export default function useMenu(links: Links) {
 		isDark,
 		toggleTheme,
 		animatedBackgroundEnabled,
-		setAnimatedBackgroundEnabled
+		setAnimatedBackgroundEnabled,
+		glassEnabled,
+		setGlassEnabled
 	} = useTheme()
 	const menuButtons = [
 		<Button asChild variant="ghost" size="icon" title="GitHub" key="github">
@@ -37,6 +40,17 @@ export default function useMenu(links: Links) {
 			key="animated-background"
 		>
 			<MdAnimation className="h-5 w-5 sm:h-4 sm:w-4" />
+		</Button>,
+		<Button
+			size="icon"
+			variant="ghost"
+			onClick={() => setGlassEnabled(!glassEnabled)}
+			title={glassEnabled ? "Turn glass effect off" : "Turn glass effect on"}
+			aria-label={glassEnabled ? "Turn glass effect off" : "Turn glass effect on"}
+			aria-pressed={glassEnabled}
+			key="glass-effect"
+		>
+			<FaWineGlassAlt className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
 		<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme" key="theme">
 			{isDark ? <MdLightMode className="h-5 w-5 sm:h-4 sm:w-4" /> : <MdDarkMode color="black" className="h-5 w-5 sm:h-4 sm:w-4" />}

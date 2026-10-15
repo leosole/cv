@@ -6,6 +6,7 @@ import {
 	CollapsibleContent,
 	CollapsibleTrigger
 } from "./collapsible"
+import { useTheme } from "@/hooks/use-theme"
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
 	onOpenChange?(open: boolean): void
@@ -13,15 +14,20 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export const CollapsibleCard = React.forwardRef<HTMLDivElement, Props>(
-	({ className, ...props }, ref) => (
-		<Card className={cn("glass-gradient-border glass-surface border-transparent bg-transparent", className)}>
-			<div
-				aria-hidden="true"
-				className="header-glass__backdrop header-glass__backdrop--surface"
-			/>
-			<Collapsible ref={ref} {...props} />
-		</Card>
-	)
+	({ className, ...props }, ref) => {
+		const { glassEnabled } = useTheme()
+		return (
+			<Card className={cn("glass-gradient-border glass-surface border-transparent bg-transparent", className)}>
+				{glassEnabled && (
+					<div
+						aria-hidden="true"
+						className="header-glass__backdrop header-glass__backdrop--surface"
+					/>
+				)}
+				<Collapsible ref={ref} {...props} />
+			</Card>
+		)
+	}
 )
 
 export const CollapsibleCardHeader = React.forwardRef<

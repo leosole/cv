@@ -2,6 +2,7 @@ import type { Info, Links } from "@/types/cv"
 import { IoToday, IoMail, IoLocationSharp } from "react-icons/io5";
 import { PiPhoneFill } from "react-icons/pi";
 import useMenu from "@/hooks/use-menu";
+import { useTheme } from "@/hooks/use-theme";
 
 interface HeaderProps {
 	info: Info
@@ -10,10 +11,11 @@ interface HeaderProps {
 export function Header({ info, links }: HeaderProps) {
 	const { name, location, email, phone, birthdate } = info
 	const menuButtons = useMenu(links)
+	const { glassEnabled } = useTheme()
 	return (
 		<>
 			<div className="header-glass glass-gradient-border glass-gradient-border--no-top hidden sm:flex top-0 w-full z-200 -ml-4 rounded-b-xl shadow-lg">
-				<div aria-hidden="true" className="header-glass__backdrop" />
+				{glassEnabled && <div aria-hidden="true" className="header-glass__backdrop" />}
 				<div className="relative z-10 gap-2 py-2 px-3 justify-end flex container m-auto">
 					{menuButtons}
 				</div>
