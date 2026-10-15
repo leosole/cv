@@ -2,7 +2,7 @@
 	position: absolute;
 	z-index: 300;
 	inset: 0;
-	overflow: hidden;
+	overflow: clip;
 	pointer-events: none;
 }
 

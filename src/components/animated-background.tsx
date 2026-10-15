@@ -1,12 +1,12 @@
 import { motion, useMotionValue } from "motion/react"
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react"
 import {
-	createPhysicsBodies,
-	resizePhysicsBodies,
-	stepPhysics,
 	type BlobDefinition,
 	type CursorObstacle,
-	type PhysicsBody
+	createPhysicsBodies,
+	type PhysicsBody,
+	resizePhysicsBodies,
+	stepPhysics
 } from "@/lib/ambient-physics"
 import "./animated-background.css"
 
@@ -79,11 +79,13 @@ export function AnimatedBackground() {
 	})
 
 	useLayoutEffect(() => {
-		const width = Math.max(document.documentElement.scrollWidth, window.innerWidth)
-		const height = Math.max(document.documentElement.scrollHeight, window.innerHeight)
+		const width = document.documentElement.clientWidth || window.innerWidth
+		const height = Math.max(
+			document.documentElement.scrollHeight,
+			window.innerHeight
+		)
 		boundsRef.current = { width, height }
 		if (backgroundRef.current) {
-			backgroundRef.current.style.width = `${width}px`
 			backgroundRef.current.style.height = `${height}px`
 		}
 		bodiesRef.current = createPhysicsBodies(BLOB_DEFINITIONS, width, height)
@@ -98,11 +100,13 @@ export function AnimatedBackground() {
 		const updateMotion = () => setMotionValues(bodiesRef.current, motionValues)
 		const handleResize = () => {
 			const { width: oldWidth, height: oldHeight } = boundsRef.current
-			const width = Math.max(document.documentElement.scrollWidth, window.innerWidth)
-			const height = Math.max(document.documentElement.scrollHeight, window.innerHeight)
+			const width = document.documentElement.clientWidth || window.innerWidth
+			const height = Math.max(
+				document.documentElement.scrollHeight,
+				window.innerHeight
+			)
 			boundsRef.current = { width, height }
 			if (backgroundRef.current) {
-				backgroundRef.current.style.width = `${width}px`
 				backgroundRef.current.style.height = `${height}px`
 			}
 			resizePhysicsBodies(
