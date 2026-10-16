@@ -7,9 +7,12 @@ export default function ThemeProvider({
 	children: React.ReactNode
 }) {
 	const [isDark, setIsDark] = useState(localStorage.getItem("theme") === "dark")
-	const [animatedBackgroundEnabled, setAnimatedBackgroundEnabledState] = useState(
-		localStorage.getItem("animated-background") === "true"
-	)
+	const [backgroundEnabled, setBackgroundEnabledState] = useState(() => {
+		const savedPreference = localStorage.getItem("background-enabled")
+		return savedPreference === null
+			? localStorage.getItem("animated-background") !== "false"
+			: savedPreference === "true"
+	})
 	const [glassEnabled, setGlassEnabledState] = useState(
 		localStorage.getItem("glass-enabled") !== "false"
 	)
@@ -27,9 +30,9 @@ export default function ThemeProvider({
 		setTheme(isDark ? "light" : "dark")
 	}
 
-	function setAnimatedBackgroundEnabled(enabled: boolean) {
-		localStorage.setItem("animated-background", String(enabled))
-		setAnimatedBackgroundEnabledState(enabled)
+	function setBackgroundEnabled(enabled: boolean) {
+		localStorage.setItem("background-enabled", String(enabled))
+		setBackgroundEnabledState(enabled)
 	}
 
 	function setGlassEnabled(enabled: boolean) {
@@ -43,8 +46,8 @@ export default function ThemeProvider({
 				isDark,
 				setTheme,
 				toggleTheme,
-				animatedBackgroundEnabled,
-				setAnimatedBackgroundEnabled,
+				backgroundEnabled,
+				setBackgroundEnabled,
 				glassEnabled,
 				setGlassEnabled
 			}}

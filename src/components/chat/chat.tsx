@@ -97,7 +97,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
-  const { setTheme, setAnimatedBackgroundEnabled, setGlassEnabled, glassEnabled } = useTheme();
+  const { setTheme, setBackgroundEnabled, setGlassEnabled, glassEnabled } = useTheme();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -168,8 +168,11 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
       if (action?.theme === 'light' || action?.theme === 'dark') {
         setTheme(action.theme);
       }
-      if (typeof action?.animatedBackground === 'boolean') {
-        setAnimatedBackgroundEnabled(action.animatedBackground);
+      const backgroundAction = typeof action?.background === 'boolean'
+        ? action.background
+        : action?.animatedBackground;
+      if (typeof backgroundAction === 'boolean') {
+        setBackgroundEnabled(backgroundAction);
       }
       if (typeof action?.glass === 'boolean') {
         setGlassEnabled(action.glass);

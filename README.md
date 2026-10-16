@@ -28,30 +28,23 @@ yarn install
 npx netlify dev
 ```
 
-## Animated background
+## Background grid
 
-The CV uses a six-blob animated background implemented with React, TypeScript, and
-Motion. Motion is already included in this project. To use the component in another
-project, install it with `yarn add motion`, then import it and keep foreground content
-in a higher stacking layer:
+The CV uses a static CSS dot grid behind the page content. It can be enabled or
+disabled from the menu and does not run a continuous animation loop:
 
 ```tsx
-import { AnimatedBackground } from "@/components/animated-background"
+import { BackgroundGrid } from "@/components/background-grid"
 
 export function Page() {
 	return (
 		<>
-			<AnimatedBackground />
+			<BackgroundGrid />
 			<main className="relative z-10">Page content</main>
 		</>
 	)
 }
 ```
-
-The six colors, sizes, speeds, blur radii, and optional normalized initial positions
-are configured together in `src/components/animated-background.tsx`. The physics
-implementation is in `src/lib/ambient-physics.ts`. Animation pauses when the visitor
-prefers reduced motion.
 
 ## Build and Deploy
 

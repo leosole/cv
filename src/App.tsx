@@ -6,13 +6,13 @@ import Calendar from "./components/calendar/calendar"
 import { useEffect, useRef, useState } from "react"
 import Summary from "./components/summary"
 import Footer from "./components/footer"
-import { AnimatedBackground } from "./components/animated-background"
+import { BackgroundGrid } from "./components/background-grid"
 import { useTheme } from "@/hooks/use-theme"
 
 const cv: CV = cv_json
 
 function App() {
-	const { animatedBackgroundEnabled, glassEnabled } = useTheme()
+	const { backgroundEnabled, glassEnabled } = useTheme()
 	const [highlightedSkills, setHighlightedSkills] = useState<string[]>([])
 	const headerRef = useRef<HTMLDivElement>(null)
 	const [headerHeight, setHeaderHeight] = useState(0);
@@ -27,7 +27,7 @@ function App() {
       };
     }, []);
 	return (
-    <div className={glassEnabled ? undefined : "glass-disabled"}>
+	<div className={`${glassEnabled ? "" : "glass-disabled "}relative isolate min-h-screen`}>
 		<svg
 			aria-hidden="true"
 			className="glass-filter-definitions"
@@ -53,8 +53,8 @@ function App() {
 				/>
 			</filter>
 		</svg>
-		{animatedBackgroundEnabled && <AnimatedBackground />}
-		<div className="px-4 pb-8">
+		{backgroundEnabled && <BackgroundGrid />}
+		<div className="relative z-10 px-4 pb-8">
 			<div ref={headerRef}>
 				<Header info={cv.info} links={cv.links} />
 				<Summary

@@ -6,8 +6,8 @@ interface ThemeContextType {
 	isDark: boolean
 	setTheme: (theme: Theme) => void
 	toggleTheme: () => void
-	animatedBackgroundEnabled: boolean
-	setAnimatedBackgroundEnabled: (enabled: boolean) => void
+	backgroundEnabled: boolean
+	setBackgroundEnabled: (enabled: boolean) => void
 	glassEnabled: boolean
 	setGlassEnabled: (enabled: boolean) => void
 }

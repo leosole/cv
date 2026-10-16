@@ -5,14 +5,14 @@ import generateDocxFromJson from "@/lib/docx";
 import type { Links } from "@/types/cv";
 import { FaDownload } from "react-icons/fa6";
 import { FaWineGlassAlt } from "react-icons/fa";
-import { MdAnimation, MdDarkMode, MdLightMode } from "react-icons/md";
+import { MdDarkMode, MdGridOn, MdLightMode } from "react-icons/md";
 
 export default function useMenu(links: Links) {
 	const {
 		isDark,
 		toggleTheme,
-		animatedBackgroundEnabled,
-		setAnimatedBackgroundEnabled,
+		backgroundEnabled,
+		setBackgroundEnabled,
 		glassEnabled,
 		setGlassEnabled
 	} = useTheme()
@@ -33,13 +33,13 @@ export default function useMenu(links: Links) {
 		<Button
 			size="icon"
 			variant="ghost"
-			onClick={() => setAnimatedBackgroundEnabled(!animatedBackgroundEnabled)}
-			title={animatedBackgroundEnabled ? "Turn animated background off" : "Turn animated background on"}
-			aria-label={animatedBackgroundEnabled ? "Turn animated background off" : "Turn animated background on"}
-			aria-pressed={animatedBackgroundEnabled}
-			key="animated-background"
+			onClick={() => setBackgroundEnabled(!backgroundEnabled)}
+			title={backgroundEnabled ? "Turn background off" : "Turn background on"}
+			aria-label={backgroundEnabled ? "Turn background off" : "Turn background on"}
+			aria-pressed={backgroundEnabled}
+			key="background"
 		>
-			<MdAnimation className="h-5 w-5 sm:h-4 sm:w-4" />
+			<MdGridOn className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
 		<Button
 			size="icon"
