@@ -4,7 +4,7 @@ import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import { Button } from "./ui/button";
 import useMenu from "@/hooks/use-menu";
 import MenuIcon from "@/svgs/menu-icon";
-import { useState } from "react";
+import { useState, type AnimationEvent, type MouseEvent } from "react";
 import Chat from "./chat/chat";
 
 interface FooterProps {
@@ -14,8 +14,24 @@ interface FooterProps {
 export default function Footer({links, onSkillsHighlighted}: FooterProps) {
     const menuButtons = useMenu(links)
     const [menuState, setMenuState] = useState(false)
-    function handleOpenChange() {
-        setMenuState(!menuState)
+    const [isMenuTransitioning, setIsMenuTransitioning] = useState(false)
+    function handleOpenChange(open: boolean) {
+        setMenuState(open)
+        setIsMenuTransitioning(true)
+    }
+    function handleMenuAnimationEnd(event: AnimationEvent<HTMLDivElement>) {
+        if (
+            event.target === event.currentTarget &&
+            event.animationName === (menuState ? "menuUp" : "menuDown")
+        ) {
+            setIsMenuTransitioning(false)
+        }
+    }
+    function handleMenuClickCapture(event: MouseEvent<HTMLDivElement>) {
+        if (isMenuTransitioning) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
     }
     return (
         <div className="flex justify-end fixed right-0 bottom-0 z-100 p-6 flex-col gap-4 items-end">
@@ -26,7 +42,13 @@ export default function Footer({links, onSkillsHighlighted}: FooterProps) {
                             <MenuIcon state={menuState}/>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" side="top" className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden z-300">
+                    <DropdownMenuContent
+                        align="center"
+                        side="top"
+                        className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden z-300"
+                        onAnimationEnd={handleMenuAnimationEnd}
+                        onClickCapture={handleMenuClickCapture}
+                    >
                         <DropdownMenuArrow className="fill-popover" width={20} height={10} asChild>
                             <ArrowWithBorder />
                         </DropdownMenuArrow>	
