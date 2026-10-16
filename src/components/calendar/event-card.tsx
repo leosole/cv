@@ -50,8 +50,8 @@ export default function EventCard({
 				setOpen(!open)
 			}}
 			className={cn(
-				"hover:bg-muted/40 transition-colors duration-200",
-				hover && "bg-muted/40",
+				"bg-gradient-to-r from-background via-background to-surface bg-[size:200%_auto] bg-left transition-all duration-500 ease-in-out hover:bg-right",
+				hover && "bg-right",
 				className
 			)}
 			onMouseEnter={onMouseEnter}
