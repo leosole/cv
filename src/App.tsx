@@ -27,7 +27,7 @@ function App() {
       };
     }, []);
 	return (
-	<div className={`${glassEnabled ? "" : "glass-disabled "}relative isolate min-h-screen`}>
+	<div className={`${glassEnabled ? "" : "glass-effect-off "}relative isolate min-h-screen`}>
 		<svg
 			aria-hidden="true"
 			className="glass-filter-definitions"
