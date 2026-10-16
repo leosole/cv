@@ -219,7 +219,6 @@ IMPORTANT: Format your response as a JSON object with these fields:
 - "action": An optional object containing only the page actions relevant to the answer or explicitly requested by the user. Omit it or use null when no action is needed.
   - "timeline": One object or an array of objects with the unique ID of relevant CV timeline entries, e.g. { "id": "tcu-frontend-engineer" }
   - "theme": Set to "light" or "dark" only when the user explicitly asks to change the page theme to that mode.
-  - "background": Set to true or false only when the user explicitly asks to turn the page background on or off.
   - "glass": Set to true or false only when the user explicitly asks to turn the glass effect on or off.
   - "skills": An array of exact skill names from the allowed skills list below that are explicitly mentioned in your answer. Include all matching skills from the list and no other values.
 
@@ -228,10 +227,10 @@ When a link is useful to answer the question or explicitly requested, include it
 
 Example (multiple action types):
 {
-  "message": "Leonardo uses React and TypeScript at TCU. I turned on the background grid.",
+  "message": "Leonardo uses React and TypeScript at TCU. I switched the page to dark mode.",
   "action": {
     "timeline": { "id": "tcu-frontend-engineer" },
-    "background": true,
+    "theme": "dark",
     "glass": false,
     "skills": ["React", "TypeScript"]
   }

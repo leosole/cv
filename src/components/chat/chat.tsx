@@ -16,7 +16,7 @@ export type Message = ChatMessage;
 
 const initialMessage: Message = {
   role: 'bot',
-  text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also customize the page, like animating the background, changing the theme, or toggling the glass effect. What would you like to know or change?"
+  text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also customize the page theme or glass effect. What would you like to know or change?"
 } 
 
 const allowedChatLinks = new Set([
@@ -97,7 +97,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
-  const { setTheme, setBackgroundEnabled, setGlassEnabled, glassEnabled } = useTheme();
+  const { setTheme, setGlassEnabled, glassEnabled } = useTheme();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -167,12 +167,6 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
 
       if (action?.theme === 'light' || action?.theme === 'dark') {
         setTheme(action.theme);
-      }
-      const backgroundAction = typeof action?.background === 'boolean'
-        ? action.background
-        : action?.animatedBackground;
-      if (typeof backgroundAction === 'boolean') {
-        setBackgroundEnabled(backgroundAction);
       }
       if (typeof action?.glass === 'boolean') {
         setGlassEnabled(action.glass);

@@ -3,28 +3,28 @@ import { parseISO, differenceInMonths, add, format } from "date-fns"
 import EventCard from "./event-card"
 import EventBar from "./event-bar"
 import type { ProcessedEvent } from "@/types/calendar"
-import { useRef, useState } from "react"
+import { memo, useEffect, useMemo, useRef, useState } from "react"
 import { getEventId } from "@/lib/strings"
 import { cn } from "@/lib/utils"
 import { useCardState } from "@/hooks/use-card-state"
 
 interface CalendarProps {
 	events: (ProfessionalExperience | Education)[]
-	headerHeight?: number
 }
 
 const COLLAPSED_CARD_HEIGHT_REM = 4
 const CARD_MARGIN_REM = 1
 
-export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
+function Calendar({ events }: CalendarProps) {
 	const containerRef = useRef<HTMLDivElement>(null)
-	const [mouseYear, setMouseYear] = useState<string>()
-	const [mousePosition, setMousePosition] = useState<number>()
+	const cursorLabelRef = useRef<HTMLSpanElement>(null)
+	const pendingPointerYRef = useRef<number | null>(null)
+	const pointerFrameRef = useRef<number | null>(null)
 	const [hoveredCard, setHoveredCard] = useState<number | undefined>()
 	const { openedCards, setOpenedCards } = useCardState()
 
-	const processedEvents: ProcessedEvent[] = events
-		.map((event) => {
+	const processedEvents = useMemo<ProcessedEvent[]>(
+		() => events.map((event) => {
 			const isWork = "company" in event
 			const startDate = parseISO(
 				isWork
@@ -45,71 +45,100 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				durationInMonths: differenceInMonths(endDate, startDate) || 1,
 				eventType: (isWork ? "work" : "education") as "work" | "education"
 			}
-		})
-		.sort((a, b) => b.startDate.getTime() - a.startDate.getTime())
+		}).sort((a, b) => b.startDate.getTime() - a.startDate.getTime()),
+		[events]
+	)
 
-	if (processedEvents.length === 0) {
-		return null
-	}
-
-	const timelineStart = new Date()
+	const timelineStart = useMemo(() => new Date(), [])
 	const timelineEnd =
 		processedEvents.length > 0
 			? processedEvents[processedEvents.length - 1].startDate
 			: new Date()
 	const totalTimelineMonths = differenceInMonths(timelineStart, timelineEnd)
 
-	const years = Array.from(
-		new Set(
-			processedEvents
-				.map((e) => e.endDate.getFullYear())
-		)
-	).sort((a, b) => b - a)
+	const years = useMemo(
+		() => Array.from(new Set(processedEvents.map((event) => event.endDate.getFullYear()))).sort((a, b) => b - a),
+		[processedEvents]
+	)
 
 	const getMonthOffset = (date: Date) => {
 		return differenceInMonths(timelineStart, date)
 	}
 
-	const getOverlapColumns = (events: ProcessedEvent[]) => {
-		const sortedEvents = [...events].sort(
+	const eventColumnIndexById = useMemo(() => {
+		const sortedEvents = [...processedEvents].sort(
 			(a, b) => a.startDate.getTime() - b.startDate.getTime()
 		)
-		const columns: ProcessedEvent[][] = []
+		const columnEndTimes: number[] = []
+		const columnByEventId = new Map<string, number>()
 
 		for (const event of sortedEvents) {
-			let placed = false
-			for (const column of columns) {
-				const lastEvent = column[column.length - 1]
-				if (lastEvent.endDate.getTime() < event.startDate.getTime()) {
-					column.push(event)
-					placed = true
-					break
-				}
-			}
-			if (!placed) {
-				columns.push([event])
-			}
+			const startTime = event.startDate.getTime()
+			let columnIndex = columnEndTimes.findIndex((endTime) => endTime < startTime)
+			if (columnIndex === -1) columnIndex = columnEndTimes.length
+			columnEndTimes[columnIndex] = event.endDate.getTime()
+			columnByEventId.set(getEventId(event), columnIndex)
 		}
 
-		return columns
-	}
-
-	const overlapColumns = getOverlapColumns(processedEvents)
+		return columnByEventId
+	}, [processedEvents])
 	const totalMinHeightRem =
 		processedEvents.length * (COLLAPSED_CARD_HEIGHT_REM + CARD_MARGIN_REM)
+	const hoverHandlers = useMemo(
+		() => processedEvents.map((_, index) => () => setHoveredCard(index)),
+		[processedEvents]
+	)
+	const clearHoveredCard = useMemo(() => () => setHoveredCard(undefined), [])
+	const openHandlers = useMemo(
+		() => processedEvents.map((_, index) => (open: boolean) => {
+			setOpenedCards((previous) => {
+				if (open) return previous.includes(index) ? previous : [...previous, index]
+				return previous.filter((cardIndex) => cardIndex !== index)
+			})
+		}),
+		[processedEvents, setOpenedCards]
+	)
 
-	const getYearFromOffset = () => {
-		const totalHeight = containerRef.current?.getBoundingClientRect().height
-		if (totalHeight && mousePosition) {
-			const months = Math.floor((totalTimelineMonths * (totalHeight - mousePosition))/totalHeight)
-			setMouseYear(format(add(timelineEnd, { months }), "yyyy"))
+	useEffect(() => () => {
+		if (pointerFrameRef.current !== null) {
+			cancelAnimationFrame(pointerFrameRef.current)
 		}
+	}, [])
+
+	const onMouseMove = (event: React.MouseEvent) => {
+		pendingPointerYRef.current = event.clientY
+		if (pointerFrameRef.current !== null) return
+
+		pointerFrameRef.current = requestAnimationFrame(() => {
+			pointerFrameRef.current = null
+			const container = containerRef.current
+			const label = cursorLabelRef.current
+			const pointerY = pendingPointerYRef.current
+			if (!container || !label || pointerY === null) return
+
+			const bounds = container.getBoundingClientRect()
+			if (bounds.height <= 0) return
+			const position = Math.max(0, Math.min(bounds.height, pointerY - bounds.top))
+			const months = Math.floor((totalTimelineMonths * (bounds.height - position)) / bounds.height)
+			label.textContent = format(add(timelineEnd, { months }), "yyyy")
+			label.style.transform = `translateY(${position}px)`
+			label.style.visibility = "visible"
+		})
 	}
 
-	const onMouseMove = (e: React.MouseEvent) => {
-		setMousePosition(e.pageY-headerHeight-32)
-		getYearFromOffset()
+	const onMouseLeave = () => {
+		if (pointerFrameRef.current !== null) {
+			cancelAnimationFrame(pointerFrameRef.current)
+			pointerFrameRef.current = null
+		}
+		pendingPointerYRef.current = null
+		if (cursorLabelRef.current) cursorLabelRef.current.style.visibility = "hidden"
 	}
+
+	if (processedEvents.length === 0) {
+		return null
+	}
+
 	return (
 		<div
 			ref={containerRef}
@@ -120,14 +149,13 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				className="hidden sm:block absolute left-0 top-0 bottom-0 w-20 z-50" 
 				onMouseEnter={onMouseMove} 
 				onMouseMove={onMouseMove} 
-				onMouseLeave={() => setMousePosition(undefined)}
+				onMouseLeave={onMouseLeave}
 			>
-				<span 
+				<span
+					ref={cursorLabelRef}
 					className="absolute rounded bg-pink-500 px-1 text-xs pointer-events-none"
-					style={{left: mousePosition ? 12 : -1000, top: mousePosition ? mousePosition : -1000}}
-				>
-					{mouseYear}
-				</span>
+					style={{ left: 12, top: 0, visibility: "hidden" }}
+				/>
 			</div>
 			<div className="absolute left-0 sm:left-10 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700"/>
 
@@ -157,10 +185,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 					(getMonthOffset(event.endDate) / totalTimelineMonths) * 100
 				const heightPercent =
 					(event.durationInMonths / totalTimelineMonths) * 100
-				const eventColumnDetails = overlapColumns
-					.map((col, i) => ({ col, i }))
-					.find(({ col }) => col.includes(event))
-				const eventColumnIndex = eventColumnDetails ? eventColumnDetails.i : 0
+				const eventColumnIndex = eventColumnIndexById.get(getEventId(event)) ?? 0
 				const barMarginLeftRem = eventColumnIndex * 0.5 + 0.5
 
 				return (
@@ -178,8 +203,8 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 								else return [...prev, index]
 							})
 						}}
-						onMouseEnter={() => setHoveredCard(index)}
-						onMouseLeave={() => setHoveredCard(undefined)}
+						onMouseEnter={hoverHandlers[index]}
+						onMouseLeave={clearHoveredCard}
 					>
 						<EventBar
 							className={cn(
@@ -196,17 +221,14 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 				{processedEvents.map((event, index) => {
 					return (
 						<EventCard
-							onMouseEnter={() => setHoveredCard(index)}
-							onMouseLeave={() => setHoveredCard(undefined)}
+							onMouseEnter={hoverHandlers[index]}
+							onMouseLeave={clearHoveredCard}
 							key={`${getEventId(event)}`}
 							type={event.eventType}
 							info={event}
 							hover={hoveredCard === index}
 							open={openedCards.includes(index)}
-							setOpen={e => setOpenedCards( prev => {
-								if (e) return [...prev, index]
-								else return prev.filter(p => p!== index)
-							})}
+							setOpen={openHandlers[index]}
 						/>
 					)
 				})}
@@ -214,3 +236,5 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 		</div>
 	)
 }
+
+export default memo(Calendar)

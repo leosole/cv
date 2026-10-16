@@ -11,7 +11,7 @@ import { IoMdBriefcase } from "react-icons/io";
 import { cn } from "@/lib/utils"
 import { TbExternalLink } from "react-icons/tb";
 import { FaRegFilePdf } from "react-icons/fa6";
-import { useEffect, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import DevIcon from "@/svgs/dev-icon"
 import ResearchIcon from "@/svgs/research-icon"
 import EducationIcon from "@/svgs/education-icon"
@@ -27,7 +27,7 @@ interface EventCardProps {
 	setOpen: (open: boolean) => void
 }
 
-export default function EventCard({
+function EventCard({
 	type,
 	info,
 	className,
@@ -38,7 +38,10 @@ export default function EventCard({
 	setOpen,
 }: EventCardProps) {
 	const [animate, setAnimate] = useState(false)
+	const previousOpen = useRef(open)
 	useEffect(() => {
+		if (previousOpen.current === open) return
+		previousOpen.current = open
 		setAnimate(true)
 		const timeout = setTimeout(() => setAnimate(false), 800)
 		return () => clearTimeout(timeout)
@@ -65,6 +68,8 @@ export default function EventCard({
 		</CollapsibleCard>
 	)
 }
+
+export default memo(EventCard)
 
 interface WorkCardProps {
 	info: ProcessedEvent
