@@ -26,7 +26,7 @@ export default function Footer({links, onSkillsHighlighted}: FooterProps) {
                             <MenuIcon state={menuState}/>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" side="top" className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden">
+                    <DropdownMenuContent align="center" side="top" className="border origin-[var(--transform-origin-radix-dropdown)] data-[state=open]:animate-menu-up data-[state=closed]:animate-menu-down overflow-hidden z-300">
                         <DropdownMenuArrow className="fill-popover" width={20} height={10} asChild>
                             <ArrowWithBorder />
                         </DropdownMenuArrow>	

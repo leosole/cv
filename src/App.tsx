@@ -53,9 +53,6 @@ function App() {
 				/>
 			</filter>
 		</svg>
-		<div className="glass-fallback-notice" role="status">
-			SVG glass distortion is unavailable; using blur fallback.
-		</div>
 		{animatedBackgroundEnabled && <AnimatedBackground />}
 		<div className="px-4 pb-8">
 			<div ref={headerRef}>
