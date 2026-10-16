@@ -12,7 +12,7 @@ This document serves as the single source of truth for all professional experien
 - **Website**: leosole-cv.netlify.app
 
 ## Professional Summary
-Full Stack Engineer with 5+ years in production web and mobile applications, specialized in TypeScript, React, and Next.js. Before engineering, spent 5 years as an Art Director — which bridges design, marketing, user experience, and code in ways most engineers can't. Published researcher in multi-criteria navigation; undergraduate thesis in cross silo federated learning.
+Full Stack Engineer with 5+ years in production web and mobile applications, specialized in TypeScript, React, and Next.js. Before engineering, spent 5 years as an Art Director, which bridges design, marketing, user experience, and code in ways most engineers can't. Published researcher in multi-criteria navigation; undergraduate thesis in cross silo federated learning.
 
 ---
 

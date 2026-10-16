@@ -70,7 +70,7 @@
 
 @supports (backdrop-filter: url(#lg)) or (-webkit-backdrop-filter: url(#lg)) {
 	.header-glass__backdrop {
-		background-color: rgba(0, 0, 0, 0.8);
+		background-color: color-mix(in srgb, var(--background) 80%, transparent);
 		-webkit-backdrop-filter: url(#lg) blur(3px) saturate(180%);
 		backdrop-filter: url(#lg) blur(3px) saturate(180%);
 	}
