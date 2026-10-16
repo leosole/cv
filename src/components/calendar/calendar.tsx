@@ -113,7 +113,7 @@ export default function Calendar({ events, headerHeight = 0 }: CalendarProps) {
 	return (
 		<div
 			ref={containerRef}
-			className="relative container mx-auto pl-8"
+			className="relative container mx-auto pl-8 z-10"
 			style={{ minHeight: `${totalMinHeightRem}rem`, position: "relative" }}
 		>
 			<div 

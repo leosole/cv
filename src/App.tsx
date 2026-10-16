@@ -53,8 +53,7 @@ function App() {
 				/>
 			</filter>
 		</svg>
-		{backgroundEnabled && <BackgroundGrid />}
-		<div className="relative z-10 px-4 pb-8">
+		<div className="relative z-0 px-4 pb-8 bg-background">
 			<div ref={headerRef}>
 				<Header info={cv.info} links={cv.links} />
 				<Summary
@@ -68,6 +67,7 @@ function App() {
 				<Calendar events={[...cv.professional_experience, ...cv.education]} headerHeight={headerHeight}/>
 			</div>
 			<Footer links={cv.links} onSkillsHighlighted={setHighlightedSkills} />
+		{backgroundEnabled && <BackgroundGrid />}
 		</div>
 	</div>
     )

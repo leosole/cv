@@ -20,7 +20,7 @@ export function Header({ info, links }: HeaderProps) {
 					{menuButtons}
 				</div>
 			</div>
-			<header className="container mx-auto flex flex-col mt-4 sm:mt-14">
+			<header className="container mx-auto flex flex-col mt-4 sm:mt-14 z-10">
 				<div className="flex justify-between items-start">
 					<h1 className="text-[80px] sm:text-[100px] md:text-[140px] lg:text-[200px] font-black leading-[0.85]">{name}</h1>
 				</div>
