@@ -214,7 +214,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
               size="icon"
               ref={launcherButtonRef}
               aria-label="Open chat"
-              className="drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full"
+              className="glass-gradient-border glass-surface glass-button bg-transparent drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full"
             >
               <IoChatboxEllipses className="size-6" />
             </Button>

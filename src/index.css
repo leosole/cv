@@ -80,6 +80,22 @@ body.svg-filters-unsupported {
 	z-index: 1;
 }
 
+.glass-button {
+	background-color: color-mix(in srgb, var(--primary) 50%, transparent);
+	-webkit-backdrop-filter: var(--glass-backdrop-filter);
+	backdrop-filter: var(--glass-backdrop-filter);
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 36%),
+		inset 0 -1px 0 rgb(0 0 0 / 12%),
+		0 8px 24px rgb(0 0 0 / 8%);
+}
+
+.glass-effect-off .glass-button {
+	background-color: color-mix(in srgb, var(--primary) 96%, transparent);
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+}
+
 .chat-shell {
 	--chat-morph-duration: 500ms;
 	--chat-morph-ease: cubic-bezier(0.22, 1, 0.36, 1);

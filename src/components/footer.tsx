@@ -38,7 +38,7 @@ export default function Footer({links, onSkillsHighlighted}: FooterProps) {
             <div className="sm:hidden z-120">
                 <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="secondary" size="icon" className="data-[state=open]:bg-muted drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
+                        <Button variant="secondary" size="icon" className="glass-gradient-border glass-surface glass-button bg-transparent data-[state=open]:bg-transparent drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
                             <MenuIcon state={menuState}/>
                         </Button>
                     </DropdownMenuTrigger>
