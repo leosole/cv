@@ -154,31 +154,36 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
       setMessages([...newMessages, botMessage]);
 
       const action = response.action;
-      if (action?.timeline) {
-        const cardIndices = convertActionToCardIndices(cv_json, action.timeline);
-        if (cardIndices.length > 0) {
-          setOpenedCards(cardIndices);
+      if (action?.revertColors === true) {
+        setLoading(false);
+        revertPageColors();
+      } else {
+        if (action?.timeline) {
+          const cardIndices = convertActionToCardIndices(cv_json, action.timeline);
+          if (cardIndices.length > 0) {
+            setOpenedCards(cardIndices);
+          }
         }
-      }
 
-      if (action?.theme === 'light' || action?.theme === 'dark') {
-        setTheme(action.theme);
-      }
-      if (typeof action?.glass === 'boolean') {
-        setGlassEnabled(action.glass);
-      }
-      if (Array.isArray(action?.colors)) {
-        setPageColors(action.colors);
-      }
+        if (action?.theme === 'light' || action?.theme === 'dark') {
+          setTheme(action.theme);
+        }
+        if (typeof action?.glass === 'boolean') {
+          setGlassEnabled(action.glass);
+        }
+        if (Array.isArray(action?.colors)) {
+          setPageColors(action.colors);
+        }
 
-      const skillsByName = new Map(
-        cv_json.technical_skills.map(skill => [skill.trim().toLowerCase(), skill])
-      );
-      const highlightedSkills = (action?.skills ?? [])
-        .filter((skill): skill is string => typeof skill === 'string')
-        .map(skill => skillsByName.get(skill.trim().toLowerCase()))
-        .filter((skill): skill is string => skill !== undefined);
-      onSkillsHighlighted([...new Set(highlightedSkills)]);
+        const skillsByName = new Map(
+          cv_json.technical_skills.map(skill => [skill.trim().toLowerCase(), skill])
+        );
+        const highlightedSkills = (action?.skills ?? [])
+          .filter((skill): skill is string => typeof skill === 'string')
+          .map(skill => skillsByName.get(skill.trim().toLowerCase()))
+          .filter((skill): skill is string => skill !== undefined);
+        onSkillsHighlighted([...new Set(highlightedSkills)]);
+      }
     } catch {
       const errorMessage: Message = { role: 'bot', text: 'Sorry, something went wrong. Please try again.' };
       setMessages([...newMessages, errorMessage]);

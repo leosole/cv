@@ -12,6 +12,7 @@ export interface ChatAction {
 	glass?: boolean
 	skills?: string[]
 	colors?: PageColorChange[]
+	revertColors?: boolean
 }
 
 export interface ChatResponse {

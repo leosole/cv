@@ -23,9 +23,14 @@ const MAX_OUTPUT_TOKENS = 1024;
 const GROQ_MODEL = "openai/gpt-oss-120b";
 const appearanceChangeVerbPattern = /\b(?:change|switch|set|make|turn|update|adjust|customi[sz]e|recolou?r|use)\b/i;
 const appearanceChangeTargetPattern = /\b(?:colou?rs?|colourful|colorful|palette|background|surface|text|foreground|primary|secondary|accent|button|timeline|badge|chat|bubble|link|border|layout|design|appearance|look|warmer|cooler|brighter|darker|lighter|vibrant|muted|red|orange|yellow|green|blue|purple|pink|teal|cyan|black|white|gray|grey)\b/i;
+const colorRevertPattern = /\b(?:go back|revert|undo|reset|restore|return)\b/i;
+const colorRevertTargetPattern = /\b(?:colou?rs?|palette|color changes|colour changes)\b/i;
 
 const isAppearanceChangeRequest = (message: string) =>
   appearanceChangeVerbPattern.test(message) && appearanceChangeTargetPattern.test(message);
+
+const isColorRevertRequest = (message: string) =>
+  colorRevertPattern.test(message) && colorRevertTargetPattern.test(message);
 
 type GroqChatCompletionResponse = {
   choices?: Array<{ message?: { content?: string | null } }>;
@@ -254,13 +259,16 @@ export const handler: Handler = async (event) => {
     const contextText = contextParts.join("\n\n---\n\n");
 
     const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, put their unique IDs in the "timeline" field inside "action".` : '';
-    const shouldIncludeColorMap = isAppearanceChangeRequest(message);
+    const shouldRevertColors = isColorRevertRequest(message);
+    const shouldIncludeColorMap = !shouldRevertColors && isAppearanceChangeRequest(message);
     const colorMapPrompt = shouldIncludeColorMap
       ? `\n\nPAGE COLOR MAP (editable CSS variables and their exact uses):\n${JSON.stringify(pageColorMap, null, 2)}\nOnly use the exact variable names listed here. When the user explicitly requests color changes, add a "colors" array of { "variable": exact CSS variable name, "color": requested CSS color } objects. Include one entry per requested variable and do not change unspecified colors.`
       : "";
-    const colorActionInstructions = shouldIncludeColorMap
-      ? `  - "colors": An array of objects with the exact CSS "variable" name and requested "color" value. Include one entry per requested variable, allow multiple entries, and do not invent variable names or change unspecified colors.\n`
-      : "";
+    const colorActionInstructions = shouldRevertColors
+      ? `  - "revertColors": Set to true only when the user explicitly asks to revert, undo, or reset previous page color changes. Do not include a "colors" array in that case.\n`
+      : shouldIncludeColorMap
+        ? `  - "colors": An array of objects with the exact CSS "variable" name and requested "color" value. Include one entry per requested variable, allow multiple entries, and do not invent variable names or change unspecified colors.\n`
+        : "";
     
     const systemInstruction = `You are an AI assistant for Leonardo Solé Rodrigues, a full stack frontend focused engineer. Answer questions about his professional experience, skills, education, and background based on the provided context.
 
@@ -326,7 +334,7 @@ ${colorMapPrompt}
 USER QUESTION:
 ${message}
 
-Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, explicitly requested theme or glass settings, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.${shouldIncludeColorMap ? ' For color requests, return each requested variable and color in the "colors" array.' : ""}`;
+Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, explicitly requested theme or glass settings, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.${shouldRevertColors ? ' For explicit requests to revert previous page color changes, set "revertColors" to true.' : shouldIncludeColorMap ? ' For color requests, return each requested variable and color in the "colors" array.' : ""}`;
 
     failureStage = "Gemini response generation";
     let responseText: string;
@@ -360,6 +368,11 @@ Provide a helpful, accurate response based on the context above. Return valid JS
         !Array.isArray(finalAction)
       ) {
         delete (finalAction as Record<string, unknown>).colors;
+      }
+      if (finalAction && typeof finalAction === "object" && !Array.isArray(finalAction)) {
+        const action = finalAction as Record<string, unknown>;
+        if (!shouldRevertColors) delete action.revertColors;
+        if (shouldRevertColors) delete action.colors;
       }
       console.log("response:", finalMessage)
       console.log("action:", finalAction)

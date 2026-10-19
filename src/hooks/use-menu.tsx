@@ -5,6 +5,7 @@ import generateDocxFromJson from "@/lib/docx";
 import type { Links } from "@/types/cv";
 import { FaDownload } from "react-icons/fa6";
 import { FaWineGlassAlt } from "react-icons/fa";
+import { FaUndoAlt } from "react-icons/fa";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 export default function useMenu(links: Links) {
@@ -12,7 +13,8 @@ export default function useMenu(links: Links) {
 		isDark,
 		toggleTheme,
 		glassEnabled,
-		setGlassEnabled
+		setGlassEnabled,
+		revertPageColors
 	} = useTheme()
 	const menuButtons = [
 		<Button asChild variant="ghost" size="icon" title="GitHub" key="github">

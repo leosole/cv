@@ -9,6 +9,7 @@ interface ThemeContextType {
 	glassEnabled: boolean
 	setGlassEnabled: (enabled: boolean) => void
 	setPageColors: (colors: unknown) => void
+	revertPageColors: () => void
 }
 
 export const ThemeContext = createContext<ThemeContextType>(

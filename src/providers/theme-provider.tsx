@@ -83,6 +83,11 @@ export default function ThemeProvider({
 		})
 	}
 
+	function revertPageColors() {
+		localStorage.removeItem(PAGE_COLORS_KEY)
+		window.location.reload()
+	}
+
 	return (
 		<ThemeContext.Provider
 			value={{
@@ -91,7 +96,8 @@ export default function ThemeProvider({
 				toggleTheme,
 				glassEnabled,
 				setGlassEnabled,
-				setPageColors
+				setPageColors,
+				revertPageColors
 			}}
 		>
 			{children}
