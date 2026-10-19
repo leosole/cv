@@ -8,6 +8,7 @@ import { GoogleGenerativeAI, GoogleGenerativeAIFetchError } from "@google/genera
 import { Pinecone } from "@pinecone-database/pinecone";
 import type { Db } from "mongodb";
 import type { CV } from "../../src/types/cv";
+import { pageColorMap } from "../../src/lib/page-colors";
 import { getDb } from "./_lib/mongodb";
 import { checkRateLimit, ensureIndexes, hashIp } from "./_lib/rate-limit";
 
@@ -19,6 +20,11 @@ const MAX_MESSAGE_CHARS = 4000;
 const MAX_PREVIOUS_CHARS = 8000;
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_OUTPUT_TOKENS = 1024;
+const appearanceChangeVerbPattern = /\b(?:change|switch|set|make|turn|update|adjust|customi[sz]e|recolou?r|use)\b/i;
+const appearanceChangeTargetPattern = /\b(?:colou?rs?|colourful|colorful|palette|background|surface|text|foreground|primary|secondary|accent|button|timeline|badge|chat|bubble|link|border|layout|design|appearance|look|warmer|cooler|brighter|darker|lighter|vibrant|muted|red|orange|yellow|green|blue|purple|pink|teal|cyan|black|white|gray|grey)\b/i;
+
+const isAppearanceChangeRequest = (message: string) =>
+  appearanceChangeVerbPattern.test(message) && appearanceChangeTargetPattern.test(message);
 
 type StoredMessage = {
   role: "user" | "bot";
@@ -209,6 +215,13 @@ export const handler: Handler = async (event) => {
     const contextText = contextParts.join("\n\n---\n\n");
 
     const cvPageMap = cv ? `\n\nPAGE MAP (Timeline Structure):\nThe page displays a timeline with the following entries:\n${cv.professional_experience.map((exp) => `- ${exp.id}: ${exp.company} (${exp.type})`).join('\n')}\n${cv.education.map((edu) => `- ${edu.id}: ${edu.institution} (${edu.degree})`).join('\n')}\nWhen referring to these timeline items in your response, put their unique IDs in the "timeline" field inside "action".` : '';
+    const shouldIncludeColorMap = isAppearanceChangeRequest(message);
+    const colorMapPrompt = shouldIncludeColorMap
+      ? `\n\nPAGE COLOR MAP (editable CSS variables and their exact uses):\n${JSON.stringify(pageColorMap, null, 2)}\nOnly use the exact variable names listed here. When the user explicitly requests color changes, add a "colors" array of { "variable": exact CSS variable name, "color": requested CSS color } objects. Include one entry per requested variable and do not change unspecified colors.`
+      : "";
+    const colorActionInstructions = shouldIncludeColorMap
+      ? `  - "colors": An array of objects with the exact CSS "variable" name and requested "color" value. Include one entry per requested variable, allow multiple entries, and do not invent variable names or change unspecified colors.\n`
+      : "";
     
     const systemInstruction = `You are an AI assistant for Leonardo Solé Rodrigues, a full stack frontend focused engineer. Answer questions about his professional experience, skills, education, and background based on the provided context.
 
@@ -220,7 +233,7 @@ IMPORTANT: Format your response as a JSON object with these fields:
   - "timeline": One object or an array of objects with the unique ID of relevant CV timeline entries, e.g. { "id": "tcu-frontend-engineer" }
   - "theme": Set to "light" or "dark" only when the user explicitly asks to change the page theme to that mode.
   - "glass": Set to true or false only when the user explicitly asks to turn the glass effect on or off.
-  - "skills": An array of exact skill names from the allowed skills list below that are explicitly mentioned in your answer. Include all matching skills from the list and no other values.
+${colorActionInstructions}  - "skills": An array of exact skill names from the allowed skills list below that are explicitly mentioned in your answer. Include all matching skills from the list and no other values.
 
 Do not change page settings based on suggestions, questions, or inferred preferences. Return only valid JSON, without markdown fences.
 When a link is useful to answer the question or explicitly requested, include it as a Markdown link in "message". Use only the exact URLs in AVAILABLE LINKS, and do not add links when they are not relevant. For research questions, link the relevant publication(s); for contact or profile questions, provide the requested GitHub, LinkedIn, email, or WhatsApp link.
@@ -231,7 +244,6 @@ Example (multiple action types):
   "action": {
     "timeline": { "id": "tcu-frontend-engineer" },
     "theme": "dark",
-    "glass": false,
     "skills": ["React", "TypeScript"]
   }
 }
@@ -270,11 +282,12 @@ PREVIOUS CONVERSATION (if any):
 ${safePrevious || "No previous conversation"}
 
 ${cvPageMap}
+${colorMapPrompt}
 
 USER QUESTION:
 ${message}
 
-Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, an explicitly requested theme, animated-background or glass-effect setting, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.`;
+Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, explicitly requested theme or glass settings, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.${shouldIncludeColorMap ? ' For color requests, return each requested variable and color in the "colors" array.' : ""}`;
 
     failureStage = "Gemini response generation";
     const result = await withGeminiRetry(() => chatModel.generateContent({
@@ -290,6 +303,14 @@ Provide a helpful, accurate response based on the context above. Return valid JS
       const parsedResponse = JSON.parse(responseText);
       finalMessage = parsedResponse.message || responseText;
       finalAction = parsedResponse.action || null;
+      if (
+        !shouldIncludeColorMap &&
+        finalAction &&
+        typeof finalAction === "object" &&
+        !Array.isArray(finalAction)
+      ) {
+        delete (finalAction as Record<string, unknown>).colors;
+      }
       console.log("response:", finalMessage)
       console.log("action:", finalAction)
     } catch {

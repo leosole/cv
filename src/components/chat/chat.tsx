@@ -97,14 +97,10 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
-  const { setTheme, setGlassEnabled, glassEnabled } = useTheme();
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const { setTheme, setGlassEnabled, setPageColors, glassEnabled } = useTheme();
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
   useEffect(() => {
@@ -170,6 +166,9 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
       }
       if (typeof action?.glass === 'boolean') {
         setGlassEnabled(action.glass);
+      }
+      if (Array.isArray(action?.colors)) {
+        setPageColors(action.colors);
       }
 
       const skillsByName = new Map(

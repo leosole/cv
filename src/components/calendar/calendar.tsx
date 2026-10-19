@@ -208,7 +208,7 @@ function Calendar({ events }: CalendarProps) {
 					>
 						<EventBar
 							className={cn(
-								event.eventType === "work" ? "bg-primary" : "bg-accent",
+								event.eventType === "work" ? "bg-timeline-work" : "bg-timeline-education",
 								hoveredCard === index && "outline outline-foreground",
 								"group-hover:outline group-hover:outline-foreground transition-[outline] duration-300"
 							)}

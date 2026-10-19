@@ -47,7 +47,7 @@ body.svg-filters-unsupported {
 	pointer-events: none;
 	background-color: color-mix(
 		in srgb,
-		var(--background) 80%,
+		var(--glass-background) 80%,
 		transparent
 	);
 	-webkit-backdrop-filter: var(--glass-backdrop-filter);
@@ -61,7 +61,7 @@ body.svg-filters-unsupported {
 
 .glass-effect-off .header-glass,
 .glass-effect-off .glass-surface {
-	background-color: color-mix(in srgb, var(--background) 96%, transparent);
+	background-color: color-mix(in srgb, var(--glass-background) 96%, transparent);
 }
 
 .header-glass__backdrop--surface {
@@ -81,7 +81,7 @@ body.svg-filters-unsupported {
 }
 
 .glass-button {
-	background-color: color-mix(in srgb, var(--primary) 50%, transparent);
+	background-color: color-mix(in srgb, var(--chat-launcher) 50%, transparent);
 	-webkit-backdrop-filter: var(--glass-backdrop-filter);
 	backdrop-filter: var(--glass-backdrop-filter);
 	box-shadow:
@@ -91,7 +91,7 @@ body.svg-filters-unsupported {
 }
 
 .glass-effect-off .glass-button {
-	background-color: color-mix(in srgb, var(--primary) 96%, transparent);
+	background-color: color-mix(in srgb, var(--chat-launcher) 96%, transparent);
 	-webkit-backdrop-filter: none;
 	backdrop-filter: none;
 }
@@ -182,11 +182,11 @@ body.svg-filters-unsupported {
 }
 
 .glass-message--user > .header-glass__backdrop--surface {
-	background-color: color-mix(in srgb, var(--bubble-user) 70%, transparent);
+	background-color: color-mix(in srgb, var(--chat-user-message) 70%, transparent);
 }
 
 .glass-message--bot > .header-glass__backdrop--surface {
-	background-color: color-mix(in srgb, var(--bubble-bot) 70%, transparent);
+	background-color: color-mix(in srgb, var(--chat-bot-message) 70%, transparent);
 }
 
 .glass-message > .header-glass__backdrop--surface {
@@ -207,14 +207,14 @@ body.svg-filters-unsupported {
 .glass-message__tail.glass-message--user {
 	right: 12px;
 	bottom: -6px;
-	background: color-mix(in srgb, var(--bubble-user) 70%, transparent);
+	background: color-mix(in srgb, var(--chat-user-message) 70%, transparent);
 	clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
 .glass-message__tail.glass-message--bot {
 	left: 12px;
 	bottom: -6px;
-	background: color-mix(in srgb, var(--bubble-bot) 70%, transparent);
+	background: color-mix(in srgb, var(--chat-bot-message) 70%, transparent);
 	clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 
@@ -236,22 +236,38 @@ body.svg-filters-unsupported {
 
 :root {
 	--radius: 0.625rem;
-	--background: oklch(98.212% 0.00011 271.152);
+	--page-background: oklch(98.212% 0.00011 271.152);
+	--glass-background: oklch(98.212% 0.00011 271.152);
 	--surface: oklch(96.076% 0.00907 162);
-	--foreground: oklch(0.141 0.005 285.823);
+	--page-foreground: oklch(0.141 0.005 285.823);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.141 0.005 285.823);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.141 0.005 285.823);
-	--primary: oklch(59.287% 0.14044 144.429);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(65.889% 0.07978 172.898);
-	--secondary-foreground: oklch(37.801% 0.02124 145.234);
+	--button-primary: oklch(59.287% 0.14044 144.429);
+	--button-primary-foreground: oklch(0.985 0 0);
+	--button-secondary: oklch(65.889% 0.07978 172.898);
+	--button-secondary-foreground: oklch(1 0 0);
+	--tooltip-foreground: oklch(37.801% 0.02124 145.234);
+	--timeline-work: oklch(59.287% 0.14044 144.429);
+	--timeline-education: oklch(56.355% 0.15362 314.411);
+	--chat-launcher: oklch(59.287% 0.14044 144.429);
+	--badge-primary: oklch(59.287% 0.14044 144.429);
+	--badge-primary-foreground: oklch(0.141 0.005 285.823);
+	--badge-secondary: oklch(65.889% 0.07978 172.898);
+	--badge-secondary-foreground: oklch(37.801% 0.02124 145.234);
+	--button-destructive-hover: oklch(56.355% 0.15362 314.411);
+	--button-outline-hover: oklch(56.355% 0.15362 314.411);
+	--button-ghost-hover: oklch(56.355% 0.15362 314.411);
+	--button-hover-foreground: oklch(0.21 0.006 285.885);
+	--menu-hover: oklch(56.355% 0.15362 314.411);
+	--menu-hover-foreground: oklch(0.21 0.006 285.885);
 	--muted: oklch(0.967 0.001 286.375);
 	--muted-foreground: oklch(0.552 0.016 285.938);
-	--accent: oklch(56.355% 0.15362 314.411);
-	--accent-foreground: oklch(0.21 0.006 285.885);
-	--destructive: oklch(0.577 0.245 27.325);
+	--badge-destructive: oklch(0.577 0.245 27.325);
+	--badge-destructive-foreground: oklch(0.985 0 0);
+	--button-destructive: oklch(0.577 0.245 27.325);
+	--button-destructive-foreground: oklch(0.985 0 0);
 	--border: oklch(91.973% 0.00413 285.946);
 	--input: oklch(0.92 0.004 286.32);
 	--ring: oklch(0.705 0.015 286.067);
@@ -270,8 +286,8 @@ body.svg-filters-unsupported {
 	--sidebar-ring: oklch(0.705 0.015 286.067);
 	--link: oklch(38.767% 0.09685 244.641);
 	--tooltip: oklch(1 0 0);
-	--bubble-user: oklch(64.627% 0.04649 322.323);
-	--bubble-bot: oklch(87.61% 0.0001 271.152);
+	--chat-user-message: oklch(64.627% 0.04649 322.323);
+	--chat-bot-message: oklch(87.61% 0.0001 271.152);
 }
 
 @theme inline {
@@ -279,22 +295,36 @@ body.svg-filters-unsupported {
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
-	--color-background: var(--background);
+	--color-background: var(--page-background);
 	--color-surface: var(--surface);
-	--color-foreground: var(--foreground);
+	--color-foreground: var(--page-foreground);
 	--color-card: var(--card);
 	--color-card-foreground: var(--card-foreground);
 	--color-popover: var(--popover);
 	--color-popover-foreground: var(--popover-foreground);
-	--color-primary: var(--primary);
-	--color-primary-foreground: var(--primary-foreground);
-	--color-secondary: var(--secondary);
-	--color-secondary-foreground: var(--secondary-foreground);
+	--color-primary: var(--button-primary);
+	--color-primary-foreground: var(--button-primary-foreground);
+	--color-secondary: var(--button-secondary);
+	--color-secondary-foreground: var(--button-secondary-foreground);
+	--color-tooltip-foreground: var(--tooltip-foreground);
 	--color-muted: var(--muted);
 	--color-muted-foreground: var(--muted-foreground);
-	--color-accent: var(--accent);
-	--color-accent-foreground: var(--accent-foreground);
-	--color-destructive: var(--destructive);
+	--color-destructive: var(--button-destructive);
+	--color-destructive-foreground: var(--button-destructive-foreground);
+	--color-button-destructive-hover: var(--button-destructive-hover);
+	--color-button-outline-hover: var(--button-outline-hover);
+	--color-button-ghost-hover: var(--button-ghost-hover);
+	--color-button-hover-foreground: var(--button-hover-foreground);
+	--color-menu-hover: var(--menu-hover);
+	--color-menu-hover-foreground: var(--menu-hover-foreground);
+	--color-timeline-work: var(--timeline-work);
+	--color-timeline-education: var(--timeline-education);
+	--color-badge-primary: var(--badge-primary);
+	--color-badge-primary-foreground: var(--badge-primary-foreground);
+	--color-badge-secondary: var(--badge-secondary);
+	--color-badge-secondary-foreground: var(--badge-secondary-foreground);
+	--color-badge-destructive: var(--badge-destructive);
+	--color-badge-destructive-foreground: var(--badge-destructive-foreground);
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
@@ -313,8 +343,8 @@ body.svg-filters-unsupported {
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-link: var(--link);
 	--color-tooltip: var(--tooltip);
-	--color-bubble-user: var(--bubble-user);
-	--color-bubble-bot: var(--bubble-bot);
+	--color-bubble-user: var(--chat-user-message);
+	--color-bubble-bot: var(--chat-bot-message);
   	--transform-origin-radix-dropdown: var(--radix-dropdown-menu-content-transform-origin);
 	--animate-slide-down: slideDown 500ms ease-in-out;
 	--animate-slide-up: slideUp 500ms ease-in-out;
@@ -324,22 +354,38 @@ body.svg-filters-unsupported {
 }
 
 .dark {
-	--background: oklch(0.141 0.005 285.823);
+	--page-background: oklch(0.141 0.005 285.823);
+	--glass-background: oklch(0.141 0.005 285.823);
 	--surface: oklch(20.591% 0.0108 311.892);
-	--foreground: oklch(0.985 0 0);
+	--page-foreground: oklch(0.985 0 0);
 	--card: oklch(0.21 0.006 285.885);
 	--card-foreground: oklch(0.985 0 0);
 	--popover: oklch(0.21 0.006 285.885);
 	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(65.196% 0.0982 137.69);
-	--primary-foreground: oklch(0.21 0.006 285.885);
-	--secondary: oklch(29.621% 0.04386 178.51);
-	--secondary-foreground: oklch(0.985 0 0);
+	--button-primary: oklch(65.196% 0.0982 137.69);
+	--button-primary-foreground: oklch(0.21 0.006 285.885);
+	--button-secondary: oklch(29.621% 0.04386 178.51);
+	--button-secondary-foreground: oklch(1 0 0);
+	--tooltip-foreground: oklch(0.985 0 0);
+	--timeline-work: oklch(65.196% 0.0982 137.69);
+	--timeline-education: oklch(35.146% 0.13902 339.083);
+	--chat-launcher: oklch(65.196% 0.0982 137.69);
+	--badge-primary: oklch(65.196% 0.0982 137.69);
+	--badge-primary-foreground: oklch(0.985 0 0);
+	--badge-secondary: oklch(29.621% 0.04386 178.51);
+	--badge-secondary-foreground: oklch(0.985 0 0);
+	--button-destructive-hover: oklch(35.146% 0.13902 339.083);
+	--button-outline-hover: oklch(35.146% 0.13902 339.083);
+	--button-ghost-hover: oklch(35.146% 0.13902 339.083);
+	--button-hover-foreground: oklch(0.985 0 0);
+	--menu-hover: oklch(35.146% 0.13902 339.083);
+	--menu-hover-foreground: oklch(0.985 0 0);
 	--muted: oklch(0.274 0.006 286.033);
 	--muted-foreground: oklch(0.705 0.015 286.067);
-	--accent: oklch(35.146% 0.13902 339.083);
-	--accent-foreground: oklch(0.985 0 0);
-	--destructive: oklch(0.704 0.191 22.216);
+	--badge-destructive: oklch(0.704 0.191 22.216);
+	--badge-destructive-foreground: oklch(0.985 0 0);
+	--button-destructive: oklch(0.704 0.191 22.216);
+	--button-destructive-foreground: oklch(0.985 0 0);
 	--border: oklch(0.25 0 0);
 	--input: oklch(1 0 0 / 15%);
 	--ring: oklch(0.552 0.016 285.938);
@@ -358,8 +404,8 @@ body.svg-filters-unsupported {
 	--sidebar-ring: oklch(0.552 0.016 285.938);
 	--link: oklch(61.823% 0.1394 243.012);
 	--tooltip: oklch(0.274 0.006 286.033);
-	--bubble-user: oklch(32.949% 0.10365 320.667);
-	--bubble-bot: oklch(42.024% 0.00005 271.152);
+	--chat-user-message: oklch(32.949% 0.10365 320.667);
+	--chat-bot-message: oklch(42.024% 0.00005 271.152);
   
 	color-scheme: dark;
 }
@@ -371,8 +417,8 @@ body.svg-filters-unsupported {
 	}
 
 	body {
-		background-color: var(--background);
-		color: var(--foreground);
+		background-color: var(--page-background);
+		color: var(--page-foreground);
 	}
 
 	a {

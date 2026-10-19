@@ -1,5 +1,6 @@
 import type { CV } from "@/types/cv"
 import type { Theme } from "@/hooks/use-theme"
+import type { PageColorChange } from "@/lib/page-colors"
 
 export interface ActionItem {
 	id: string
@@ -10,6 +11,7 @@ export interface ChatAction {
 	theme?: Theme
 	glass?: boolean
 	skills?: string[]
+	colors?: PageColorChange[]
 }
 
 export interface ChatResponse {

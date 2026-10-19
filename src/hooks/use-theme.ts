@@ -8,6 +8,7 @@ interface ThemeContextType {
 	toggleTheme: () => void
 	glassEnabled: boolean
 	setGlassEnabled: (enabled: boolean) => void
+	setPageColors: (colors: unknown) => void
 }
 
 export const ThemeContext = createContext<ThemeContextType>(
