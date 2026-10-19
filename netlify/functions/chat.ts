@@ -20,11 +20,16 @@ const MAX_MESSAGE_CHARS = 4000;
 const MAX_PREVIOUS_CHARS = 8000;
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_OUTPUT_TOKENS = 1024;
+const GROQ_MODEL = "openai/gpt-oss-120b";
 const appearanceChangeVerbPattern = /\b(?:change|switch|set|make|turn|update|adjust|customi[sz]e|recolou?r|use)\b/i;
 const appearanceChangeTargetPattern = /\b(?:colou?rs?|colourful|colorful|palette|background|surface|text|foreground|primary|secondary|accent|button|timeline|badge|chat|bubble|link|border|layout|design|appearance|look|warmer|cooler|brighter|darker|lighter|vibrant|muted|red|orange|yellow|green|blue|purple|pink|teal|cyan|black|white|gray|grey)\b/i;
 
 const isAppearanceChangeRequest = (message: string) =>
   appearanceChangeVerbPattern.test(message) && appearanceChangeTargetPattern.test(message);
+
+type GroqChatCompletionResponse = {
+  choices?: Array<{ message?: { content?: string | null } }>;
+};
 
 type StoredMessage = {
   role: "user" | "bot";
@@ -79,6 +84,40 @@ const withGeminiRetry = async <T>(operation: () => Promise<T>): Promise<T> => {
       await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
     }
   }
+};
+
+const generateGroqResponse = async (systemInstruction: string, prompt: string): Promise<string> => {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) throw new Error("GROQ_API_KEY is not configured");
+
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages: [
+        { role: "system", content: systemInstruction },
+        { role: "user", content: prompt },
+      ],
+      max_completion_tokens: MAX_OUTPUT_TOKENS,
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Groq API returned ${response.status}: ${errorBody.slice(0, 500)}`);
+  }
+
+  const result = await response.json() as GroqChatCompletionResponse;
+  const content = result.choices?.[0]?.message?.content;
+  if (typeof content !== "string" || !content) {
+    throw new Error("Groq API returned no response content");
+  }
+  return content;
 };
 
 export const handler: Handler = async (event) => {
@@ -200,7 +239,7 @@ export const handler: Handler = async (event) => {
     failureStage = "Pinecone retrieval";
     const queryResponse = await index.namespace('cv-docs').query({
       vector: queryVector,
-      topK: 5,
+      topK: 8,
       includeMetadata: true,
     });
 
@@ -290,11 +329,22 @@ ${message}
 Provide a helpful, accurate response based on the context above. Return valid JSON with a "message" field and an optional "action" object. The action may combine timeline references, explicitly requested theme or glass settings, and exact skills from the allowed CV skills list that appear in your answer. For multiple timeline references, put the ID objects in the action's "timeline" array.${shouldIncludeColorMap ? ' For color requests, return each requested variable and color in the "colors" array.' : ""}`;
 
     failureStage = "Gemini response generation";
-    const result = await withGeminiRetry(() => chatModel.generateContent({
-      generationConfig: { maxOutputTokens: MAX_OUTPUT_TOKENS },
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-    }));
-    const responseText = result.response.text();
+    let responseText: string;
+    try {
+      const result = await withGeminiRetry(() => chatModel.generateContent({
+        generationConfig: { maxOutputTokens: MAX_OUTPUT_TOKENS },
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+      }));
+      responseText = result.response.text();
+    } catch (geminiError) {
+      if (!process.env.GROQ_API_KEY) throw geminiError;
+      console.warn("Gemini response generation failed; using Groq fallback", {
+        model: GROQ_MODEL,
+        error: geminiError instanceof Error ? geminiError.message : String(geminiError),
+      });
+      failureStage = "Groq fallback response generation";
+      responseText = await generateGroqResponse(systemInstruction, prompt);
+    }
     
     // Parse the JSON response
     let finalMessage = responseText;

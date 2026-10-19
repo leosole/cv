@@ -6,7 +6,7 @@ This repository is a React and TypeScript CV website with a Netlify serverless c
 
 - `src/main.tsx` mounts the app and global providers. `src/App.tsx` composes the CV page from its components.
 - `src/static/cv.json` supplies the structured CV displayed by the site; its shape is defined in `src/types/cv.ts`.
-- The chat UI calls `netlify/functions/chat.ts`. The function embeds questions with Gemini, retrieves up to five chunks from the Pinecone `cv-docs` namespace, and uses MongoDB for conversation history and rate limiting.
+- The chat UI calls `netlify/functions/chat.ts`. The function embeds questions with Gemini, retrieves up to eight chunks from the Pinecone `cv-docs` namespace, and generates responses with Gemini with Groq as a `GROQ_API_KEY`-configured fallback. MongoDB provides conversation history and rate limiting.
 - `data/MASTER_DATA.md` is the source of truth for experience and achievements. `data/SKILLS.md` is the skills reference. `data/CHUNKS.json` is the structured content seeded into Pinecone; see `data/RAG_STRUCTURE.md` for its format and retrieval notes.
 - `scripts/seed-pinecone.ts` rebuilds the Pinecone namespace by deleting its current records and uploading embeddings from `data/CHUNKS.json`. Run it only when intentionally refreshing the index.
 - `src/components/`, `src/hooks/`, `src/lib/`, and `src/providers/` contain UI, shared hooks/utilities, and app state respectively. `netlify/functions/_lib/` contains server-side database and rate-limit helpers.
