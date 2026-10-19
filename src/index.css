@@ -61,7 +61,11 @@ body.svg-filters-unsupported {
 
 .glass-effect-off .header-glass,
 .glass-effect-off .glass-surface {
-	background-color: color-mix(in srgb, var(--glass-background) 96%, transparent);
+	background-color: var(--glass-background);
+}
+
+.glass-effect-off .glass-gradient-border::before {
+	background: var(--border);
 }
 
 .header-glass__backdrop--surface {
@@ -91,7 +95,7 @@ body.svg-filters-unsupported {
 }
 
 .glass-effect-off .glass-button {
-	background-color: color-mix(in srgb, var(--chat-launcher) 96%, transparent);
+	background-color: var(--chat-launcher);
 	-webkit-backdrop-filter: none;
 	backdrop-filter: none;
 }
