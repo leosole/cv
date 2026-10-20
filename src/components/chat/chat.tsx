@@ -16,7 +16,7 @@ export type Message = ChatMessage;
 
 const initialMessage: Message = {
   role: 'bot',
-  text: "Hi! Ask me about Leo's experience, skills, and projects, or paste a job description to see if he's a good fit. You can also customize the page theme or glass effect. What would you like to know or change?"
+  text: "Hi! Ask me about Leo’s experience, skills, and projects, or paste a job description to see how well he fits. You can also change the page’s colors, light/dark mode, glass effect, and overall theme. What would you like to explore?"
 } 
 
 const allowedChatLinks = new Set([
@@ -97,7 +97,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
-  const { setTheme, setGlassEnabled, setPageColors, glassEnabled } = useTheme();
+  const { setTheme, setGlassEnabled, setPageColors, glassEnabled, revertPageColors } = useTheme();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
