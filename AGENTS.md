@@ -4,7 +4,7 @@
 
 This repository is a React and TypeScript CV website with a Netlify serverless chat assistant.
 
-- `src/main.tsx` mounts the app and global providers. `src/App.tsx` composes the CV page from its components.
+- `src/main.tsx` hydrates the prerendered markup and registers the global providers. `src/App.tsx` composes the CV page from its components.
 - `src/static/cv.json` supplies the structured CV displayed by the site; its shape is defined in `src/types/cv.ts`.
 - The chat UI calls `netlify/functions/chat.ts`. The function embeds questions with Gemini, retrieves up to eight chunks from the Pinecone `cv-docs` namespace, and generates responses with Gemini with Groq as a `GROQ_API_KEY`-configured fallback. MongoDB provides conversation history and rate limiting.
 - `data/MASTER_DATA.md` is the source of truth for experience and achievements. `data/SKILLS.md` is the skills reference. `data/CHUNKS.json` is the structured content seeded into Pinecone; see `data/RAG_STRUCTURE.md` for its format and retrieval notes.
@@ -17,6 +17,8 @@ When factual CV content changes, update the relevant authored data and each repr
 
 - Follow the existing React, TypeScript, and Biome conventions. Use tabs in TypeScript files and double quotes; check `biome.json` for the exact rules.
 - `yarn.lock` is the dependency lockfile. Use the scripts in `package.json`: `yarn dev` for the Vite app, `npx netlify dev` when working with Netlify functions locally, `yarn build` for type-checking and production build, and `yarn lint` for linting.
+- `yarn build` also prerenders the CV: `vite.prerender.config.ts` builds `src/prerender.tsx` for Node and `scripts/prerender.mjs` injects the markup into `dist/index.html`, inlining the stylesheet. Anything the first render depends on must be available at build time and identical on the client: read stored preferences and `window`/`localStorage` only in effects, not during render, and let the bootstrap script in `index.html` apply the stored theme and glass classes before first paint.
+- Keep `docx`, `react-markdown`, and Grafana Faro dynamically imported (`src/hooks/use-menu.tsx`, `src/components/chat/message-bubble.tsx`, `src/main.tsx`); importing them statically puts them back on the critical path.
 - `yarn seed` requires the configured Gemini and Pinecone credentials and replaces the contents of the `cv-docs` namespace. Do not run it as a routine build or expose credentials in source control.
 - Keep server-only credentials and integrations in Netlify functions or scripts; browser code must not receive secrets.
 - Before changing a behavior, trace its nearby caller and owner. Prefer the existing component, hook, utility, or function boundary, and preserve the API unless the task requires changing it.

@@ -81,17 +81,18 @@ interface ChatProps {
 }
 
 const Chat = ({ onSkillsHighlighted }: ChatProps) => {
-  const [initialConversation] = useState(readConversationState);
-  const visitorIdRef = useRef<string | null>(initialConversation.sessionId);
-  const [conversationIndex, setConversationIndex] = useState(initialConversation.conversationIndex);
+  const visitorIdRef = useRef<string | null>(null);
+  const hasInteractedRef = useRef(false);
+  const [hasRestoredConversation, setHasRestoredConversation] = useState(false);
+  const [conversationIndex, setConversationIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
   const [isLauncherHovered, setIsLauncherHovered] = useState(false);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [textareaHeight, setTextareaHeight] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const [historyLoading, setHistoryLoading] = useState(Boolean(initialConversation.sessionId));
-  const [initialHistoryLoading, setInitialHistoryLoading] = useState(Boolean(initialConversation.sessionId));
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [initialHistoryLoading, setInitialHistoryLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const launcherButtonRef = useRef<HTMLButtonElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -99,7 +100,18 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const { setOpenedCards } = useCardState();
   const { setTheme, setGlassEnabled, setPageColors, glassEnabled, revertPageColors } = useTheme();
 
+  // Stored conversation state is read after hydration so the prerendered markup
+  // matches the client's first render.
   useEffect(() => {
+    const storedConversation = readConversationState();
+    visitorIdRef.current = storedConversation.sessionId;
+    setConversationIndex(storedConversation.conversationIndex);
+    setHasRestoredConversation(true);
+  }, []);
+
+  useEffect(() => {
+    // Scrolling on mount would move the page before the visitor interacts with it.
+    if (!hasInteractedRef.current) return;
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
@@ -108,6 +120,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   }, [isOpen]);
 
   useEffect(() => {
+    if (!hasRestoredConversation) return;
     let cancelled = false;
     const sessionId = visitorIdRef.current;
     if (!sessionId) {
@@ -116,6 +129,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
     }
 
     setHistoryLoading(true);
+    setInitialHistoryLoading(true);
     getConversationHistory(sessionId, conversationIndex)
       .then((history) => {
         if (!cancelled) setMessages([initialMessage, ...history]);
@@ -134,12 +148,16 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
     return () => {
       cancelled = true;
     };
-  }, [conversationIndex]);
+  }, [hasRestoredConversation, conversationIndex]);
 
-  const toggleOpen = () => setIsOpen(!isOpen);
+  const toggleOpen = () => {
+    hasInteractedRef.current = true;
+    setIsOpen(!isOpen);
+  };
 
   const sendMessage = async () => {
     if (!input.trim() || loading || historyLoading) return;
+    hasInteractedRef.current = true;
     const sessionId = ensureSessionId(visitorIdRef.current);
     visitorIdRef.current = sessionId;
     saveConversationIndex(conversationIndex);

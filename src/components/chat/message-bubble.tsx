@@ -1,6 +1,9 @@
-import { useLayoutEffect, useRef, useState } from "react"
-import ReactMarkdown from "react-markdown"
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from "react"
 import type { Message } from "./chat"
+
+// The markdown renderer is only needed once a message is shown, so it loads
+// outside the critical bundle; the plain text is rendered until it arrives.
+const ReactMarkdown = lazy(() => import("react-markdown"))
 
 interface MessageBubbleProps {
 	message?: Message
@@ -107,6 +110,7 @@ export const MessageBubble = ({ message, allowedLinks, children }: MessageBubble
 					</svg>
 				)}
 				<div className="relative z-10">
+					<Suspense fallback={<p className="m-0">{message?.text}</p>}>
 					<ReactMarkdown
 						components={{
 							p: ({ children }) => <p className="m-0">{children}</p>,
@@ -125,6 +129,7 @@ export const MessageBubble = ({ message, allowedLinks, children }: MessageBubble
 					>
 						{message?.text}
 					</ReactMarkdown>
+					</Suspense>
 					{children}
 				</div>
 			</div>
