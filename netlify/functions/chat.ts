@@ -398,6 +398,7 @@ Provide a helpful, accurate response based on the context above. Return valid JS
             conversationIndex: safeConversationIndex,
             role: "bot",
             text: String(finalMessage).slice(0, 8000),
+            action: finalAction,
             timestamp: new Date(),
           },
         ]);
