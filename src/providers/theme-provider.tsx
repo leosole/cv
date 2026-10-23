@@ -1,10 +1,26 @@
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { ThemeContext, type Theme } from "@/hooks/use-theme"
 import { isPageColorVariable, type PageColorVariable } from "@/lib/page-colors"
 
 const PAGE_COLORS_KEY = "page-colors"
+const THEME_KEY = "theme"
+const GLASS_KEY = "glass-enabled"
+const DARK_CLASS = "dark"
+const GLASS_OFF_CLASS = "glass-effect-off"
+
+const isBrowser = typeof window !== "undefined"
+const useIsomorphicLayoutEffect = isBrowser ? useLayoutEffect : useEffect
 
 type PageColorOverrides = Partial<Record<PageColorVariable, string>>
+
+interface Preferences {
+	isDark: boolean
+	glassEnabled: boolean
+}
+
+// The prerendered markup cannot know the visitor's stored preferences, so these
+// defaults are what both the server and the client's first render use.
+const DEFAULT_PREFERENCES: Preferences = { isDark: false, glassEnabled: true }
 
 function isValidCssColor(value: unknown): value is string {
 	return typeof value === "string" &&
@@ -32,20 +48,39 @@ function readPageColorOverrides(): PageColorOverrides {
 	}
 }
 
+function readStoredPreferences(): Preferences {
+	try {
+		return {
+			isDark: localStorage.getItem(THEME_KEY) === "dark",
+			glassEnabled: localStorage.getItem(GLASS_KEY) !== "false"
+		}
+	} catch {
+		return DEFAULT_PREFERENCES
+	}
+}
+
 export default function ThemeProvider({
 	children
 }: {
 	children: React.ReactNode
 }) {
-	const [isDark, setIsDark] = useState(localStorage.getItem("theme") === "dark")
-	const [glassEnabled, setGlassEnabledState] = useState(
-		localStorage.getItem("glass-enabled") !== "false"
+	const [preferences, setPreferences] = useState<Preferences>(DEFAULT_PREFERENCES)
+	const [pageColorOverrides, setPageColorOverrides] = useState<PageColorOverrides>(() =>
+		isBrowser ? readPageColorOverrides() : {}
 	)
-	const [pageColorOverrides, setPageColorOverrides] = useState(readPageColorOverrides)
-	useEffect(() => {
-		if (isDark) document.body.classList.add("dark")
-		else document.body.classList.remove("dark")
-	}, [isDark])
+
+	// index.html already applied the stored preferences before first paint; this
+	// only syncs them into React state without making the first render differ
+	// from the prerendered markup.
+	useIsomorphicLayoutEffect(() => {
+		setPreferences(readStoredPreferences())
+	}, [])
+
+	useIsomorphicLayoutEffect(() => {
+		document.body.classList.toggle(DARK_CLASS, preferences.isDark)
+		document.body.classList.toggle(GLASS_OFF_CLASS, !preferences.glassEnabled)
+	}, [preferences])
+
 	useEffect(() => {
 		for (const [variable, color] of Object.entries(pageColorOverrides)) {
 			document.body.style.setProperty(variable, color)
@@ -54,17 +89,17 @@ export default function ThemeProvider({
 	}, [pageColorOverrides])
 
 	function setTheme(theme: Theme) {
-		localStorage.setItem("theme", theme)
-		setIsDark(theme === "dark")
+		localStorage.setItem(THEME_KEY, theme)
+		setPreferences((current) => ({ ...current, isDark: theme === "dark" }))
 	}
 
 	function toggleTheme() {
-		setTheme(isDark ? "light" : "dark")
+		setTheme(preferences.isDark ? "light" : "dark")
 	}
 
 	function setGlassEnabled(enabled: boolean) {
-		localStorage.setItem("glass-enabled", String(enabled))
-		setGlassEnabledState(enabled)
+		localStorage.setItem(GLASS_KEY, String(enabled))
+		setPreferences((current) => ({ ...current, glassEnabled: enabled }))
 	}
 
 	function setPageColors(colors: unknown) {
@@ -91,10 +126,10 @@ export default function ThemeProvider({
 	return (
 		<ThemeContext.Provider
 			value={{
-				isDark,
+				isDark: preferences.isDark,
 				setTheme,
 				toggleTheme,
-				glassEnabled,
+				glassEnabled: preferences.glassEnabled,
 				setGlassEnabled,
 				setPageColors,
 				revertPageColors

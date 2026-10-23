@@ -6,16 +6,14 @@ import Calendar from "./components/calendar/calendar"
 import { useState } from "react"
 import Summary from "./components/summary"
 import Footer from "./components/footer"
-import { useTheme } from "@/hooks/use-theme"
 
 const cv: CV = cv_json
 const calendarEvents = [...cv.professional_experience, ...cv.education]
 
 function App() {
-	const { glassEnabled } = useTheme()
 	const [highlightedSkills, setHighlightedSkills] = useState<string[]>([])
 	return (
-	<div className={`${glassEnabled ? "" : "glass-effect-off "}relative isolate min-h-screen`}>
+		<div className="relative isolate min-h-screen">
 		<svg
 			aria-hidden="true"
 			className="glass-filter-definitions"

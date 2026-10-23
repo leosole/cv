@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { useTheme } from "./use-theme"
 import { IoLogoGithub, IoLogoLinkedin } from "react-icons/io";
-import generateDocxFromJson from "@/lib/docx";
 import type { Links } from "@/types/cv";
 import { FaDownload } from "react-icons/fa6";
 import { FaWineGlassAlt } from "react-icons/fa";
@@ -16,6 +15,11 @@ export default function useMenu(links: Links) {
 		setGlassEnabled,
 		revertPageColors
 	} = useTheme()
+	// The DOCX builder is only needed on click, so it is kept out of the initial bundle.
+	async function downloadCv() {
+		const { default: generateDocxFromJson } = await import("@/lib/docx")
+		await generateDocxFromJson()
+	}
 	const menuButtons = [
 		<Button asChild variant="ghost" size="icon" title="GitHub" key="github">
 			<a href={links.github} aria-label="GitHub">
@@ -27,7 +31,7 @@ export default function useMenu(links: Links) {
 				<IoLogoLinkedin className="h-5 w-5 sm:h-4 sm:w-4" />
 			</a>
 		</Button>,
-		<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV" key="download">
+		<Button size="icon" variant="ghost" onClick={downloadCv} title="Download CV" key="download">
 			<FaDownload className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
 		<Button

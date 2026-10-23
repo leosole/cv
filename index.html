@@ -7,7 +7,23 @@
     <title>CV Leonardo Solé</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
+    <script>
+      // Applies the stored theme and glass preference before the app hydrates so
+      // the prerendered markup paints with the visitor's settings.
+      (function () {
+        try {
+          if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark");
+          }
+          if (localStorage.getItem("glass-enabled") === "false") {
+            document.body.classList.add("glass-effect-off");
+          }
+        } catch (error) {
+          // Storage can be unavailable; the app falls back to its defaults.
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
