@@ -10,9 +10,12 @@ import { convertActionToCardIndices } from '@/lib/card-index';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { MessageBubble } from './message-bubble';
 import { useTheme } from '@/hooks/use-theme';
+import { LiquidGlassLayer } from '../ui/liquid-glass-layer';
 
 
 export type Message = ChatMessage;
+
+const glassUnsupportedMessage = "The liquid glass effect needs a Chromium-based browser such as Chrome, Edge, Brave, or Arc. This browser isn't compatible with it, so the glass effect can't be enabled.";
 
 const initialMessage: Message = {
   role: 'bot',
@@ -97,7 +100,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeStartRef = useRef<{ pointerId: number; startY: number; startHeight: number } | null>(null);
   const { setOpenedCards } = useCardState();
-  const { setTheme, setGlassEnabled, setPageColors, glassEnabled, revertPageColors } = useTheme();
+  const { isDark, setTheme, setGlassEnabled, setPageColors, glassEnabled, glassSupported, revertPageColors } = useTheme();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -150,10 +153,14 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
     setLoading(true);
     try {
       const response = await sendMessageToBot(input, cv_json, sessionId, conversationIndex);
-      const botMessage: Message = { role: 'bot', text: response.message };
+      const action = response.action;
+      const glassUnavailable = action?.glass === true && !glassSupported;
+      const botMessage: Message = {
+        role: 'bot',
+        text: glassUnavailable ? glassUnsupportedMessage : response.message
+      };
       setMessages([...newMessages, botMessage]);
 
-      const action = response.action;
       if (action?.revertColors === true) {
         setLoading(false);
         revertPageColors();
@@ -168,7 +175,7 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
         if (action?.theme === 'light' || action?.theme === 'dark') {
           setTheme(action.theme);
         }
-        if (typeof action?.glass === 'boolean') {
+        if (typeof action?.glass === 'boolean' && glassSupported) {
           setGlassEnabled(action.glass);
         }
         if (Array.isArray(action?.colors)) {
@@ -218,8 +225,9 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
               size="icon"
               ref={launcherButtonRef}
               aria-label="Open chat"
-              className="glass-gradient-border glass-surface glass-button bg-transparent drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full"
+              className="glass-surface glass-button bg-transparent drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full"
             >
+              {glassEnabled && <LiquidGlassLayer cornerRadius={28} overLight={!isDark} tint="accent" />}
               <IoChatboxEllipses className="size-6" />
             </Button>
           </TooltipTrigger>
@@ -227,14 +235,9 @@ const Chat = ({ onSkillsHighlighted }: ChatProps) => {
       </div>
       <Card
         inert={!isOpen}
-        className="chat-shell__panel glass-gradient-border glass-surface border-transparent bg-transparent shadow-lg flex flex-col"
+        className="chat-shell__panel glass-surface border-transparent bg-transparent shadow-lg flex flex-col"
       >
-          {glassEnabled && (
-            <div
-              aria-hidden="true"
-              className="header-glass__backdrop header-glass__backdrop--surface"
-            />
-          )}
+          {glassEnabled && <LiquidGlassLayer cornerRadius={14} overLight={!isDark} />}
           <div className="chat-shell__content flex min-h-0 flex-1 flex-col">
           <CardHeader className="flex flex-row justify-between items-center p-2 pl-4 border-b border-gray-300 dark:border-gray-600">
             <h3 className="text-lg font-semibold m-0">Chat</h3>

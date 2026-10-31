@@ -16,31 +16,6 @@ function App() {
 	const [highlightedSkills, setHighlightedSkills] = useState<string[]>([])
 	return (
 	<div className={`${glassEnabled ? "" : "glass-effect-off "}relative isolate min-h-screen`}>
-		<svg
-			aria-hidden="true"
-			className="glass-filter-definitions"
-			focusable="false"
-			height="0"
-			width="0"
-		>
-			{/* feTurbulence generates noise; feDisplacementMap shifts pixels according to that noise. */}
-			<filter id="lg" x="0" y="0" width="100%" height="100%">
-				<feTurbulence
-					type="fractalNoise"
-					baseFrequency="0.01"
-					numOctaves="2"
-					seed="3"
-					result="n"
-				/>
-				<feDisplacementMap
-					in="SourceGraphic"
-					in2="n"
-					scale="20"
-					xChannelSelector="R"
-					yChannelSelector="G"
-				/>
-			</filter>
-		</svg>
 		<div className="relative z-0 px-4 pb-8 bg-background">
 			<div>
 				<Header info={cv.info} links={cv.links} />

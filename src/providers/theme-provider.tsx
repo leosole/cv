@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { ThemeContext, type Theme } from "@/hooks/use-theme"
+import { isChromiumBrowser } from "@/lib/browser-support"
 import { isPageColorVariable, type PageColorVariable } from "@/lib/page-colors"
 
 const PAGE_COLORS_KEY = "page-colors"
@@ -38,9 +39,11 @@ export default function ThemeProvider({
 	children: React.ReactNode
 }) {
 	const [isDark, setIsDark] = useState(localStorage.getItem("theme") === "dark")
-	const [glassEnabled, setGlassEnabledState] = useState(
+	const [glassSupported] = useState(isChromiumBrowser)
+	const [glassPreference, setGlassPreference] = useState(
 		localStorage.getItem("glass-enabled") !== "false"
 	)
+	const glassEnabled = glassSupported && glassPreference
 	const [pageColorOverrides, setPageColorOverrides] = useState(readPageColorOverrides)
 	useEffect(() => {
 		if (isDark) document.body.classList.add("dark")
@@ -64,7 +67,7 @@ export default function ThemeProvider({
 
 	function setGlassEnabled(enabled: boolean) {
 		localStorage.setItem("glass-enabled", String(enabled))
-		setGlassEnabledState(enabled)
+		setGlassPreference(enabled)
 	}
 
 	function setPageColors(colors: unknown) {
@@ -95,6 +98,7 @@ export default function ThemeProvider({
 				setTheme,
 				toggleTheme,
 				glassEnabled,
+				glassSupported,
 				setGlassEnabled,
 				setPageColors,
 				revertPageColors

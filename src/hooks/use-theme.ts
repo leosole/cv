@@ -7,6 +7,7 @@ interface ThemeContextType {
 	setTheme: (theme: Theme) => void
 	toggleTheme: () => void
 	glassEnabled: boolean
+	glassSupported: boolean
 	setGlassEnabled: (enabled: boolean) => void
 	setPageColors: (colors: unknown) => void
 	revertPageColors: () => void

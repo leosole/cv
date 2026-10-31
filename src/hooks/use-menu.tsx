@@ -13,6 +13,7 @@ export default function useMenu(links: Links) {
 		isDark,
 		toggleTheme,
 		glassEnabled,
+		glassSupported,
 		setGlassEnabled,
 		revertPageColors
 	} = useTheme()
@@ -30,17 +31,21 @@ export default function useMenu(links: Links) {
 		<Button size="icon" variant="ghost" onClick={generateDocxFromJson} title="Download CV" key="download">
 			<FaDownload className="h-5 w-5 sm:h-4 sm:w-4" />
 		</Button>,
-		<Button
-			size="icon"
-			variant="ghost"
-			onClick={() => setGlassEnabled(!glassEnabled)}
-			title={glassEnabled ? "Turn glass effect off" : "Turn glass effect on"}
-			aria-label={glassEnabled ? "Turn glass effect off" : "Turn glass effect on"}
-			aria-pressed={glassEnabled}
-			key="glass-effect"
-		>
-			<FaWineGlassAlt className="h-5 w-5 sm:h-4 sm:w-4" />
-		</Button>,
+		...(glassSupported
+			? [
+				<Button
+					size="icon"
+					variant="ghost"
+					onClick={() => setGlassEnabled(!glassEnabled)}
+					title={glassEnabled ? "Turn glass effect off" : "Turn glass effect on"}
+					aria-label={glassEnabled ? "Turn glass effect off" : "Turn glass effect on"}
+					aria-pressed={glassEnabled}
+					key="glass-effect"
+				>
+					<FaWineGlassAlt className="h-5 w-5 sm:h-4 sm:w-4" />
+				</Button>,
+			]
+			: []),
 		<Button size="icon" variant="ghost" onClick={toggleTheme} title="Toggle theme" key="theme">
 			{isDark ? <MdLightMode className="h-5 w-5 sm:h-4 sm:w-4" /> : <MdDarkMode color="black" className="h-5 w-5 sm:h-4 sm:w-4" />}
 		</Button>,

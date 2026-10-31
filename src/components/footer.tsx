@@ -6,6 +6,8 @@ import useMenu from "@/hooks/use-menu";
 import MenuIcon from "@/svgs/menu-icon";
 import { useState, type AnimationEvent, type MouseEvent } from "react";
 import Chat from "./chat/chat";
+import { useTheme } from "@/hooks/use-theme";
+import { LiquidGlassLayer } from "./ui/liquid-glass-layer";
 
 interface FooterProps {
     links: Links,
@@ -13,6 +15,7 @@ interface FooterProps {
 }
 export default function Footer({links, onSkillsHighlighted}: FooterProps) {
     const menuButtons = useMenu(links)
+    const { glassEnabled, isDark } = useTheme()
     const [menuState, setMenuState] = useState(false)
     const [isMenuTransitioning, setIsMenuTransitioning] = useState(false)
     function handleOpenChange(open: boolean) {
@@ -38,7 +41,8 @@ export default function Footer({links, onSkillsHighlighted}: FooterProps) {
             <div className="sm:hidden z-120">
                 <DropdownMenu modal={false} onOpenChange={handleOpenChange}>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="secondary" size="icon" className="glass-gradient-border glass-surface glass-button bg-transparent data-[state=open]:bg-transparent drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
+                        <Button variant="secondary" size="icon" className="glass-surface glass-button bg-transparent data-[state=open]:bg-transparent drop-shadow-lg dark:drop-shadow-lg/60 w-14 h-14 rounded-full">
+                            {glassEnabled && <LiquidGlassLayer cornerRadius={28} overLight={!isDark} tint="accent" />}
                             <MenuIcon state={menuState}/>
                         </Button>
                     </DropdownMenuTrigger>
