@@ -10,6 +10,8 @@ export function LiquidGlassLayer({ cornerRadius, overLight, tint = "surface" }: 
 	return (
 		<div aria-hidden="true" className="liquid-glass-layer" data-tint={tint}>
 			<LiquidGlass
+				blurAmount={0}
+				saturation={130}
 				className="size-full"
 				cornerRadius={cornerRadius}
 				elasticity={0}

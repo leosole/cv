@@ -12,9 +12,33 @@
 	pointer-events: none;
 }
 
+/* LiquidGlass emits flow-positioned siblings; overlay them so the whole effect
+   stays inside the layer instead of stacking vertically and being clipped. */
+.liquid-glass-layer > :not(.liquid-glass-layer__tint) {
+	position: absolute !important;
+	top: 50% !important;
+	left: 50% !important;
+}
+
+/* The library centers its container with a transform. A transformed ancestor
+   turns off backdrop sampling, and the layer already fills the container. */
+.liquid-glass-layer > div.relative.size-full {
+	top: 0 !important;
+	left: 0 !important;
+	transform: none !important;
+}
+
 .liquid-glass-layer .glass {
 	width: 100%;
 	height: 100%;
+}
+
+/* Keep the blur above the layer tint so the backdrop filter is composited. */
+.liquid-glass-layer .glass__warp {
+	z-index: 3;
+	/* Chrome composites the library's SVG displacement filter as a dark film
+	   over the backdrop; keep the blur and saturation without it. */
+	filter: none !important;
 }
 
 .liquid-glass-layer__tint {
@@ -30,13 +54,18 @@
 	background-color: color-mix(in srgb, var(--chat-launcher) 50%, transparent);
 }
 
+/* The library's dark overlays assume light text on the glass; the CV uses the
+   tint above for contrast instead. */
+.liquid-glass-layer > div.bg-black {
+	display: none;
+}
+
 .header-glass {
 	position: fixed;
 }
 
 .glass-surface {
 	position: relative;
-	isolation: isolate;
 }
 
 .glass-surface > :not(.liquid-glass-layer) {
@@ -101,9 +130,20 @@
 		clip-path var(--chat-morph-duration) var(--chat-morph-ease);
 }
 
-.chat-shell__panel > .liquid-glass-layer {
-	clip-path: circle(28px at calc(100% - 28px) calc(100% - 28px));
-	transition: clip-path var(--chat-morph-duration) var(--chat-morph-ease);
+/* Clip only while the panel opens: a clip-path anywhere above the glass
+   becomes a backdrop root and stops the library's backdrop blur. */
+.chat-shell--open .chat-shell__panel > .liquid-glass-layer {
+	animation: chat-glass-reveal var(--chat-morph-duration) var(--chat-morph-ease);
+}
+
+@keyframes chat-glass-reveal {
+	from {
+		clip-path: circle(28px at calc(100% - 28px) calc(100% - 28px));
+	}
+
+	to {
+		clip-path: circle(900px at calc(100% - 28px) calc(100% - 28px));
+	}
 }
 
 .chat-shell--open .chat-shell__launcher {
@@ -116,12 +156,8 @@
 	transition: none;
 }
 
-.chat-shell--open .chat-shell__panel > .liquid-glass-layer,
 .chat-shell--open .chat-shell__content {
 	clip-path: circle(900px at calc(100% - 28px) calc(100% - 28px));
-}
-
-.chat-shell--open .chat-shell__content {
 	opacity: 1;
 }
 
@@ -132,6 +168,10 @@
 	.chat-shell__content,
 	.chat-shell__panel > .liquid-glass-layer {
 		transition: none;
+	}
+
+	.chat-shell--open .chat-shell__panel > .liquid-glass-layer {
+		animation: none;
 	}
 }
 
