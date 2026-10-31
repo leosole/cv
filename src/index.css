@@ -54,6 +54,15 @@
 	background-color: color-mix(in srgb, var(--chat-launcher) 50%, transparent);
 }
 
+/* The library's highlight spans use mix-blend-mode: screen/overlay. Blended
+   children isolate the layer's stacking context, and backdrop-filter inside an
+   isolated group can only sample that group, so the glass blur silently
+   disappears in Chromium. Neutralize the blend modes to keep the backdrop
+   reachable; the highlight rings stay visible. */
+.liquid-glass-layer > span {
+	mix-blend-mode: normal !important;
+}
+
 /* The library's dark overlays assume light text on the glass; the CV uses the
    tint above for contrast instead. */
 .liquid-glass-layer > div.bg-black {
