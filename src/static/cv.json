@@ -12,7 +12,7 @@
 		"github": "https://github.com/leosole",
 		"site": "https://leosole-cv.netlify.app/"
 	},
-	"summary": "Full Stack Engineer with 5+ years in production web and mobile applications, specialized in TypeScript, React, and Next.js. Before engineering, spent 5 years as an Art Director, which bridges design, marketing, user experience, and code in ways most engineers can't. Published researcher in multi-criteria navigation; undergraduate thesis in cross silo federated learning.",
+	"summary": "Full Stack Engineer with 5+ years in production web and mobile applications, specialized in TypeScript, React, and Next.js, with backend work in Strapi, Node.js and Go. Before engineering, spent 5 years as an Art Director — which bridges design, marketing, user experience, and code in ways most engineers can't. Published researcher in multi-criteria navigation; undergraduate thesis in cross silo federated learning.",
 	"professional_experience": [
 		{
 			"id": "tcu-frontend-engineer",
@@ -24,13 +24,15 @@
 					"start_date": "2024-11",
 					"end_date": "present",
 					"tasks": [
-						"Built an internal content management system for authorities' information, calendar management, and news publishing for internal and external audiences using Next.js, React, Tailwind CSS, and the Unio Design System.",
-						"Built Unio Design System in React and TypeScript with polymorphic APIs and Storybook, reducing developer onboarding time through self-service component discovery.",
-						"Migrated the public portal from Lumis CMS to Next.js and Strapi, decoupling content publishing from the frontend and improving LCP and TTFB via SSR and static generation.",
-						"Built a reusable GitHub Projects automation adopted across the team, consolidating four separate per-discipline projects into one shared workflow for company-wide visibility.",
-						"Automated project card transitions based on pull request state and environment labels using GitHub App-authenticated Actions workflows, reducing manual status updates.",
-						"Developed TCU Digital, a Microsoft Teams tab app dashboard that replaced the SharePoint-based dashboard and supports customizable per-user grids without code changes.",
-						"Migrated 20+ CI/CD pipelines from Jenkins to GitHub Actions, standardizing reusable workflows and reducing execution time by 20–30%."
+						"Built an internal content management system for authorities' information, calendar management, and news publishing (internal and external audiences) using Next.js, React, Tailwind CSS, and the Unio Design System.",
+						"Extended the portal's Strapi backend (content types, controllers, custom endpoints) and Next.js route handlers, shipping API and data-model changes end-to-end.",
+						"Built the 38-component Unio Design System (React/TypeScript, polymorphic APIs, Storybook, Motion animations); reduced developer onboarding time by enabling self-service component discovery.",
+						"Migrated the public portal product from Lumis CMS to Next.js and Strapi, decoupling content management so non-technical teams can publish independently. Improved LCP and TTFB via SSR and static generation.",
+						"Built a reusable GitHub Projects automation that consolidated four per-discipline boards (frontend, backend, design, product) into one shared project, with cards transitioning automatically from pull request state and staging/production labels via GitHub App-authenticated Actions and the GitHub Projects GraphQL API — making progress visible company-wide and eliminating most manual status updates. Presented it in an internal Tech Talk.",
+						"Developed TCU Digital, a Microsoft Teams tab app used by ~3,500 employees that replaced the previous SharePoint dashboard. Surfaces personalized per-user data on a draggable, configurable grid, so teams can rearrange and configure it without code changes. Built as a pnpm-workspace monorepo (React 19, TypeScript, Vite, Tailwind, TanStack Query/Router) on the Unio Design System, with Biome, Husky, conventional commits and semantic-release, Docker/Kubernetes on Rancher, and Backstage catalog metadata.",
+						"Migrated 20+ CI/CD pipelines from Jenkins to GitHub Actions, standardizing reusable workflows and cutting estimated execution time by 20–30%.",
+						"Built SIGEC in MUI before it moved to the Unio Design System, maintained around ten focused WordPress sites for internal teams, and built an internal reporting site in Redux.",
+						"Built responsive, accessible (WCAG) UI components across the product line."
 					]
 				}
 			]
@@ -45,13 +47,16 @@
 					"start_date": "2021-07",
 					"end_date": "2024-11",
 					"tasks": [
-						"Designed the Module Federation microfrontend architecture for the Inspections portal in Trimble Fleet Manager, enabling autonomous CI/CD and independent PR workflows and becoming the internal standard for new product onboarding.",
+						"Promoted from Computer Internship to Full Stack Engineer Jr, then Full Stack Engineer.",
+						"Designed the Module Federation microfrontend architecture for the Inspections portal feature within Trimble Fleet Manager (TFM), a large-scale enterprise platform shared across multiple product teams; enabled autonomous CI/CD and independent PR workflows per team, was adopted by four product teams in its first four months, and became the internal standard for new product onboarding.",
 						"Shipped the Trimble Inspections MVP to production, taking features from concept through phased rollout for major North American commercial fleets.",
-						"Contributed to the Trimble Inspections mobile app in Kotlin as part of the Trimble Instinct platform, supporting production launches for major North American fleets.",
-						"Built backend services with Node.js cloud functions and Firebase Firestore for production data storage in the Inspections feature.",
-						"Delivered two internal Tech Talks on microfrontend architecture for the global engineering organization.",
-						"Built automated test suites across unit, integration, and E2E layers with Vitest and Playwright and integrated Datadog and Sentry for production observability.",
-						"Mentored interns and migrated legacy C# ELD modules to React and TypeScript, reducing codebase complexity across frontend and backend."
+						"Contributed to the Trimble Inspections mobile app (Kotlin, Jetpack Compose) as part of the Trimble Instinct platform, supporting production launches for major North American commercial fleets.",
+						"Built backend services as Go and Node.js cloud functions on GCP, consuming inspection events from Pub/Sub — fed by Kafka connectors — and persisting them to Firestore for production storage.",
+						"Contributed components, new features and bug fixes to Modus, Trimble's company-wide design system built on Stencil web components.",
+						"Delivered two internal Tech Talks on microfrontend architecture to the global engineering organization.",
+						"Built automated test suites (Vitest, Playwright) across unit/integration/E2E for product features; integrated Datadog and Sentry for production observability.",
+						"Mentored interns through project development and engineering best practices.",
+						"Maintained the legacy C# ELD (Electronic Logging Device) application for about a year — bug fixes plus a remote-logout feature letting drivers sign out of their devices from the web portal — then migrated modules to React and TypeScript."
 					]
 				}
 			]
@@ -67,7 +72,7 @@
 					"end_date": "2022-11",
 					"tasks": [
 						{
-							"item": "Developed a federated learning method for cross-silo training where institutions hold datasets with partially overlapping variables in Python, TensorFlow, and Flower.",
+							"item": "Developed a federated learning method for cross-silo training where institutions hold datasets with partially overlapping variables (Python, TensorFlow, Flower); outperformed local models in heterogeneous data environments.",
 							"publication": {
 								"title": "Federated learning with heterogeneous data",
 								"link": "https://www.gta.ufrj.br/ftp/gta/TechReports/Sole22/Sole22.pdf",
@@ -75,7 +80,7 @@
 							}
 						},
 						{
-							"item": "Designed two route-planning algorithms that factor in crime rates and road conditions alongside travel time for multi-criteria navigation systems.",
+							"item": "Designed two route-planning algorithms (HVT and R2V) that factor in crime rates and road conditions alongside travel time for multi-criteria navigation systems; published in Future Generation Computer Systems, Vol. 135 (2022), with a dataset of 3,170 paths across London.",
 							"publication": {
 								"title": "Towards drivers' safety with multi-criteria car navigation systems",
 								"link": "https://www.sciencedirect.com/science/article/abs/pii/S0167739X22001480",
@@ -88,19 +93,49 @@
 		},
 		{
 			"id": "advertising-art-director",
-			"company": "Advertising agencies",
+			"company": "Advertising agencies & freelance",
 			"type": "Art Direction",
 			"positions": [
 				{
 					"role": "Art Director",
 					"start_date": "2010-11",
-					"end_date": "2015-10",
+					"end_date": "2017-01",
 					"tasks": [
-						"Worked as an Art Director at agencies including Giovanni+DraftFCB and FLAGCX, focused on brand identity, digital campaigns, and print.",
-						"This background informs close collaboration with design teams and attention to accessibility and pixel-perfect UI implementation."
+						"Worked as an Art Director at agencies including Giovanni+DraftFCB, FLAGCX and CasaDigital (2010–2015), then freelance through 2017, focused on brand identity, digital campaigns, and print.",
+						"This background informs close collaboration with design teams and attention to accessibility (WCAG) and pixel-perfect UI."
 					]
 				}
 			]
+		}
+	],
+	"projects": [
+		{
+			"id": "llm-cv-chat",
+			"name": "LLM-Powered CV Chat Interface",
+			"description": "Production AI-native chat over this CV: JSON schema prompt templates for structured outputs, streaming with error boundaries, conversation context management and fallback strategies. Conversations persist in MongoDB, and a database trigger function notifies a Telegram bot when someone starts chatting. The LLM API is proxied through a Netlify Function so no key ships to the client.",
+			"technologies": [
+				"React",
+				"TypeScript",
+				"Vite",
+				"Tailwind CSS",
+				"Netlify Functions",
+				"MongoDB",
+				"Telegram Bot API",
+				"LLM API"
+			],
+			"link": "https://leosole-cv.netlify.app/"
+		},
+		{
+			"id": "gsheets-timeline",
+			"name": "gsheets-timeline",
+			"description": "Open-source Google Sheets add-on and web app shipped from a single React bundle: web app with multi-timeline tabs and Google Picker workspace persistence, plus a spreadsheet-bound add-on, both read-only against the source sheet.",
+			"technologies": [
+				"React",
+				"TypeScript",
+				"Vite",
+				"Google Apps Script"
+			],
+			"link": "https://github.com/leosole/gsheets-timeline"
 		}
 	],
 	"education": [
@@ -125,9 +160,9 @@
 		"TypeScript",
 		"JavaScript (ES6+)",
 		"Node.js",
+		"Go",
 		"Kotlin",
 		"C#",
-		"Golang",
 		"Python",
 		"PHP",
 		"SQL (MySQL)",
@@ -136,26 +171,44 @@
 		"Vite",
 		"Stencil (Web Components)",
 		"MUI",
+		"TanStack Query",
+		"TanStack Router",
+		"Redux",
+		"RESTful APIs",
+		"GraphQL",
 		"Tailwind CSS",
 		"CSS3",
 		"Responsive Design",
 		"Design Systems",
 		"Accessibility (WCAG)",
-		"Emotion",
+		"Motion (animation)",
 		"Storybook",
 		"Jetpack Compose",
-		"Microfrontends",
+		"Microfrontends (Module Federation)",
+		"Clean Architecture",
+		"MVVM",
 		"Headless CMS",
-		"RESTful APIs",
-		"GraphQL",
 		"Cloud Functions",
-		"Monorepo (NX)",
+		"Monorepo (pnpm workspaces)",
 		"GCP (Firebase, Firestore, Pub/Sub)",
 		"Azure (Microsoft Teams apps, Entra ID app configuration)",
+		"Netlify Functions",
 		"Docker",
+		"Kubernetes (Rancher)",
+		"Jira",
+		"ESLint",
+		"Biome",
+		"Husky",
+		"Git",
+		"Strapi",
+		"WordPress",
+		"MongoDB",
+		"Jest",
+		"React Testing Library",
+		"Vitest",
+		"Playwright",
 		"GitHub Actions",
 		"Jenkins",
-		"Rancher",
 		"SonarQube",
 		"Datadog",
 		"Sentry",
